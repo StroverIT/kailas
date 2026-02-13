@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Mail, Phone, MapPin } from "lucide-react";
@@ -50,9 +51,15 @@ const FooterSection = () => {
         <div className="grid md:grid-cols-3 gap-12 mb-16">
           {/* Brand */}
           <div ref={brandRef}>
-            <h3 className="font-heading text-2xl font-bold mb-4">
-              Kailas <span className="text-secondary">Yogalife</span>
-            </h3>
+            <a href="/" className="inline-block mb-4">
+              <Image
+                src="/logo.png"
+                alt="Kailas Yogalife"
+                width={400}
+                height={1000}
+                className="h-36 w-auto object-contain"
+              />
+            </a>
             <p className="text-primary-foreground/60 font-body text-sm leading-relaxed mb-6">
               „Да предоставим пространство, в което да преоткрием богатството на йога –
               за по-добър, по-щастлив и осъзнат живот."

@@ -8,6 +8,9 @@ import "@/index.css";
 export const metadata: Metadata = {
   title: "Kailas Yogalife",
   description: "Твоето убежище в сърцето на планината",
+  icons: {
+    icon: "/logo.png",
+  },
   openGraph: {
     title: "Kailas Yogalife",
     description: "Твоето убежище в сърцето на планината",

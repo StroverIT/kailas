@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
@@ -43,8 +44,14 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 lg:px-8">
-        <a href="/" className={`font-heading text-xl md:text-2xl font-bold transition-colors duration-500 ${scrolled ? "text-primary" : "text-white"}`}>
-          Kailas <span className={`transition-colors duration-500 ${scrolled ? "text-secondary" : "text-secondary"}`}>Yogalife</span>
+        <a href="/" className="flex items-center">
+          <Image
+            src="/logo.png"
+            alt="Kailas Yogalife"
+            width={120}
+            height={48}
+            className="h-10 md:h-12 w-auto object-contain"
+          />
         </a>
 
         {/* Desktop */}
