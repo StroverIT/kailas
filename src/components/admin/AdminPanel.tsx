@@ -1,0 +1,408 @@
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
+import { Plus, Pencil, Trash2, Users, ArrowLeft, ChevronDown, ChevronUp, LogOut } from "lucide-react";
+import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast";
+
+type Event = {
+  id: string;
+  date: string;
+  title: string;
+  type: string;
+  location: string;
+  spots: number;
+  description: string;
+  time?: string | null;
+  duration?: string | null;
+  month: string;
+};
+
+type Registration = {
+  id: string;
+  eventId: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  note: string | null;
+  createdAt: string;
+};
+
+const emptyEvent: Omit<Event, "id"> = {
+  date: "",
+  title: "",
+  type: "",
+  location: "Кайлас база",
+  spots: 16,
+  description: "",
+  time: "",
+  duration: "",
+  month: "mar",
+};
+
+const monthOptions = [
+  { key: "mar", label: "Март" },
+  { key: "apr", label: "Април" },
+  { key: "may", label: "Май" },
+  { key: "jun", label: "Юни" },
+  { key: "jul", label: "Юли" },
+  { key: "aug", label: "Август" },
+  { key: "sep", label: "Септември" },
+  { key: "oct", label: "Октомври" },
+  { key: "nov", label: "Ноември" },
+  { key: "dec", label: "Декември" },
+];
+
+export function AdminPanel() {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [registrations, setRegistrations] = useState<Registration[]>([]);
+  const [editingEvent, setEditingEvent] = useState<Omit<Event, "id"> & { id?: string } | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  const fetchEvents = useCallback(async () => {
+    const res = await fetch("/api/events");
+    if (res.ok) {
+      const data = await res.json();
+      setEvents(data);
+    }
+  }, []);
+
+  const fetchRegistrations = useCallback(async () => {
+    const res = await fetch("/api/registrations");
+    if (res.ok) {
+      const data = await res.json();
+      setRegistrations(data);
+    }
+  }, []);
+
+  const refreshData = useCallback(async () => {
+    await Promise.all([fetchEvents(), fetchRegistrations()]);
+  }, [fetchEvents, fetchRegistrations]);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      await refreshData();
+      setLoading(false);
+    })();
+  }, [refreshData]);
+
+  const handleSaveEvent = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingEvent) return;
+
+    try {
+      if (editingEvent.id) {
+        const res = await fetch(`/api/events/${editingEvent.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editingEvent),
+        });
+        if (!res.ok) throw new Error("Update failed");
+        toast({ title: "Събитието е обновено" });
+      } else {
+        const res = await fetch("/api/events", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editingEvent),
+        });
+        if (!res.ok) throw new Error("Create failed");
+        toast({ title: "Събитието е добавено" });
+      }
+      setDialogOpen(false);
+      setEditingEvent(null);
+      await refreshData();
+    } catch {
+      toast({ title: "Грешка", variant: "destructive" });
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await fetch(`/api/events/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Delete failed");
+      toast({ title: "Събитието е изтрито" });
+      await refreshData();
+    } catch {
+      toast({ title: "Грешка", variant: "destructive" });
+    }
+  };
+
+  const handleDeleteRegistration = async (id: string) => {
+    try {
+      const res = await fetch(`/api/registrations/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Delete failed");
+      toast({ title: "Записването е изтрито" });
+      await refreshData();
+    } catch {
+      toast({ title: "Грешка", variant: "destructive" });
+    }
+  };
+
+  const getEventRegistrations = (eventId: string) =>
+    registrations.filter((r) => r.eventId === eventId);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-muted/30">
+        <p className="text-muted-foreground">Зареждане...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-muted/30">
+      <header className="bg-background border-b border-border sticky top-0 z-40">
+        <div className="container mx-auto flex items-center justify-between px-4 py-4">
+          <div className="flex items-center gap-3">
+            <Link href="/">
+              <Button variant="ghost" size="sm">
+                <ArrowLeft className="w-4 h-4 mr-1" />
+                Към сайта
+              </Button>
+            </Link>
+            <h1 className="font-heading text-xl font-bold text-foreground">
+              Админ панел
+            </h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => {
+                setEditingEvent({ ...emptyEvent });
+                setDialogOpen(true);
+              }}
+            >
+              <Plus className="w-4 h-4 mr-1" />
+              Ново събитие
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => signOut({ callbackUrl: "/admin/login" })}>
+              <LogOut className="w-4 h-4 mr-1" />
+              Изход
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8 max-w-5xl">
+        <div className="space-y-3">
+          {events.map((event) => {
+            const regs = getEventRegistrations(event.id);
+            const isExpanded = expandedEventId === event.id;
+            return (
+              <div key={event.id} className="bg-background rounded-lg border border-border overflow-hidden">
+                <div className="flex items-center gap-4 p-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-sm font-semibold text-secondary">{event.date}</span>
+                      <span className="text-xs bg-muted px-2 py-0.5 rounded-full text-muted-foreground">
+                        {event.type}
+                      </span>
+                    </div>
+                    <h3 className="font-heading font-semibold text-foreground truncate">{event.title}</h3>
+                  </div>
+                  <button
+                    onClick={() => setExpandedEventId(isExpanded ? null : event.id)}
+                    className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <Users className="w-4 h-4" />
+                    <span>{regs.length}</span>
+                    {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  </button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      setEditingEvent({ ...event });
+                      setDialogOpen(true);
+                    }}
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-destructive hover:text-destructive"
+                    onClick={() => handleDelete(event.id)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+                {isExpanded && (
+                  <div className="border-t border-border bg-muted/20 px-4 py-3">
+                    {regs.length === 0 ? (
+                      <p className="text-sm text-muted-foreground py-2">Няма записвания за това събитие.</p>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Име</TableHead>
+                              <TableHead>Имейл</TableHead>
+                              <TableHead>Телефон</TableHead>
+                              <TableHead>Бележка</TableHead>
+                              <TableHead className="w-10"></TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {regs.map((reg) => (
+                              <TableRow key={reg.id}>
+                                <TableCell className="font-medium">{reg.name}</TableCell>
+                                <TableCell>{reg.email}</TableCell>
+                                <TableCell>{reg.phone || "–"}</TableCell>
+                                <TableCell className="max-w-[200px] truncate">{reg.note || "–"}</TableCell>
+                                <TableCell>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="text-destructive hover:text-destructive h-8 w-8"
+                                    onClick={() => handleDeleteRegistration(reg.id)}
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </Button>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+          {events.length === 0 && (
+            <p className="text-center text-muted-foreground py-12">Няма добавени събития.</p>
+          )}
+        </div>
+      </main>
+
+      <Dialog open={dialogOpen} onOpenChange={(open) => { if (!open) { setDialogOpen(false); setEditingEvent(null); } }}>
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="font-heading">
+              {editingEvent?.id ? "Редактирай събитие" : "Ново събитие"}
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              Форма за {editingEvent?.id ? "редактиране" : "създаване"} на събитие
+            </DialogDescription>
+          </DialogHeader>
+          {editingEvent && (
+            <form onSubmit={handleSaveEvent} className="space-y-4">
+              <div className="space-y-2">
+                <Label>Заглавие *</Label>
+                <Input
+                  required
+                  value={editingEvent.title}
+                  onChange={(e) => setEditingEvent({ ...editingEvent, title: e.target.value })}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label>Дата *</Label>
+                  <Input
+                    required
+                    placeholder="напр. 14–16 Март"
+                    value={editingEvent.date}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, date: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Месец</Label>
+                  <select
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    value={editingEvent.month}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, month: e.target.value })}
+                  >
+                    {monthOptions.map((m) => (
+                      <option key={m.key} value={m.key}>{m.label}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label>Тип *</Label>
+                  <Input
+                    required
+                    placeholder="напр. Уикенд ретрийт"
+                    value={editingEvent.type}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, type: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Места</Label>
+                  <Input
+                    type="number"
+                    min={1}
+                    value={editingEvent.spots}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, spots: Number(e.target.value) })}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label>Начало</Label>
+                  <Input
+                    placeholder="напр. 10:00"
+                    value={editingEvent.time || ""}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, time: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Продължителност</Label>
+                  <Input
+                    placeholder="напр. 3 дни"
+                    value={editingEvent.duration || ""}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, duration: e.target.value })}
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Локация</Label>
+                <Input
+                  value={editingEvent.location}
+                  onChange={(e) => setEditingEvent({ ...editingEvent, location: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Описание</Label>
+                <Textarea
+                  rows={3}
+                  value={editingEvent.description}
+                  onChange={(e) => setEditingEvent({ ...editingEvent, description: e.target.value })}
+                />
+              </div>
+              <Button type="submit" className="w-full">
+                {editingEvent.id ? "Запази промените" : "Добави събитие"}
+              </Button>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
