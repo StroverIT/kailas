@@ -325,7 +325,7 @@ export function AdminPanel() {
                   <Label>Дата *</Label>
                   <Input
                     required
-                    placeholder="напр. 14–16 Март"
+                    placeholder="напр. 14–16"
                     value={editingEvent.date}
                     onChange={(e) => setEditingEvent({ ...editingEvent, date: e.target.value })}
                   />
