@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { sendBookingEmails } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -21,6 +22,20 @@ export async function POST(request: Request) {
         message: message != null ? String(message) : null,
       },
     });
+
+    if (process.env.CLIENT_ID && process.env.REFRESH_TOKEN) {
+      try {
+        await sendBookingEmails({
+          name: String(name),
+          email: String(email),
+          phone: phone != null ? String(phone) : null,
+          message: message != null ? String(message) : null,
+        });
+      } catch (err) {
+        console.error("Failed to send booking emails:", err);
+      }
+    }
+
     return NextResponse.json(inquiry);
   } catch (error) {
     console.error("POST /api/booking", error);

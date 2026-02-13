@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { sendEventRegistrationEmails } from "@/lib/email";
 
 export async function GET(request: Request) {
   const session = await auth();
@@ -53,6 +54,31 @@ export async function POST(request: Request) {
         note: note ?? null,
       },
     });
+
+    const event = await prisma.event.findUnique({
+      where: { id: eventId },
+    });
+
+    if (event && process.env.CLIENT_ID && process.env.REFRESH_TOKEN) {
+      const eventDate = [event.date, event.time, event.duration]
+        .filter(Boolean)
+        .join(" · ");
+      try {
+        await sendEventRegistrationEmails({
+          userName: name,
+          userEmail: email,
+          phone: phone ?? null,
+          note: note ?? null,
+          eventTitle: event.title,
+          eventDate,
+          eventLocation: event.location,
+          eventTime: event.time,
+        });
+      } catch (err) {
+        console.error("Failed to send registration emails:", err);
+      }
+    }
+
     return NextResponse.json(registration);
   } catch (error) {
     console.error("POST /api/registrations", error);

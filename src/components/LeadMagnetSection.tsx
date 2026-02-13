@@ -98,9 +98,14 @@ const LeadMagnetSection = () => {
             </Button>
           </form>
         ) : (
-          <div className="flex items-center justify-center gap-3 text-secondary">
-            <CheckCircle className="w-6 h-6" />
-            <span className="font-body text-lg">Благодарим! Провери имейла си.</span>
+          <div className="flex flex-col items-center gap-3 text-secondary">
+            <div className="flex items-center justify-center gap-3">
+              <CheckCircle className="w-6 h-6 shrink-0" />
+              <span className="font-body text-lg font-medium">Благодарим за интереса!</span>
+            </div>
+            <p className="font-body text-primary-foreground/80 max-w-md">
+              Още не сме създали ръководството, но когато го имаме, ще го изпратим на твоя имейл.
+            </p>
           </div>
         )}
         </div>

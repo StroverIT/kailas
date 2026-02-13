@@ -48,6 +48,16 @@ type Registration = {
   createdAt: string;
 };
 
+type EmailEntry = {
+  id: string;
+  email: string;
+  name?: string | null;
+  source: "lead_magnet" | "booking" | "registration";
+  status?: string | null;
+  eventTitle?: string | null;
+  createdAt: string;
+};
+
 const emptyEvent: Omit<Event, "id"> = {
   date: "",
   title: "",
@@ -73,9 +83,16 @@ const monthOptions = [
   { key: "dec", label: "Декември" },
 ];
 
+const sourceLabels: Record<EmailEntry["source"], string> = {
+  lead_magnet: "Ръководство",
+  booking: "Резервация",
+  registration: "Събитие",
+};
+
 export function AdminPanel() {
   const [events, setEvents] = useState<Event[]>([]);
   const [registrations, setRegistrations] = useState<Registration[]>([]);
+  const [emails, setEmails] = useState<EmailEntry[]>([]);
   const [editingEvent, setEditingEvent] = useState<Omit<Event, "id"> & { id?: string } | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
@@ -98,9 +115,17 @@ export function AdminPanel() {
     }
   }, []);
 
+  const fetchEmails = useCallback(async () => {
+    const res = await fetch("/api/emails");
+    if (res.ok) {
+      const data = await res.json();
+      setEmails(data);
+    }
+  }, []);
+
   const refreshData = useCallback(async () => {
-    await Promise.all([fetchEvents(), fetchRegistrations()]);
-  }, [fetchEvents, fetchRegistrations]);
+    await Promise.all([fetchEvents(), fetchRegistrations(), fetchEmails()]);
+  }, [fetchEvents, fetchRegistrations, fetchEmails]);
 
   useEffect(() => {
     (async () => {
@@ -207,7 +232,50 @@ export function AdminPanel() {
       </header>
 
       <main className="container mx-auto px-4 py-8 max-w-5xl">
-        <div className="space-y-3">
+        <div className="space-y-8">
+          <section className="bg-background rounded-lg border border-border overflow-hidden">
+            <h2 className="font-heading font-semibold text-foreground px-4 py-3 border-b border-border">
+              Всички имейли
+            </h2>
+            {emails.length === 0 ? (
+              <p className="text-sm text-muted-foreground px-4 py-6">Няма събрани имейли.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Имейл</TableHead>
+                      <TableHead>Име</TableHead>
+                      <TableHead>Източник</TableHead>
+                      <TableHead>Статус</TableHead>
+                      <TableHead>Дата</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {emails.map((entry) => (
+                      <TableRow key={`${entry.source}-${entry.id}`}>
+                        <TableCell className="font-medium">{entry.email}</TableCell>
+                        <TableCell>{entry.name ?? "–"}</TableCell>
+                        <TableCell>{sourceLabels[entry.source]}</TableCell>
+                        <TableCell>
+                          {entry.source === "lead_magnet" && entry.status === "waiting_for_pdf"
+                            ? "Чака PDF"
+                            : entry.source === "lead_magnet" && entry.status
+                              ? entry.status
+                              : "–"}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {new Date(entry.createdAt).toLocaleDateString("bg-BG")}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </section>
+
+          <div className="space-y-3">
           {events.map((event) => {
             const regs = getEventRegistrations(event.id);
             const isExpanded = expandedEventId === event.id;
@@ -303,6 +371,7 @@ export function AdminPanel() {
           {events.length === 0 && (
             <p className="text-center text-muted-foreground py-12">Няма добавени събития.</p>
           )}
+          </div>
         </div>
       </main>
 

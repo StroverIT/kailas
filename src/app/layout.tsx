@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { GoogleAnalyticsProvider } from "@/components/GoogleAnalytics";
 import { Providers } from "./providers";
 import "@/index.css";
 
@@ -20,6 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bg">
+      <GoogleAnalyticsProvider />
       <body className="min-h-screen bg-background text-foreground antialiased">
         <Providers>
           {children}
