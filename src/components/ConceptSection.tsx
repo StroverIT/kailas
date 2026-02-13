@@ -94,7 +94,7 @@ const ConceptSection = () => {
           >
             <div className="h-48 overflow-hidden relative">
               <Image
-                src="/images/rainbow-building.jpg"
+                src="/images/20220520_201852-scaled.jpg"
                 alt="Кайлас Йогалайф – ретрийт център"
                 fill
                 className="object-cover"
@@ -122,7 +122,7 @@ const ConceptSection = () => {
           >
             <div className="h-48 overflow-hidden relative">
               <Image
-                src="/images/retreat-hillside.jpg"
+                src="/images/348380709_1268910913994703_7611136873201903571_n-768x615.jpg"
                 alt="Пракрити Йога – общност"
                 fill
                 className="object-cover"

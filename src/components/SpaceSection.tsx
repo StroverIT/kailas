@@ -10,21 +10,21 @@ gsap.registerPlugin(ScrollTrigger);
 
 const spaces = [
   {
-    image: "/images/hall-panorama.png",
+    image: "/images/HALL-2.png",
     icon: Eye,
     title: 'Зала „Панорама"',
     description:
       "108 кв.м. пространство с прозорци от три страни. Дишай с планината, докато практикуваш. Професионално озвучаване и проектор.",
   },
   {
-    image: "/images/yoga-class.jpg",
+    image: "/images/20231029_1025372-2048x1197.jpg",
     icon: Wind,
     title: "Въздушна йога",
     description:
       "Почувствай свободата с нашите 11 професионални люлки. Декомпресия на гръбнака и дълбока релаксация, висейки над земята.",
   },
   {
-    image: "/images/bunk-rooms.png",
+    image: "/images/20220521_202838-2-768x958.jpg",
     icon: Sunrise,
     title: "Настаняване с изгрев",
     description:
@@ -93,7 +93,6 @@ const SpaceSection = () => {
                   src={space.image}
                   alt={space.title}
                   fill
-                  unoptimized={space.image.endsWith("bunk-rooms.png")}
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />

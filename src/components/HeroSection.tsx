@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import gsap from "gsap";
 
@@ -64,14 +65,25 @@ const HeroSection = () => {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Background image - add sunset-view.jpg to public/images/ */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage:
-            "url(/images/sunset-view.jpg), linear-gradient(180deg, hsl(var(--warm-dark) / 0.6) 0%, hsl(var(--warm-dark) / 0.3) 50%, hsl(var(--primary) / 0.4) 100%)",
-        }}
-      />
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/20220520_201852-scaled.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, hsl(var(--warm-dark) / 0.6) 0%, hsl(var(--warm-dark) / 0.3) 50%, hsl(var(--primary) / 0.4) 100%)",
+          }}
+          aria-hidden
+        />
+      </div>
       {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-hero z-[1]" />
 
