@@ -3,12 +3,39 @@
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { format } from "date-fns";
+import { bg } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Users, Clock, ArrowRight } from "lucide-react";
+import { MapPin, Users, ArrowRight, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EventRegistrationModal from "./EventRegistrationModal";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const MONTH_KEYS: Record<string, number> = {
+  mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7,
+  sep: 8, oct: 9, nov: 10, dec: 11,
+};
+
+function formatEventDate(event: { date: string; month: string; time?: string | null; duration?: string | null }): string {
+  const dayMatch = event.date.match(/\d+/);
+  const day = dayMatch ? parseInt(dayMatch[0], 10) : 1;
+  const monthIndex = MONTH_KEYS[event.month] ?? 0;
+  const d = new Date(2026, monthIndex, Math.max(1, day));
+  if (event.time) {
+    const parts = event.time.split(":");
+    const h = parseInt(parts[0] ?? "0", 10) || 0;
+    const m = parseInt(parts[1] ?? "0", 10) || 0;
+    d.setHours(Math.min(23, Math.max(0, h)), Math.min(59, Math.max(0, m)), 0, 0);
+  }
+  if (Number.isNaN(d.getTime())) {
+    return [event.date, event.time, event.duration].filter(Boolean).join(" · ");
+  }
+  const dateStr = format(d, "d MMMM", { locale: bg });
+  const timeStr = event.time ? format(d, "HH:mm", { locale: bg }) : null;
+  const parts = [dateStr, timeStr].filter(Boolean);
+  return parts.join(" · ");
+}
 
 export type Event = {
   id: string;
@@ -79,6 +106,7 @@ const EventsSection = () => {
 
   const filtered = activeMonth === "all" ? events : events.filter((e) => e.month === activeMonth);
 
+  // Header and filter animate only on initial load
   useEffect(() => {
     if (loading || error) return;
     const ctx = gsap.context(() => {
@@ -105,6 +133,14 @@ const EventsSection = () => {
           scrollTrigger: { trigger: filterRef.current, start: "top 90%" },
         }
       );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, [loading, error]);
+
+  // Only event cards animate when month changes
+  useEffect(() => {
+    if (loading || error) return;
+    const ctx = gsap.context(() => {
       cardRefs.current.forEach((card, i) => {
         if (!card) return;
         gsap.fromTo(
@@ -122,7 +158,7 @@ const EventsSection = () => {
       });
     }, sectionRef);
     return () => ctx.revert();
-  }, [loading, error, filtered.length]);
+  }, [loading, error, activeMonth, events]);
 
   return (
     <section ref={sectionRef} id="events" className="section-padding bg-background">
@@ -182,7 +218,7 @@ const EventsSection = () => {
                 </div>
 
                 <p className="font-heading text-secondary text-lg font-semibold mb-1">
-                  {e.date}
+                  {formatEventDate(e)}
                 </p>
                 <h3 className="font-heading text-xl font-semibold text-foreground mb-3">
                   {e.title}
@@ -190,6 +226,7 @@ const EventsSection = () => {
                 <p className="text-sm text-muted-foreground font-body mb-4 leading-relaxed flex-1">
                   {e.description}
                 </p>
+
 
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground font-body mb-5">
                   <span className="flex items-center gap-1">
@@ -200,18 +237,10 @@ const EventsSection = () => {
                     <Users className="w-3.5 h-3.5" />
                     {(e.registeredCount ?? 0)}/{e.spots} места
                   </span>
-                  {e.time && (
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      {e.time}
-                    </span>
-                  )}
-                  {e.duration && (
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {e.duration}
-                    </span>
-                  )}
+                  <span className="flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" />
+                    {e.duration}
+                  </span>
                 </div>
 
                 <Button

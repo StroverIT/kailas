@@ -235,7 +235,13 @@ export function AdminPanel() {
                     variant="ghost"
                     size="icon"
                     onClick={() => {
-                      setEditingEvent({ ...event });
+                      let duration = event.duration?.match(/\s*(минути|часа|дни|ден)$/)
+                        ? event.duration
+                        : event.duration?.match(/^\d+$/)
+                          ? `${event.duration} минути`
+                          : event.duration ?? "";
+                      if (duration?.match(/^1\s+дни$/)) duration = "1 ден";
+                      setEditingEvent({ ...event, duration });
                       setDialogOpen(true);
                     }}
                   >
@@ -374,11 +380,47 @@ export function AdminPanel() {
                 </div>
                 <div className="space-y-2">
                   <Label>Продължителност</Label>
-                  <Input
-                    placeholder="напр. 3 дни"
-                    value={editingEvent.duration || ""}
-                    onChange={(e) => setEditingEvent({ ...editingEvent, duration: e.target.value })}
-                  />
+                  <div className="flex gap-2">
+                    <Input
+                      type="number"
+                      min={1}
+                      placeholder="бр."
+                      value={
+                        editingEvent.duration?.match(/\d+/)?.[0] ?? ""
+                      }
+                      onChange={(e) => {
+                        const num = e.target.value;
+                        const rawUnit = editingEvent.duration?.match(/\s*(минути|часа|дни|ден)$/)?.[1] ?? "минути";
+                        const unit = rawUnit === "ден" ? "дни" : rawUnit;
+                        const suffix = unit === "дни" && num === "1" ? "ден" : unit;
+                        setEditingEvent({
+                          ...editingEvent,
+                          duration: num ? `${num} ${suffix}` : "",
+                        });
+                      }}
+                      className="w-20"
+                    />
+                    <select
+                      className="flex h-10 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      value={
+                        (editingEvent.duration?.match(/\s*(минути|часа|дни|ден)$/)?.[1] ?? "минути")
+                          .replace("ден", "дни")
+                      }
+                      onChange={(e) => {
+                        const unit = e.target.value;
+                        const num = editingEvent.duration?.match(/^\d+/)?.[0] ?? "";
+                        const suffix = unit === "дни" && num === "1" ? "ден" : unit;
+                        setEditingEvent({
+                          ...editingEvent,
+                          duration: num ? `${num} ${suffix}` : "",
+                        });
+                      }}
+                    >
+                      <option value="минути">минути</option>
+                      <option value="часа">часа</option>
+                      <option value="дни">дни</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div className="space-y-2">
