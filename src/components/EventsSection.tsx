@@ -1,10 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Users, Clock, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EventRegistrationModal from "./EventRegistrationModal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export type Event = {
   id: string;
@@ -49,6 +53,11 @@ const EventsSection = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeMonth, setActiveMonth] = useState("all");
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const filterRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -67,10 +76,55 @@ const EventsSection = () => {
 
   const filtered = activeMonth === "all" ? events : events.filter((e) => e.month === activeMonth);
 
+  useEffect(() => {
+    if (loading || error) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: { trigger: headerRef.current, start: "top 85%" },
+        }
+      );
+      gsap.fromTo(
+        filterRef.current,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          delay: 0.1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: filterRef.current, start: "top 90%" },
+        }
+      );
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return;
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            delay: i * 0.08,
+            ease: "power3.out",
+            scrollTrigger: { trigger: gridRef.current, start: "top 88%" },
+          }
+        );
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, [loading, error, filtered.length]);
+
   return (
-    <section id="events" className="section-padding bg-background">
+    <section ref={sectionRef} id="events" className="section-padding bg-background">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-12">
+        <div ref={headerRef} className="text-center mb-12">
           <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
             Календар 2026
           </p>
@@ -80,7 +134,7 @@ const EventsSection = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
+        <div ref={filterRef} className="flex flex-wrap justify-center gap-2 mb-8">
           {months.map((m) => (
             <button
               key={m.key}
@@ -104,10 +158,11 @@ const EventsSection = () => {
           <p className="text-center text-destructive py-12">{error}</p>
         )}
         {!loading && !error && (
-          <div className="grid sm:grid-cols-2 gap-5">
-            {filtered.map((e) => (
+          <div ref={gridRef} className="grid sm:grid-cols-2 gap-5">
+            {filtered.map((e, i) => (
               <div
                 key={e.id}
+                ref={(el) => { cardRefs.current[i] = el; }}
                 className="glass-card p-6 lg:p-7 hover-lift group flex flex-col"
               >
                 <div className="flex items-center gap-3 mb-4">

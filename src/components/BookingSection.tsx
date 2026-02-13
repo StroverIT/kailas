@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CheckCircle } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const BookingSection = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -11,6 +15,38 @@ const BookingSection = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const formWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: { trigger: headerRef.current, start: "top 85%" },
+        }
+      );
+      gsap.fromTo(
+        formWrapperRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          delay: 0.15,
+          ease: "power3.out",
+          scrollTrigger: { trigger: formWrapperRef.current, start: "top 90%" },
+        }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,9 +73,9 @@ const BookingSection = () => {
   };
 
   return (
-    <section id="booking" className="section-padding bg-gradient-section">
+    <section ref={sectionRef} id="booking" className="section-padding bg-gradient-section">
       <div className="container mx-auto max-w-2xl">
-        <div className="text-center mb-12">
+        <div ref={headerRef} className="text-center mb-12">
           <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">Запази място</p>
           <h2 className="section-heading mb-4">Започни своята трансформация</h2>
           <p className="section-subheading mx-auto">
@@ -48,6 +84,7 @@ const BookingSection = () => {
           </p>
         </div>
 
+        <div ref={formWrapperRef}>
         {!submitted ? (
           <form onSubmit={handleSubmit} className="glass-card p-8 space-y-5">
             {error && <p className="text-sm text-destructive">{error}</p>}
@@ -104,6 +141,7 @@ const BookingSection = () => {
             </p>
           </div>
         )}
+        </div>
       </div>
     </section>
   );

@@ -1,12 +1,55 @@
+"use client";
+
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Mail, Phone, MapPin } from "lucide-react";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const FooterSection = () => {
+  const footerRef = useRef<HTMLElement>(null);
+  const brandRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      [brandRef, navRef, contactRef].forEach((ref, i) => {
+        gsap.fromTo(
+          ref.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            delay: i * 0.1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ref.current, start: "top 92%" },
+          }
+        );
+      });
+      gsap.fromTo(
+        bottomRef.current,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.5,
+          delay: 0.3,
+          scrollTrigger: { trigger: bottomRef.current, start: "top 95%" },
+        }
+      );
+    }, footerRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <footer className="bg-foreground text-primary-foreground section-padding pb-8">
+    <footer ref={footerRef} className="bg-foreground text-primary-foreground section-padding pb-8">
       <div className="container mx-auto max-w-6xl">
         <div className="grid md:grid-cols-3 gap-12 mb-16">
           {/* Brand */}
-          <div>
+          <div ref={brandRef}>
             <h3 className="font-heading text-2xl font-bold mb-4">
               Kailas <span className="text-secondary">Yogalife</span>
             </h3>
@@ -17,7 +60,7 @@ const FooterSection = () => {
           </div>
 
           {/* Navigation */}
-          <div>
+          <div ref={navRef}>
             <h4 className="font-heading text-lg font-semibold mb-4">Навигация</h4>
             <div className="flex flex-col gap-3">
               {[
@@ -40,7 +83,7 @@ const FooterSection = () => {
           </div>
 
           {/* Contact */}
-          <div>
+          <div ref={contactRef}>
             <h4 className="font-heading text-lg font-semibold mb-4">Контакти</h4>
             <div className="flex flex-col gap-4">
               <a
@@ -65,7 +108,7 @@ const FooterSection = () => {
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/10 pt-8 text-center">
+        <div ref={bottomRef} className="border-t border-primary-foreground/10 pt-8 text-center">
           <p className="text-xs text-primary-foreground/40 font-body">
             © {new Date().getFullYear()} Кайлас Йогалайф & Пракрити Йога. Всички права запазени.
           </p>

@@ -1,12 +1,68 @@
+"use client";
+
+import { useRef, useEffect } from "react";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ChevronRight } from "lucide-react";
 import { yogaTypes } from "@/data/yogaTypesData";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const YogaTypesSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const introRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: { trigger: headerRef.current, start: "top 85%" },
+        }
+      );
+      gsap.fromTo(
+        introRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          delay: 0.1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: introRef.current, start: "top 88%" },
+        }
+      );
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return;
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            delay: i * 0.1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: card, start: "top 90%" },
+          }
+        );
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="yoga-types" className="section-padding bg-muted/30">
+    <section ref={sectionRef} id="yoga-types" className="section-padding bg-muted/30">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-6">
+        <div ref={headerRef} className="text-center mb-6">
           <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
             Традиция
           </p>
@@ -14,7 +70,7 @@ const YogaTypesSection = () => {
         </div>
 
         {/* Intro text */}
-        <div className="max-w-3xl mx-auto text-center mb-12 space-y-4">
+        <div ref={introRef} className="max-w-3xl mx-auto text-center mb-12 space-y-4">
           <p className="text-muted-foreground font-body leading-relaxed">
             <strong className="text-foreground">БАХИРАНГА</strong> или външна йога — практикуваме я за постигане на баланс в живота и хармония в различните измерения на личността.
           </p>
@@ -25,14 +81,18 @@ const YogaTypesSection = () => {
 
         {/* Yoga types grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {yogaTypes.map((yoga) => {
+          {yogaTypes.map((yoga, i) => {
             const Icon = yoga.icon;
 
             return (
-              <Link
+              <div
                 key={yoga.slug}
+                ref={(el) => { cardRefs.current[i] = el; }}
+                className="h-full"
+              >
+              <Link
                 href={`/yoga/${yoga.slug}`}
-                className="glass-card p-6 flex flex-col hover-lift transition-all duration-300 group"
+                className="glass-card p-6 flex flex-col hover-lift transition-all duration-300 group h-full"
               >
                 <div className="flex items-start gap-4 mb-4">
                   <div className="w-11 h-11 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
@@ -63,6 +123,7 @@ const YogaTypesSection = () => {
                   <ChevronRight className="w-3.5 h-3.5" />
                 </span>
               </Link>
+              </div>
             );
           })}
         </div>

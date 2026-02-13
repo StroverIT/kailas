@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Download, CheckCircle } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const LeadMagnetSection = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +15,38 @@ const LeadMagnetSection = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const sectionRef = useRef<HTMLElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        iconRef.current,
+        { opacity: 0, scale: 0.9 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: { trigger: iconRef.current, start: "top 85%" },
+        }
+      );
+      gsap.fromTo(
+        contentRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 0.1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: contentRef.current, start: "top 88%" },
+        }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,11 +68,12 @@ const LeadMagnetSection = () => {
   };
 
   return (
-    <section className="section-padding bg-primary text-primary-foreground">
+    <section ref={sectionRef} className="section-padding bg-primary text-primary-foreground">
       <div className="container mx-auto max-w-3xl text-center">
-        <div className="w-16 h-16 rounded-2xl bg-primary-foreground/10 flex items-center justify-center mx-auto mb-6">
+        <div ref={iconRef} className="w-16 h-16 rounded-2xl bg-primary-foreground/10 flex items-center justify-center mx-auto mb-6">
           <Download className="w-8 h-8 text-secondary" />
         </div>
+        <div ref={contentRef}>
         <h2 className="font-heading text-3xl md:text-4xl font-semibold mb-4">
           Безплатно ръководство: „Йога при стрес"
         </h2>
@@ -66,6 +103,7 @@ const LeadMagnetSection = () => {
             <span className="font-body text-lg">Благодарим! Провери имейла си.</span>
           </div>
         )}
+        </div>
       </div>
     </section>
   );
