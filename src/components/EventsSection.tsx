@@ -17,6 +17,7 @@ export type Event = {
   type: string;
   location: string;
   spots: number;
+  registeredCount?: number;
   description: string;
   time?: string | null;
   duration?: string | null;
@@ -59,19 +60,21 @@ const EventsSection = () => {
   const gridRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch("/api/events");
+      if (!res.ok) throw new Error("Failed to fetch");
+      const data = await res.json();
+      setEvents(data);
+    } catch {
+      setError("Неуспешно зареждане на събития.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch("/api/events");
-        if (!res.ok) throw new Error("Failed to fetch");
-        const data = await res.json();
-        setEvents(data);
-      } catch {
-        setError("Неуспешно зареждане на събития.");
-      } finally {
-        setLoading(false);
-      }
-    })();
+    fetchEvents();
   }, []);
 
   const filtered = activeMonth === "all" ? events : events.filter((e) => e.month === activeMonth);
@@ -195,7 +198,7 @@ const EventsSection = () => {
                   </span>
                   <span className="flex items-center gap-1">
                     <Users className="w-3.5 h-3.5" />
-                    {e.spots} места
+                    {(e.registeredCount ?? 0)}/{e.spots} места
                   </span>
                   {e.time && (
                     <span className="flex items-center gap-1">
@@ -236,6 +239,7 @@ const EventsSection = () => {
         event={selectedEvent}
         open={!!selectedEvent}
         onOpenChange={(open) => !open && setSelectedEvent(null)}
+        onRegistrationSuccess={fetchEvents}
       />
     </section>
   );

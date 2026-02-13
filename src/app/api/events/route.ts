@@ -6,8 +6,17 @@ export async function GET() {
   try {
     const events = await prisma.event.findMany({
       orderBy: [{ month: "asc" }, { date: "asc" }],
+      include: {
+        _count: {
+          select: { registrations: true },
+        },
+      },
     });
-    return NextResponse.json(events);
+    const eventsWithCount = events.map(({ _count, ...e }) => ({
+      ...e,
+      registeredCount: _count.registrations,
+    }));
+    return NextResponse.json(eventsWithCount);
   } catch (error) {
     console.error("GET /api/events", error);
     return NextResponse.json(

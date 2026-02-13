@@ -19,12 +19,14 @@ interface EventRegistrationModalProps {
   event: Event | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onRegistrationSuccess?: () => void;
 }
 
 const EventRegistrationModal = ({
   event,
   open,
   onOpenChange,
+  onRegistrationSuccess,
 }: EventRegistrationModalProps) => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -54,6 +56,7 @@ const EventRegistrationModal = ({
         throw new Error(data.error ?? "Неуспешно записване");
       }
       setSubmitted(true);
+      onRegistrationSuccess?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Неуспешно записване");
     }
@@ -69,10 +72,12 @@ const EventRegistrationModal = ({
     }, 300);
   };
 
+  const registered = event.registeredCount ?? 0;
+  const spotsLeft = event.spots - registered;
   const spotsColor =
-    event.spots <= 12
+    spotsLeft <= 2
       ? "text-destructive"
-      : event.spots <= 16
+      : spotsLeft <= 6
         ? "text-yellow-600"
         : "text-green-600";
 
@@ -108,7 +113,7 @@ const EventRegistrationModal = ({
           )}
           <span className={`flex items-center gap-1.5 font-semibold ${spotsColor}`}>
             <Users className="w-4 h-4" />
-            {event.spots} свободни места
+            {registered}/{event.spots} места · {spotsLeft} свободни
           </span>
         </div>
 
