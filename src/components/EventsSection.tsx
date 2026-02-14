@@ -209,21 +209,7 @@ const EventsSection = () => {
               className="absolute top-1/2 left-0 right-0 h-0.5 bg-border -translate-y-1/2 origin-left"
               style={{ transform: "scaleX(0)" }}
             />
-            {months.filter((m) => m.key !== "all").map((m, i) => (
-              <button
-                key={m.key}
-                ref={(el) => { dotRefs.current[i] = el; }}
-                onClick={() => setActiveMonth(m.key)}
-                className={cn(
-                  "relative z-10 w-3 h-3 rounded-full transition-colors duration-300",
-                  activeMonth === m.key
-                    ? "bg-primary scale-125"
-                    : "bg-muted-foreground/30 hover:bg-secondary/50"
-                )}
-                style={{ scale: 0 }}
-                title={m.label}
-              />
-            ))}
+
           </div>
           <p className="text-center text-xs text-muted-foreground font-body mt-2">
             Избери месец
