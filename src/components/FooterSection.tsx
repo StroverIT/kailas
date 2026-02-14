@@ -116,11 +116,11 @@ const FooterSection = () => {
           </div>
         </div>
 
-        <div ref={bottomRef} className="border-t border-primary-foreground/10 pt-8 text-center">
-          <p className="text-xs text-primary-foreground/40 font-body">
+        <div ref={bottomRef} className="border-t border-primary-foreground/10 pt-10 pb-4 text-center">
+          <p className="text-sm text-primary-foreground/50 font-body">
             © {new Date().getFullYear()} Кайлас Йогалайф & Пракрити Йога. Всички права запазени.
           </p>
-          <p className="text-xs text-primary-foreground/40 font-body mt-2">
+          <p className="text-sm text-primary-foreground/50 font-body mt-3">
             POWERED by{" "}
             <a
               href="https://strover.bg"
@@ -128,7 +128,7 @@ const FooterSection = () => {
               rel="noopener noreferrer"
               className="text-secondary hover:underline transition-colors"
             >
-              strover
+              STROVER
             </a>
           </p>
         </div>
