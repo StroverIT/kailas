@@ -6,9 +6,12 @@ import YogaSystemSection from "@/components/YogaSystemSection";
 import YogaTypesSection from "@/components/YogaTypesSection";
 import AudienceSection from "@/components/AudienceSection";
 import EventsSection from "@/components/EventsSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import LeadMagnetSection from "@/components/LeadMagnetSection";
 import BookingSection from "@/components/BookingSection";
+import StatsSection from "@/components/StatsSection";
 import FooterSection from "@/components/FooterSection";
+import { EnergyLineDivider } from "@/components/animations/EnergyLineDivider";
 
 export default function HomePage() {
   return (
@@ -16,12 +19,16 @@ export default function HomePage() {
       <Navbar />
       <HeroSection />
       <ConceptSection />
+      <EnergyLineDivider />
       <SpaceSection />
       <YogaSystemSection />
       <YogaTypesSection />
       <AudienceSection />
       <EventsSection />
+      <EnergyLineDivider />
+      <TestimonialsSection />
       <LeadMagnetSection />
+      <StatsSection />
       <BookingSection />
       <FooterSection />
     </div>

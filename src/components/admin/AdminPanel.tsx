@@ -21,7 +21,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Plus, Pencil, Trash2, Users, ArrowLeft, ChevronDown, ChevronUp, LogOut } from "lucide-react";
-import Link from "next/link";
+import { AnimatedLink } from "@/components/transitions/PageTransition";
 import { signOut } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -203,12 +203,12 @@ export function AdminPanel() {
       <header className="bg-background border-b border-border sticky top-0 z-40">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
-            <Link href="/">
+            <AnimatedLink href="/">
               <Button variant="ghost" size="sm">
                 <ArrowLeft className="w-4 h-4 mr-1" />
                 Към сайта
               </Button>
-            </Link>
+            </AnimatedLink>
             <h1 className="font-heading text-xl font-bold text-foreground">
               Админ панел
             </h1>

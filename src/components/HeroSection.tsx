@@ -2,8 +2,11 @@
 
 import { useRef, useEffect } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SunGlowButton } from "@/components/animations/SunGlowButton";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -12,6 +15,10 @@ const HeroSection = () => {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const overlayPulseRef = useRef<HTMLDivElement>(null);
+  const forestLightGreenRef = useRef<HTMLDivElement>(null);
+  const forestLightGoldRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -54,6 +61,60 @@ const HeroSection = () => {
         yoyo: true,
         ease: "sine.inOut",
       });
+
+      // Breath Hero: scale 1 -> 1.03 -> 1 (10s loop)
+      gsap.to(bgRef.current, {
+        scale: 1.03,
+        duration: 5,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
+
+      // Parallax: bg moves slower on scroll (depth effect)
+      gsap.to(bgRef.current, {
+        yPercent: 15,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.5,
+        },
+      });
+
+      // Overlay pulse (subtle opacity)
+      gsap.to(overlayPulseRef.current, {
+        opacity: 0.85,
+        duration: 4,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
+
+      // Forest Light: scroll scrub green tint -> warmer gold tint
+      gsap.to(forestLightGreenRef.current, {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.8,
+        },
+      });
+      gsap.fromTo(
+        forestLightGoldRef.current,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.8,
+          },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -65,14 +126,14 @@ const HeroSection = () => {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Background image */}
-      <div className="absolute inset-0">
+      {/* Background image - Breath scale */}
+      <div ref={bgRef} className="absolute inset-0 overflow-hidden">
         <Image
           src="/images/20220520_201852-scaled.jpg"
           alt=""
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-center scale-100"
           sizes="100vw"
         />
         <div
@@ -84,8 +145,27 @@ const HeroSection = () => {
           aria-hidden
         />
       </div>
-      {/* Overlay */}
+      {/* Overlay + pulse */}
       <div className="absolute inset-0 bg-gradient-hero z-[1]" />
+      <div
+        ref={overlayPulseRef}
+        className="absolute inset-0 z-[1] bg-primary/20"
+        aria-hidden
+        style={{ opacity: 0.7 }}
+      />
+      {/* Forest Light: green -> gold tint on scroll */}
+      <div
+        ref={forestLightGreenRef}
+        className="absolute inset-0 z-[1] pointer-events-none opacity-60"
+        style={{ background: "linear-gradient(180deg, rgba(101, 155, 127, 0.12) 0%, transparent 100%)" }}
+        aria-hidden
+      />
+      <div
+        ref={forestLightGoldRef}
+        className="absolute inset-0 z-[1] pointer-events-none opacity-0"
+        style={{ background: "linear-gradient(180deg, transparent 0%, rgba(209, 177, 112, 0.15) 100%)" }}
+        aria-hidden
+      />
 
       <div className="relative z-10 container mx-auto px-4 text-center max-w-4xl">
         <p
@@ -111,16 +191,12 @@ const HeroSection = () => {
           ref={buttonsRef}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <a href="#events">
-            <Button variant="hero" size="lg" className="text-base px-8 py-6">
-              Открий своя ретрийт
-            </Button>
-          </a>
-          <a href="#concept">
-            <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
-              Научи повече
-            </Button>
-          </a>
+          <SunGlowButton href="#events" variant="hero">
+            Открий своя ретрийт
+          </SunGlowButton>
+          <SunGlowButton href="#concept" variant="hero-outline">
+            Научи повече
+          </SunGlowButton>
         </div>
       </div>
 

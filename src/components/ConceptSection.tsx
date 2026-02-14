@@ -6,6 +6,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Mountain, Users, Sunrise } from "lucide-react";
 import { ScrollReveal } from "./ScrollReveal";
+import { SandSweepAccent } from "./animations/SandSweepAccent";
+import { LeafMountainLogo } from "./animations/LeafMountainLogo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,51 +15,57 @@ const ConceptSection = () => {
   const kailasCardRef = useRef<HTMLDivElement>(null);
   const prakritiCardRef = useRef<HTMLDivElement>(null);
   const missionRef = useRef<HTMLDivElement>(null);
+  const shapeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      if (shapeRef.current) {
+        gsap.fromTo(
+          shapeRef.current,
+          { rotation: -4, opacity: 0 },
+          {
+            rotation: 3,
+            opacity: 1,
+            duration: 0.9,
+            ease: "power2.out",
+            scrollTrigger: { trigger: shapeRef.current, start: "top 88%" },
+          }
+        );
+      }
+
       gsap.fromTo(
         kailasCardRef.current,
-        { opacity: 0, y: 60 },
+        { opacity: 0, y: 24 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.9,
+          duration: 0.85,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: kailasCardRef.current,
-            start: "top 85%",
-          },
+          scrollTrigger: { trigger: kailasCardRef.current, start: "top 85%" },
         }
       );
 
       gsap.fromTo(
         prakritiCardRef.current,
-        { opacity: 0, y: 60 },
+        { opacity: 0, y: 24 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.9,
-          delay: 0.15,
+          duration: 0.85,
+          delay: 0.12,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: prakritiCardRef.current,
-            start: "top 85%",
-          },
+          scrollTrigger: { trigger: prakritiCardRef.current, start: "top 85%" },
         }
       );
 
       gsap.fromTo(
         missionRef.current,
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: 24 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: missionRef.current,
-            start: "top 90%",
-          },
+          duration: 0.75,
+          scrollTrigger: { trigger: missionRef.current, start: "top 90%" },
         }
       );
     });
@@ -68,15 +76,17 @@ const ConceptSection = () => {
   return (
     <section id="concept" className="section-padding bg-gradient-section">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <ScrollReveal>
-            <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
-              Концепцията
-            </p>
-          </ScrollReveal>
-          <ScrollReveal delay={0.1}>
-            <h2 className="section-heading mb-6">Кайлас &amp; Пракрити</h2>
-          </ScrollReveal>
+        <div className="text-center mb-16 relative">
+          <SandSweepAccent>
+            <ScrollReveal>
+              <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
+                Концепцията
+              </p>
+            </ScrollReveal>
+            <ScrollReveal delay={0.1}>
+              <h2 className="section-heading mb-6">Кайлас &amp; Пракрити</h2>
+            </ScrollReveal>
+          </SandSweepAccent>
           <ScrollReveal delay={0.2}>
             <p className="section-subheading mx-auto">
               На 2 км от пещера Леденика, сред чистия въздух на планината,
@@ -85,6 +95,10 @@ const ConceptSection = () => {
               самия.
             </p>
           </ScrollReveal>
+        </div>
+
+        <div ref={shapeRef} className="flex justify-center mb-8 opacity-0">
+          <LeafMountainLogo size={64} className="text-secondary" />
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">

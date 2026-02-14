@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { AnimatedLink } from "@/components/transitions/PageTransition";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -51,7 +52,7 @@ const FooterSection = () => {
         <div className="grid md:grid-cols-3 gap-12 mb-16">
           {/* Brand */}
           <div ref={brandRef}>
-            <a href="/" className="inline-block mb-4">
+            <AnimatedLink href="/" className="inline-block mb-4">
               <Image
                 src="/logo.png"
                 alt="Kailas Yogalife"
@@ -59,7 +60,7 @@ const FooterSection = () => {
                 height={1000}
                 className="h-36 w-auto object-contain"
               />
-            </a>
+            </AnimatedLink>
             <p className="text-primary-foreground/60 font-body text-sm leading-relaxed mb-6">
               „Да предоставим пространство, в което да преоткрием богатството на йога –
               за по-добър, по-щастлив и осъзнат живот."
@@ -78,13 +79,13 @@ const FooterSection = () => {
                 { label: "Събития", href: "/#events" },
                 { label: "Запази място", href: "/#booking" },
               ].map((link) => (
-                <a
+                <AnimatedLink
                   key={link.href}
                   href={link.href}
                   className="text-sm text-primary-foreground/60 hover:text-secondary transition-colors font-body"
                 >
                   {link.label}
-                </a>
+                </AnimatedLink>
               ))}
             </div>
           </div>

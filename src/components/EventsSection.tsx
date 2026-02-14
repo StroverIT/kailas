@@ -86,6 +86,9 @@ const EventsSection = () => {
   const filterRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const dotRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const lineRef = useRef<HTMLDivElement>(null);
 
   const fetchEvents = async () => {
     try {
@@ -106,7 +109,7 @@ const EventsSection = () => {
 
   const filtered = activeMonth === "all" ? events : events.filter((e) => e.month === activeMonth);
 
-  // Header and filter animate only on initial load
+  // Header, timeline, filter animate on load
   useEffect(() => {
     if (loading || error) return;
     const ctx = gsap.context(() => {
@@ -121,6 +124,31 @@ const EventsSection = () => {
           scrollTrigger: { trigger: headerRef.current, start: "top 85%" },
         }
       );
+      dotRefs.current.forEach((dot, i) => {
+        if (!dot) return;
+        gsap.fromTo(
+          dot,
+          { scale: 0 },
+          {
+            scale: 1,
+            duration: 0.5,
+            delay: 0.1 + i * 0.05,
+            ease: "elastic.out(1, 0.5)",
+            scrollTrigger: { trigger: timelineRef.current, start: "top 90%" },
+          }
+        );
+      });
+      gsap.fromTo(
+        lineRef.current,
+        { scaleX: 0, transformOrigin: "left center" },
+        {
+          scaleX: 1,
+          duration: 0.8,
+          delay: 0.3,
+          ease: "power2.inOut",
+          scrollTrigger: { trigger: timelineRef.current, start: "top 90%" },
+        }
+      );
       gsap.fromTo(
         filterRef.current,
         { opacity: 0, y: 20 },
@@ -128,7 +156,7 @@ const EventsSection = () => {
           opacity: 1,
           y: 0,
           duration: 0.6,
-          delay: 0.1,
+          delay: 0.2,
           ease: "power3.out",
           scrollTrigger: { trigger: filterRef.current, start: "top 90%" },
         }
@@ -170,6 +198,35 @@ const EventsSection = () => {
           <h2 className="section-heading mb-6">Предстоящи събития и практики</h2>
           <p className="section-subheading mx-auto">
             Присъедини се към нашите ретрийти, уъркшопи и уикенд практики в сърцето на планината.
+          </p>
+        </div>
+
+        {/* Schedule Timeline - step by step */}
+        <div ref={timelineRef} className="mb-8">
+          <div className="relative flex items-center justify-center gap-1 max-w-2xl mx-auto">
+            <div
+              ref={lineRef}
+              className="absolute top-1/2 left-0 right-0 h-0.5 bg-border -translate-y-1/2 origin-left"
+              style={{ transform: "scaleX(0)" }}
+            />
+            {months.filter((m) => m.key !== "all").map((m, i) => (
+              <button
+                key={m.key}
+                ref={(el) => { dotRefs.current[i] = el; }}
+                onClick={() => setActiveMonth(m.key)}
+                className={cn(
+                  "relative z-10 w-3 h-3 rounded-full transition-colors duration-300",
+                  activeMonth === m.key
+                    ? "bg-primary scale-125"
+                    : "bg-muted-foreground/30 hover:bg-secondary/50"
+                )}
+                style={{ scale: 0 }}
+                title={m.label}
+              />
+            ))}
+          </div>
+          <p className="text-center text-xs text-muted-foreground font-body mt-2">
+            Избери месец
           </p>
         </div>
 

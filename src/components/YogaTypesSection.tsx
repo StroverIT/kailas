@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import Link from "next/link";
+import { AnimatedLink } from "@/components/transitions/PageTransition";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ChevronRight } from "lucide-react";
@@ -14,6 +14,7 @@ const YogaTypesSection = () => {
   const headerRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const cardFloatRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -44,16 +45,27 @@ const YogaTypesSection = () => {
         if (!card) return;
         gsap.fromTo(
           card,
-          { opacity: 0, y: 50 },
+          { opacity: 0, y: 80 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.7,
-            delay: i * 0.1,
+            duration: 0.8,
+            delay: i * 0.12,
             ease: "power3.out",
-            scrollTrigger: { trigger: card, start: "top 90%" },
+            scrollTrigger: { trigger: card, start: "top 92%" },
           }
         );
+      });
+      cardFloatRefs.current.forEach((wrap, i) => {
+        if (!wrap) return;
+        gsap.to(wrap, {
+          y: -6,
+          duration: 2.5 + i * 0.2,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          scrollTrigger: { trigger: wrap, start: "top 95%" },
+        });
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -87,10 +99,14 @@ const YogaTypesSection = () => {
             return (
               <div
                 key={yoga.slug}
+                ref={(el) => { cardFloatRefs.current[i] = el; }}
+                className="h-full"
+              >
+              <div
                 ref={(el) => { cardRefs.current[i] = el; }}
                 className="h-full"
               >
-              <Link
+              <AnimatedLink
                 href={`/yoga/${yoga.slug}`}
                 className="glass-card p-6 flex flex-col hover-lift transition-all duration-300 group h-full"
               >
@@ -122,7 +138,8 @@ const YogaTypesSection = () => {
                   Прочети повече
                   <ChevronRight className="w-3.5 h-3.5" />
                 </span>
-              </Link>
+              </AnimatedLink>
+              </div>
               </div>
             );
           })}

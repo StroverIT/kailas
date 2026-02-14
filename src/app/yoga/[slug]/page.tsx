@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { AnimatedLink } from "@/components/transitions/PageTransition";
 import { yogaTypes } from "@/data/yogaTypesData";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,13 +31,13 @@ export default async function YogaTypePage({ params }: PageProps) {
       {/* Hero banner */}
       <section className="pt-28 pb-16 section-padding bg-gradient-section">
         <div className="container mx-auto max-w-4xl">
-          <Link
+          <AnimatedLink
             href="/#yoga-types"
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-secondary transition-colors mb-8 font-body"
           >
             <ArrowLeft className="w-4 h-4" />
             Към видове йога
-          </Link>
+          </AnimatedLink>
 
           <div className="flex items-center gap-4 mb-6">
             <div className="w-14 h-14 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
@@ -105,7 +105,7 @@ export default async function YogaTypePage({ params }: PageProps) {
               .map((y) => {
                 const OtherIcon = y.icon;
                 return (
-                  <Link
+                  <AnimatedLink
                     key={y.slug}
                     href={`/yoga/${y.slug}`}
                     className="glass-card p-4 flex items-center gap-3 hover-lift"
@@ -121,7 +121,7 @@ export default async function YogaTypePage({ params }: PageProps) {
                         {y.subtitle}
                       </p>
                     </div>
-                  </Link>
+                  </AnimatedLink>
                 );
               })}
           </div>

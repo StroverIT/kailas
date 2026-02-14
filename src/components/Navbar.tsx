@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { AnimatedLink } from "@/components/transitions/PageTransition";
 
 const navLinks = [
   { label: "Начало", href: "/#hero" },
@@ -44,7 +45,7 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 lg:px-8">
-        <a href="/" className="flex items-center">
+        <AnimatedLink href="/" className="flex items-center">
           <Image
             src="/logo.png"
             alt="Kailas Yogalife"
@@ -52,12 +53,12 @@ const Navbar = () => {
             height={48}
             className="h-10 md:h-12 w-auto object-contain"
           />
-        </a>
+        </AnimatedLink>
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
+            <AnimatedLink
               key={link.href}
               href={link.href}
               className={`text-sm font-medium transition-colors duration-300 ${
@@ -65,13 +66,13 @@ const Navbar = () => {
               }`}
             >
               {link.label}
-            </a>
+            </AnimatedLink>
           ))}
-          <a href="/#booking">
+          <AnimatedLink href="/#booking">
             <Button variant="nav" size="default">
               Запази място
             </Button>
-          </a>
+          </AnimatedLink>
         </div>
 
         {/* Mobile toggle */}
@@ -89,20 +90,20 @@ const Navbar = () => {
         <div className="md:hidden bg-background/98 backdrop-blur-lg border-t border-border animate-fade-up">
           <div className="flex flex-col gap-4 px-6 py-6">
             {navLinks.map((link) => (
-              <a
+              <AnimatedLink
                 key={link.href}
                 href={link.href}
                 className="text-foreground font-medium py-2 hover:text-secondary transition-colors"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
-              </a>
+              </AnimatedLink>
             ))}
-            <a href="#booking" onClick={() => setMobileOpen(false)}>
+            <AnimatedLink href="/#booking" onClick={() => setMobileOpen(false)}>
               <Button variant="nav" className="w-full">
                 Запази място
               </Button>
-            </a>
+            </AnimatedLink>
           </div>
         </div>
       )}

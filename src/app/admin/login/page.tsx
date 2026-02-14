@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { AnimatedLink } from "@/components/transitions/PageTransition";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -83,9 +83,9 @@ function AdminLoginForm() {
           </Button>
         </form>
         <p className="text-center text-sm text-muted-foreground">
-          <Link href="/" className="underline hover:text-foreground">
+          <AnimatedLink href="/" className="underline hover:text-foreground">
             Към сайта
-          </Link>
+          </AnimatedLink>
         </p>
       </div>
     </div>
