@@ -120,6 +120,17 @@ const FooterSection = () => {
           <p className="text-xs text-primary-foreground/40 font-body">
             © {new Date().getFullYear()} Кайлас Йогалайф & Пракрити Йога. Всички права запазени.
           </p>
+          <p className="text-xs text-primary-foreground/40 font-body mt-2">
+            POWERED by{" "}
+            <a
+              href="https://strover.bg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-secondary hover:underline transition-colors"
+            >
+              strover
+            </a>
+          </p>
         </div>
       </div>
     </footer>
