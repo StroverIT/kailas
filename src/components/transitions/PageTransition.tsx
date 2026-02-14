@@ -102,7 +102,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         }}
       />
       {/* Content wrapper (blur target) */}
-      <div ref={contentRef} style={{ willChange: "filter" }}>
+      <div ref={contentRef}>
         {children}
       </div>
     </PageTransitionContext.Provider>
