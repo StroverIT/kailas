@@ -1,6 +1,7 @@
 import HeroSection from "@/components/HeroSection";
 import ConceptSection from "@/components/ConceptSection";
 import SpaceSection from "@/components/SpaceSection";
+import PurposeSection from "@/components/PurposeSection";
 import FoodSection from "@/components/FoodSection";
 import YogaSystemSection from "@/components/YogaSystemSection";
 import YogaTypesSection from "@/components/YogaTypesSection";
@@ -21,6 +22,7 @@ export default function HomePage() {
       <ConceptSection />
       <EnergyLineDivider />
       <SpaceSection />
+      <PurposeSection />
       <FoodSection />
       <YogaSystemSection />
       <YogaTypesSection />
@@ -28,7 +30,7 @@ export default function HomePage() {
       <EventsSection />
       <EnergyLineDivider />
       <TestimonialsSection />
-      <LeadMagnetSection />
+      {/* <LeadMagnetSection /> */}
       <StatsSection />
       <FoundationSection />
       <BookingSection />

@@ -60,6 +60,10 @@ const FoodSection = () => {
             могат да получат основни познания в подготовката на продуктите,
             готвенето и здравословното хранене.
           </p>
+          <blockquote className="border-l-4 border-secondary/50 pl-6 py-4 mt-8 italic text-foreground/90">
+            „Нека всеки следва пътя си според възможностите, разбиранията и
+            темперамента си." – Св. Шивананда
+          </blockquote>
         </div>
       </div>
     </section>
