@@ -211,9 +211,6 @@ const EventsSection = () => {
             />
 
           </div>
-          <p className="text-center text-xs text-muted-foreground font-body mt-2">
-            Избери месец
-          </p>
         </div>
 
         <div ref={filterRef} className="flex flex-wrap justify-center gap-2 mb-8">

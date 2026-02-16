@@ -61,7 +61,10 @@ const YogaSystemSection = () => {
           {/* Text */}
           <div ref={textRef}>
             <p className="text-sm tracking-[0.2em] uppercase text-primary-foreground/60 font-body mb-3">
-              Системата Сатянанда
+              Предлагаме ви
+            </p>
+            <p className="text-primary-foreground/90 font-body mb-4">
+              Практики и обучения по йога, персонални програми за подобряване на здравето и качеството на живот.
             </p>
             <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-6">
               Йога като начин на живот, а не просто упражнение

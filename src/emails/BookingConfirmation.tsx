@@ -27,7 +27,7 @@ export function BookingConfirmation({ name }: BookingConfirmationProps) {
               теб в рамките на 24 часа, за да намерим най-подходящия ретрийт за теб.
             </Text>
             <Text style={text}>
-              Ако имаш спешни въпроси, свържи се с нас на info@prakriti-yoga.eu
+              Ако имаш спешни въпроси, свържи се с нас на kailas.yogalife@gmail.com
               или +359 877 844 235.
             </Text>
           </Section>

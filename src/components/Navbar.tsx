@@ -9,10 +9,12 @@ import { AnimatedLink } from "@/components/transitions/PageTransition";
 
 const navLinks = [
   { label: "Начало", href: "/#hero" },
-  { label: "За нас", href: "/#concept" },
-  { label: "Услуги", href: "/#yoga-system" },
+  { label: "За нас", href: "/za-nas" },
+  { label: "Предлагаме ви", href: "/#yoga-system" },
   { label: "Ретрийт база", href: "/#space" },
   { label: "Събития", href: "/#events" },
+  { label: "Блог", href: "/blog" },
+  { label: "Фондация", href: "/#foundation" },
 ];
 
 const Navbar = () => {

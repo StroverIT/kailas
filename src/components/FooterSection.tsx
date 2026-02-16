@@ -61,10 +61,13 @@ const FooterSection = () => {
                 className="h-36 w-auto object-contain"
               />
             </AnimatedLink>
-            <p className="text-primary-foreground/60 font-body text-sm leading-relaxed mb-6">
+            <p className="text-primary-foreground/60 font-body text-sm leading-relaxed mb-4">
               „Да предоставим пространство, в което да преоткрием богатството на йога –
               за по-добър, по-щастлив и осъзнат живот."
             </p>
+            <blockquote className="text-primary-foreground/50 font-body text-xs italic border-l-2 border-primary-foreground/20 pl-3">
+              „Нека всеки следва пътя си според възможностите, разбиранията и темперамента си." — Св. Шивананда
+            </blockquote>
           </div>
 
           {/* Navigation */}
@@ -73,10 +76,12 @@ const FooterSection = () => {
             <div className="flex flex-col gap-3">
               {[
                 { label: "Начало", href: "/#hero" },
-                { label: "За нас", href: "/#concept" },
-                { label: "Услуги", href: "/#yoga-system" },
+                { label: "За нас", href: "/za-nas" },
+                { label: "Предлагаме ви", href: "/#yoga-system" },
                 { label: "Ретрийт база", href: "/#space" },
                 { label: "Събития", href: "/#events" },
+                { label: "Блог", href: "/blog" },
+                { label: "Фондация", href: "/#foundation" },
                 { label: "Запази място", href: "/#booking" },
               ].map((link) => (
                 <AnimatedLink
@@ -95,11 +100,11 @@ const FooterSection = () => {
             <h4 className="font-heading text-lg font-semibold mb-4">Контакти</h4>
             <div className="flex flex-col gap-4">
               <a
-                href="mailto:info@prakriti-yoga.eu"
+                href="mailto:kailas.yogalife@gmail.com"
                 className="flex items-center gap-3 text-sm text-primary-foreground/60 hover:text-secondary transition-colors font-body"
               >
                 <Mail className="w-4 h-4 shrink-0" />
-                info@prakriti-yoga.eu
+                kailas.yogalife@gmail.com
               </a>
               <a
                 href="tel:+359877844235"

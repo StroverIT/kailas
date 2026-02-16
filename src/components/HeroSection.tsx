@@ -178,7 +178,7 @@ const HeroSection = () => {
           ref={titleRef}
           className="font-heading text-4xl md:text-5xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-6"
         >
-          Твоето убежище в сърцето на планината
+          Пространство за пребиваване и живот в концепцията на йога
         </h1>
         <p
           ref={subtitleRef}
@@ -192,7 +192,7 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <SunGlowButton href="#events" variant="hero">
-            Открий своя ретрийт
+            Практики и събития
           </SunGlowButton>
           <SunGlowButton href="#concept" variant="hero-outline">
             Научи повече
