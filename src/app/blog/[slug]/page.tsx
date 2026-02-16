@@ -2,7 +2,6 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
 import { blogPosts, getBlogPostBySlug } from "@/data/blogData";
-import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { ArrowLeft, Calendar } from "lucide-react";
 
@@ -36,8 +35,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
-
       {/* Hero banner with optional image */}
       <section className="pt-28 pb-16 section-padding bg-gradient-section">
         <div className="container mx-auto max-w-4xl">

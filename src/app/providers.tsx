@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { PageTransitionProvider } from "@/components/transitions/PageTransition";
+import Navbar from "@/components/Navbar";
 import { useState } from "react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -15,7 +16,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <TooltipProvider>
-            <PageTransitionProvider>{children}</PageTransitionProvider>
+            <PageTransitionProvider fixedContent={<Navbar />}>
+              {children}
+            </PageTransitionProvider>
           </TooltipProvider>
         </ThemeProvider>
       </QueryClientProvider>

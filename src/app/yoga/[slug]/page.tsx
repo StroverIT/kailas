@@ -3,7 +3,6 @@ import { AnimatedLink } from "@/components/transitions/PageTransition";
 import { yogaTypes } from "@/data/yogaTypesData";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 
 interface PageProps {
@@ -26,8 +25,6 @@ export default async function YogaTypePage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
-
       {/* Hero banner */}
       <section className="pt-28 pb-16 section-padding bg-gradient-section">
         <div className="container mx-auto max-w-4xl">

@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
 
 const navLinks = [
@@ -18,9 +19,13 @@ const navLinks = [
 ];
 
 const Navbar = () => {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+
+  const isHomePage = pathname === "/";
+  const showTransparentNav = isHomePage && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -40,11 +45,10 @@ const Navbar = () => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-background/95 backdrop-blur-md shadow-md py-3"
-          : "bg-transparent py-5"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${showTransparentNav
+        ? "bg-transparent py-5"
+        : "bg-background/95 backdrop-blur-md shadow-md py-3"
+        }`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 lg:px-8">
         <AnimatedLink href="/" className="flex items-center">
@@ -63,9 +67,8 @@ const Navbar = () => {
             <AnimatedLink
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors duration-300 ${
-                scrolled ? "text-foreground hover:text-secondary" : "text-white/90 hover:text-white"
-              }`}
+              className={`text-sm font-medium transition-colors duration-300 ${showTransparentNav ? "text-white/90 hover:text-white" : "text-foreground hover:text-secondary"
+                }`}
             >
               {link.label}
             </AnimatedLink>
@@ -79,7 +82,7 @@ const Navbar = () => {
 
         {/* Mobile toggle */}
         <button
-          className={`md:hidden transition-colors duration-500 ${scrolled ? "text-foreground" : "text-white"}`}
+          className={`md:hidden transition-colors duration-500 ${showTransparentNav ? "text-white" : "text-foreground"}`}
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >

@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ConceptSection from "@/components/ConceptSection";
 import SpaceSection from "@/components/SpaceSection";
@@ -18,7 +17,6 @@ import { EnergyLineDivider } from "@/components/animations/EnergyLineDivider";
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      <Navbar />
       <HeroSection />
       <ConceptSection />
       <EnergyLineDivider />

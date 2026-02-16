@@ -5,7 +5,6 @@ import {
   getBlogPostsByPage,
   getTotalPages,
 } from "@/data/blogData";
-import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { Calendar } from "lucide-react";
 
@@ -43,8 +42,6 @@ export default async function BlogPagePage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
-
       <section className="pt-28 pb-16 section-padding bg-gradient-section">
         <div className="container mx-auto max-w-4xl">
           <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4">

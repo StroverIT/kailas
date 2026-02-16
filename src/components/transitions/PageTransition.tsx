@@ -32,7 +32,13 @@ export function usePageTransition() {
 // Provider: curtain overlay (scaleY from bottom) + content blur
 // ---------------------------------------------------------------------------
 
-export function PageTransitionProvider({ children }: { children: ReactNode }) {
+export function PageTransitionProvider({
+  children,
+  fixedContent,
+}: {
+  children: ReactNode;
+  fixedContent?: ReactNode;
+}) {
   const router = useRouter();
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -86,6 +92,8 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
 
   return (
     <PageTransitionContext.Provider value={value}>
+      {/* Fixed content (e.g. Navbar) - outside blurred wrapper so position:fixed works */}
+      {fixedContent}
       {/* Curtain overlay */}
       <div
         ref={overlayRef}

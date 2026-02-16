@@ -4,7 +4,6 @@ import { useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
 import { Heart, Users, BookOpen } from "lucide-react";
@@ -66,8 +65,6 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
-
       {/* Hero with image */}
       <section
         ref={heroRef}
