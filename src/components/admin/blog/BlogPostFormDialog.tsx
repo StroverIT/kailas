@@ -12,7 +12,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { BlogPostImageUpload } from "./BlogPostImageUpload";
-import { contentToEditable, editableToContent, slugFromTitle } from "./utils";
+import { RichTextEditor } from "./RichTextEditor";
+import { slugFromTitle } from "./utils";
 import type { BlogPostFormState } from "./types";
 
 type BlogPostFormDialogProps = {
@@ -93,16 +94,14 @@ export function BlogPostFormDialog({
             />
           </div>
           <div className="space-y-2">
-            <Label>Съдържание (параграфи, разделени с празен ред)</Label>
-            <Textarea
-              rows={6}
-              value={contentToEditable(editing.content)}
-              onChange={(e) =>
-                onEditingChange({
-                  ...editing,
-                  content: editableToContent(e.target.value),
-                })
+            <Label>Съдържание</Label>
+            <RichTextEditor
+              value={editing.content}
+              onChange={(html) =>
+                onEditingChange({ ...editing, content: html })
               }
+              placeholder="Напишете съдържание... (получер, курсив, подчертано, изображения)"
+              minHeight="240px"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">

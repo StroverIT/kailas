@@ -3,7 +3,8 @@ import { prisma } from "@/lib/db";
 export const POSTS_PER_PAGE = 10;
 
 function getBlogPostDelegate() {
-  const delegate = (prisma as { blogPost?: typeof prisma.event }).blogPost;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const delegate = (prisma as any).blogPost;
   if (!delegate) {
     throw new Error(
       "Prisma client missing BlogPost model. Run: npx prisma generate. Then restart the dev server."
@@ -17,7 +18,8 @@ export type BlogPostDisplay = {
   slug: string;
   title: string;
   excerpt: string;
-  content: string[];
+  /** HTML string for rich content display */
+  content: string;
   date: string;
   updatedDate?: string;
   categories: string[];
@@ -26,12 +28,20 @@ export type BlogPostDisplay = {
   image?: string;
 };
 
-function parseContent(content: string): string[] {
+/** Normalize stored content to HTML string for display. Legacy JSON array -> HTML. */
+function contentToDisplayHtml(content: string): string {
+  if (!content || typeof content !== "string") return "";
+  const t = content.trim();
+  if (t.startsWith("<")) return t;
   try {
     const parsed = JSON.parse(content);
-    return Array.isArray(parsed) ? parsed : [String(parsed)];
+    if (!Array.isArray(parsed)) return t;
+    return parsed
+      .filter((p): p is string => typeof p === "string")
+      .map((p) => `<p>${p.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")}</p>`)
+      .join("");
   } catch {
-    return [content];
+    return content;
   }
 }
 
@@ -53,7 +63,7 @@ function rowToDisplay(row: {
     slug: row.slug,
     title: row.title,
     excerpt: row.excerpt,
-    content: parseContent(row.content),
+    content: contentToDisplayHtml(row.content),
     date: row.date,
     updatedDate: row.updatedDate ?? undefined,
     categories: row.categories,

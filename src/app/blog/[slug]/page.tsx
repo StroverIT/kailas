@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
 import { getBlogPostBySlug } from "@/lib/blog";
 import FooterSection from "@/components/FooterSection";
+import { BlogContent } from "@/components/BlogContent";
 import { ArrowLeft, Calendar } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -79,12 +80,11 @@ export default async function BlogPostPage({ params }: PageProps) {
       {/* Content */}
       <section className="section-padding bg-background">
         <div className="container mx-auto max-w-4xl">
-          <article className="prose prose-lg max-w-none prose-headings:font-heading prose-p:font-body prose-p:text-muted-foreground prose-p:leading-relaxed">
-            {post.content.map((paragraph, i) => (
-              <p key={i} className="mb-6 last:mb-0">
-                {paragraph}
-              </p>
-            ))}
+          <article>
+            <BlogContent
+              html={post.content}
+              className="prose prose-lg max-w-none prose-headings:font-heading prose-p:font-body prose-p:text-muted-foreground prose-p:leading-relaxed prose-img:rounded-lg prose-img:w-full prose-a:text-secondary prose-a:no-underline hover:prose-a:underline"
+            />
           </article>
 
           {post.tags.length > 0 && (

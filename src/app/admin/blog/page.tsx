@@ -60,7 +60,7 @@ export default function AdminBlogPage() {
   };
 
   const openNew = () => {
-    setEditing({ ...emptyPost, content: "[]" });
+    setEditing({ ...emptyPost, content: "<p></p>" });
     setDialogOpen(true);
   };
 
