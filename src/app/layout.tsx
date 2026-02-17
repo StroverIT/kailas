@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="bg">
+    <html lang="bg" suppressHydrationWarning>
       <GoogleAnalyticsProvider />
       <body className="min-h-screen bg-background text-foreground antialiased">
         <Providers>
