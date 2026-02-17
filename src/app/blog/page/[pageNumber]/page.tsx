@@ -4,19 +4,14 @@ import { AnimatedLink } from "@/components/transitions/PageTransition";
 import {
   getBlogPostsByPage,
   getTotalPages,
-} from "@/data/blogData";
+} from "@/lib/blog";
 import FooterSection from "@/components/FooterSection";
 import { Calendar } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ pageNumber: string }>;
-}
-
-export async function generateStaticParams() {
-  const totalPages = getTotalPages();
-  return Array.from({ length: totalPages - 1 }, (_, i) => ({
-    pageNumber: String(i + 2),
-  }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
@@ -32,13 +27,13 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function BlogPagePage({ params }: PageProps) {
   const { pageNumber } = await params;
   const num = parseInt(pageNumber, 10);
-  const totalPages = getTotalPages();
+  const totalPages = await getTotalPages();
 
   if (isNaN(num) || num < 2 || num > totalPages) {
     notFound();
   }
 
-  const posts = getBlogPostsByPage(num);
+  const posts = await getBlogPostsByPage(num);
 
   return (
     <div className="min-h-screen">

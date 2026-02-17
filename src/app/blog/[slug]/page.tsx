@@ -1,23 +1,19 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
-import { blogPosts, getBlogPostBySlug } from "@/data/blogData";
+import { getBlogPostBySlug } from "@/lib/blog";
 import FooterSection from "@/components/FooterSection";
 import { ArrowLeft, Calendar } from "lucide-react";
+
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({
-    slug: post.slug,
-  }));
-}
-
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug);
   if (!post) return { title: "Публикация не е намерена" };
   return {
     title: `${post.title} | Блог | Кайлас Йогалайф`,
@@ -27,7 +23,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     notFound();

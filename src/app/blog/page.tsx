@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
-import { getBlogPostsByPage, getTotalPages } from "@/data/blogData";
+import { getBlogPostsByPage, getTotalPages } from "@/lib/blog";
 import FooterSection from "@/components/FooterSection";
 import { Calendar } from "lucide-react";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Блог | Кайлас Йогалайф",
@@ -10,9 +12,11 @@ export const metadata = {
     "Йога практики, знания и събития от Йога център Кайлас. Да приложим познанието на йога за един по-добър живот.",
 };
 
-export default function BlogPage() {
-  const posts = getBlogPostsByPage(1);
-  const totalPages = getTotalPages();
+export default async function BlogPage() {
+  const [posts, totalPages] = await Promise.all([
+    getBlogPostsByPage(1),
+    getTotalPages(),
+  ]);
 
   return (
     <div className="min-h-screen">

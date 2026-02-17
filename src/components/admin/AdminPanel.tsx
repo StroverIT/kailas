@@ -20,9 +20,7 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, Users, ArrowLeft, ChevronDown, ChevronUp, LogOut } from "lucide-react";
-import { AnimatedLink } from "@/components/transitions/PageTransition";
-import { signOut } from "next-auth/react";
+import { Plus, Pencil, Trash2, Users, ChevronDown, ChevronUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 type Event = {
@@ -200,36 +198,20 @@ export function AdminPanel() {
 
   return (
     <div className="min-h-screen bg-muted/30">
-      <header className="bg-background border-b border-border sticky top-0 z-40">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <div className="flex items-center gap-3">
-            <AnimatedLink href="/">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="w-4 h-4 mr-1" />
-                Към сайта
-              </Button>
-            </AnimatedLink>
-            <h1 className="font-heading text-xl font-bold text-foreground">
-              Админ панел
-            </h1>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={() => {
-                setEditingEvent({ ...emptyEvent });
-                setDialogOpen(true);
-              }}
-            >
-              <Plus className="w-4 h-4 mr-1" />
-              Ново събитие
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => signOut({ callbackUrl: "/admin/login" })}>
-              <LogOut className="w-4 h-4 mr-1" />
-              Изход
-            </Button>
-          </div>
-        </div>
-      </header>
+      <div className="container mx-auto px-4 py-4 max-w-5xl flex items-center justify-between">
+        <h1 className="font-heading text-xl font-bold text-foreground">
+          Събития и имейли
+        </h1>
+        <Button
+          onClick={() => {
+            setEditingEvent({ ...emptyEvent });
+            setDialogOpen(true);
+          }}
+        >
+          <Plus className="w-4 h-4 mr-1" />
+          Ново събитие
+        </Button>
+      </div>
 
       <main className="container mx-auto px-4 py-8 max-w-5xl">
         <div className="space-y-8">

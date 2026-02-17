@@ -42,6 +42,8 @@ const Navbar = () => {
     );
   }, []);
 
+  if (pathname?.includes("/admin")) return null;
+
   return (
     <nav
       ref={navRef}

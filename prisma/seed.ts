@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
+import { blogPosts } from "../src/data/blogData";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +20,26 @@ async function main() {
   });
 
   console.log("Seeded admin user:", email);
+
+  for (const post of blogPosts) {
+    await prisma.blogPost.upsert({
+      where: { slug: post.slug },
+      update: {},
+      create: {
+        slug: post.slug,
+        title: post.title,
+        excerpt: post.excerpt,
+        content: JSON.stringify(post.content),
+        date: post.date,
+        updatedDate: post.updatedDate ?? null,
+        categories: post.categories,
+        tags: post.tags,
+        featured: post.featured ?? false,
+        image: post.image ?? null,
+      },
+    });
+  }
+  console.log("Seeded blog posts:", blogPosts.length);
 }
 
 main()
