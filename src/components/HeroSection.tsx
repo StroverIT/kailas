@@ -190,10 +190,10 @@ const HeroSection = () => {
           ref={buttonsRef}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <SunGlowButton href="#events" variant="hero">
+          <SunGlowButton href="#schedule" variant="hero">
             Актуален график на практиките
           </SunGlowButton>
-          <SunGlowButton href="#experience" variant="hero-outline">
+          <SunGlowButton href="#events" variant="hero-outline">
             Събития
           </SunGlowButton>
         </div>

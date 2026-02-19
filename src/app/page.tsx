@@ -1,5 +1,6 @@
 import HeroSection from "@/components/HeroSection";
 import YogaPracticesSection from "@/components/YogaPracticesSection";
+import WeeklyScheduleSection from "@/components/WeeklyScheduleSection";
 import ConceptSection from "@/components/ConceptSection";
 import SpaceSection from "@/components/SpaceSection";
 import YogaTypesSection from "@/components/YogaTypesSection";
@@ -16,6 +17,7 @@ export default function HomePage() {
       <HeroSection />
       {/* YOGA PRACTICES */}
       <YogaPracticesSection />
+      <WeeklyScheduleSection />
       {/* ABOUT / PLACE */}
       <ConceptSection />
       <SpaceSection />
