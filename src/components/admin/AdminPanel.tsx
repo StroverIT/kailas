@@ -68,6 +68,17 @@ type EmailEntry = {
 
 type EditableScheduleEntry = Omit<ScheduleEntry, "id"> & { id?: string };
 
+type ScheduleSignup = {
+  id: string;
+  scheduleEntryId: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  note: string | null;
+  weekStart: string;
+  createdAt: string;
+};
+
 const emptyEvent: Omit<Event, "id"> = {
   date: "",
   title: "",
@@ -112,6 +123,7 @@ export function AdminPanel() {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [emails, setEmails] = useState<EmailEntry[]>([]);
   const [schedule, setSchedule] = useState<ScheduleEntry[]>([]);
+  const [scheduleSignups, setScheduleSignups] = useState<ScheduleSignup[]>([]);
   const [editingEvent, setEditingEvent] = useState<Omit<Event, "id"> & { id?: string } | null>(null);
   const [editingSchedule, setEditingSchedule] = useState<EditableScheduleEntry | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -153,9 +165,23 @@ export function AdminPanel() {
     }
   }, []);
 
+  const fetchScheduleSignups = useCallback(async () => {
+    const res = await fetch("/api/schedule-signups");
+    if (res.ok) {
+      const data = await res.json();
+      setScheduleSignups(Array.isArray(data) ? data : []);
+    }
+  }, []);
+
   const refreshData = useCallback(async () => {
-    await Promise.all([fetchEvents(), fetchRegistrations(), fetchEmails(), fetchSchedule()]);
-  }, [fetchEvents, fetchRegistrations, fetchEmails, fetchSchedule]);
+    await Promise.all([
+      fetchEvents(),
+      fetchRegistrations(),
+      fetchEmails(),
+      fetchSchedule(),
+      fetchScheduleSignups(),
+    ]);
+  }, [fetchEvents, fetchRegistrations, fetchEmails, fetchSchedule, fetchScheduleSignups]);
 
   useEffect(() => {
     (async () => {
@@ -219,6 +245,24 @@ export function AdminPanel() {
 
   const getEventRegistrations = (eventId: string) =>
     registrations.filter((r) => r.eventId === eventId);
+
+  const getCurrentWeekStart = () => {
+    const d = new Date();
+    const day = d.getDay();
+    const diff = (day + 6) % 7;
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() - diff);
+    return d.toISOString();
+  };
+
+  const currentWeekStartIso = getCurrentWeekStart();
+
+  const getCurrentWeekSignupsForEntry = (entryId: string) =>
+    scheduleSignups.filter(
+      (s) =>
+        s.scheduleEntryId === entryId &&
+        s.weekStart.slice(0, 10) === currentWeekStartIso.slice(0, 10)
+    );
 
   const handleSaveSchedule = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -500,84 +544,142 @@ export function AdminPanel() {
             </div>
           </div>
         ) : (
-          <div className="space-y-4">
-            {allDays.map((day) => {
-              const dayEntries = schedule
-                .filter((s) => s.day === day)
-                .sort((a, b) => a.startTime.localeCompare(b.startTime));
+          <div className="space-y-6">
+            <div className="space-y-4">
+              {allDays.map((day) => {
+                const dayEntries = schedule
+                  .filter((s) => s.day === day)
+                  .sort((a, b) => a.startTime.localeCompare(b.startTime));
 
-              if (dayEntries.length === 0) {
+                if (dayEntries.length === 0) {
+                  return (
+                    <div
+                      key={day}
+                      className="bg-background rounded-lg border border-border p-4 opacity-60"
+                    >
+                      <span className="font-heading font-semibold text-muted-foreground">
+                        {day}
+                      </span>
+                      <span className="text-sm text-muted-foreground ml-3 italic">
+                        Няма практики
+                      </span>
+                    </div>
+                  );
+                }
+
                 return (
                   <div
                     key={day}
-                    className="bg-background rounded-lg border border-border p-4 opacity-60"
+                    className="bg-background rounded-lg border border-border overflow-hidden"
                   >
-                    <span className="font-heading font-semibold text-muted-foreground">
-                      {day}
-                    </span>
-                    <span className="text-sm text-muted-foreground ml-3 italic">
-                      Няма практики
-                    </span>
+                    <div className="px-4 py-3 border-b border-border bg-muted/30 flex items-center justify-between">
+                      <span className="font-heading font-semibold text-primary">
+                        {day}
+                      </span>
+                    </div>
+                    {dayEntries.map((entry) => {
+                      const currentWeekSignups = getCurrentWeekSignupsForEntry(entry.id);
+                      const currentCount = currentWeekSignups.length;
+                      return (
+                        <div
+                          key={entry.id}
+                          className="flex items-center gap-4 px-4 py-3 border-b border-border last:border-b-0"
+                        >
+                          <div className="flex items-center gap-1.5 text-secondary shrink-0">
+                            <Clock className="w-3.5 h-3.5" />
+                            <span className="text-sm font-medium">
+                              {entry.startTime} – {entry.endTime}
+                            </span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <span className="text-sm font-medium text-foreground">
+                              {entry.title}
+                            </span>
+                            {entry.description && (
+                              <span className="text-sm text-muted-foreground ml-2">
+                                ({entry.description})
+                              </span>
+                            )}
+                            <div className="mt-1 text-xs text-muted-foreground">
+                              Тази седмица записани:{" "}
+                              <span className="font-semibold text-foreground">
+                                {currentCount}
+                              </span>
+                            </div>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => {
+                              setEditingSchedule({
+                                ...entry,
+                              });
+                              setScheduleDialogOpen(true);
+                            }}
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-destructive hover:text-destructive"
+                            onClick={() => handleDeleteSchedule(entry.id)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      );
+                    })}
                   </div>
                 );
-              }
+              })}
+            </div>
 
-              return (
-                <div
-                  key={day}
-                  className="bg-background rounded-lg border border-border overflow-hidden"
-                >
-                  <div className="px-4 py-3 border-b border-border bg-muted/30">
-                    <span className="font-heading font-semibold text-primary">
-                      {day}
-                    </span>
-                  </div>
-                  {dayEntries.map((entry) => (
-                    <div
-                      key={entry.id}
-                      className="flex items-center gap-4 px-4 py-3 border-b border-border last:border-b-0"
-                    >
-                      <div className="flex items-center gap-1.5 text-secondary shrink-0">
-                        <Clock className="w-3.5 h-3.5" />
-                        <span className="text-sm font-medium">
-                          {entry.startTime} – {entry.endTime}
-                        </span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <span className="text-sm font-medium text-foreground">
-                          {entry.title}
-                        </span>
-                        {entry.description && (
-                          <span className="text-sm text-muted-foreground ml-2">
-                            ({entry.description})
-                          </span>
-                        )}
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => {
-                          setEditingSchedule({
-                            ...entry,
-                          });
-                          setScheduleDialogOpen(true);
-                        }}
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-destructive hover:text-destructive"
-                        onClick={() => handleDeleteSchedule(entry.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  ))}
+            {/* History: past weeks signups (grouped by weekStart) */}
+            {scheduleSignups.length > 0 && (
+              <section className="bg-background rounded-lg border border-border overflow-hidden">
+                <h3 className="font-heading font-semibold text-foreground px-4 py-3 border-b border-border">
+                  История на записванията (седмичен график)
+                </h3>
+                <div className="max-h-80 overflow-y-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Седмица от</TableHead>
+                        <TableHead>Практика</TableHead>
+                        <TableHead>Име</TableHead>
+                        <TableHead>Имейл</TableHead>
+                        <TableHead>Телефон</TableHead>
+                        <TableHead>Бележка</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {scheduleSignups.map((s) => (
+                        <TableRow key={s.id}>
+                          <TableCell className="text-sm text-muted-foreground">
+                            {new Date(s.weekStart).toLocaleDateString("bg-BG")}
+                          </TableCell>
+                          <TableCell className="text-sm">
+                            {schedule.find((e) => e.id === s.scheduleEntryId)?.title ??
+                              "–"}
+                          </TableCell>
+                          <TableCell className="text-sm font-medium">
+                            {s.name}
+                          </TableCell>
+                          <TableCell className="text-sm">{s.email}</TableCell>
+                          <TableCell className="text-sm">
+                            {s.phone || "–"}
+                          </TableCell>
+                          <TableCell className="text-sm max-w-[200px] truncate">
+                            {s.note || "–"}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
-              );
-            })}
+              </section>
+            )}
           </div>
         )}
       </main>
