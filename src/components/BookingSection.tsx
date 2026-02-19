@@ -78,9 +78,10 @@ const BookingSection = () => {
       <div className="container mx-auto max-w-2xl">
         <div ref={headerRef} className="text-center mb-12">
           <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">Следваща стъпка</p>
-          <h2 className="section-heading mb-4">Готов ли си да си върнеш енергията?</h2>
+          <h2 className="section-heading mb-4">Добре дошли в „Кайлас" йога център</h2>
           <p className="section-subheading mx-auto">
-            Запази място за следващия ретрийт. Попълни формата и ще се свържем с теб в рамките на 24 часа.
+            За кратко или по-дълго сте добре дошли – за да се върнете към себе си, да преосмислите
+            пътя си и да продължите напред. Попълни формата и ще се свържем с теб.
           </p>
         </div>
 

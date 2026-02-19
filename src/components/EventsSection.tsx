@@ -194,11 +194,11 @@ const EventsSection = () => {
       <div className="container mx-auto max-w-6xl">
         <div ref={headerRef} className="text-center mb-12">
           <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
-            Календар 2026
+            Актуален график
           </p>
-          <h2 className="section-heading mb-6">Предстоящи събития и практики</h2>
+          <h2 className="section-heading mb-6">Събития</h2>
           <p className="section-subheading mx-auto">
-            Присъедини се към нашите ретрийти, уъркшопи и уикенд практики в сърцето на планината.
+            Присъедини се към нашите практики, ретрийти и събития в Йога център „Кайлас".
           </p>
         </div>
 

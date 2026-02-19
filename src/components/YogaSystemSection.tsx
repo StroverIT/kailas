@@ -62,21 +62,21 @@ const YogaSystemSection = () => {
           {/* Text */}
           <div ref={textRef}>
             <p className="text-sm tracking-[0.2em] uppercase text-primary-foreground/60 font-body mb-3">
-              Предлагаме ви
+              Нашите практики
             </p>
             <p className="text-primary-foreground/90 font-body mb-4">
-              Практики и обучения по йога, персонални програми за подобряване на здравето и качеството на живот.
+              Какво получавате от практиките, които провеждаме (групово или индивидуално)?
             </p>
             <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-6">
-              Йога като начин на живот, а не просто упражнение
+              Йога като житейска философия и практика
             </h2>
             <p className="text-primary-foreground/80 leading-relaxed mb-6 font-body text-lg">
-              Следваме традицията на Бихарската школа – интегрален подход, който
-              хармонизира тялото, ума и емоциите. Под ръководството на Мариана Кърлова
-              (Даятма), обучена в Индия и Европа, ти черпиш знания директно от извора.
+              Практиките през седмицата са насочени към хора с траен интерес към йога,
+              търсещи развитие и задълбочаване на познанията, уменията и ефектите на йога.
+              Заниманията интегрират знания и практики от различни видове.
             </p>
             <p className="text-primary-foreground/60 font-body text-sm italic">
-              Основател на Пракрити Йога · Bihar School of Yoga · Satyananda Yoga
+              Йога Нидра, Първи стъпки в йога, Йога за всички
             </p>
           </div>
 

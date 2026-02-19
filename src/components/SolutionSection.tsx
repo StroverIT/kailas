@@ -9,10 +9,10 @@ import { revealConfig } from "@/lib/animationConfig";
 gsap.registerPlugin(ScrollTrigger);
 
 const benefits = [
-  "Ще намалиш нивата на стрес",
-  "Ще подобриш съня",
-  "Ще възстановиш енергията си",
-  "Ще се научиш на техники за ежедневието",
+  "Бахиранга – външна йога за баланс в живота и хармония в различните измерения на личността",
+  "Антаранга – вътрешна йога за управление на присъщите ни черти в поведението и природата",
+  "Йога като система за живот – за по-добър, по-щастлив и осъзнат живот",
+  "Практики на място и онлайн – базисни познания, здравословни проблеми и житейски дилеми",
 ];
 
 const SolutionSection = () => {
@@ -58,10 +58,10 @@ const SolutionSection = () => {
       <div className="container mx-auto max-w-4xl">
         <div ref={headerRef} className="text-center mb-12">
           <p className="text-sm tracking-[0.2em] uppercase text-primary-foreground/60 font-body mb-3">
-            Как ще ти помогнем
+            Външна и вътрешна йога
           </p>
           <h2 className="section-heading mb-6 text-primary-foreground">
-            Какво ще получиш от ретрийта
+            Видове йога
           </h2>
         </div>
 

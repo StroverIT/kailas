@@ -6,6 +6,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import EventsSection from "@/components/EventsSection";
 import ConceptSection from "@/components/ConceptSection";
 import YogaSystemSection from "@/components/YogaSystemSection";
+import YogaTypesSection from "@/components/YogaTypesSection";
 import SpaceSection from "@/components/SpaceSection";
 import FoodSection from "@/components/FoodSection";
 import StatsSection from "@/components/StatsSection";
@@ -33,6 +34,7 @@ export default function HomePage() {
       {/* 7. ABOUT US – Trust builder */}
       <ConceptSection />
       <YogaSystemSection />
+      <YogaTypesSection />
       {/* 8. FACILITIES */}
       <SpaceSection />
       <FoodSection />

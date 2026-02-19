@@ -172,30 +172,31 @@ const HeroSection = () => {
           ref={taglineRef}
           className="text-sm md:text-base font-body tracking-[0.3em] uppercase text-primary-foreground/70 mb-6"
         >
-          Само на 2 км от пещера Леденика
+          Да приложим познанието на йога за един по-добър живот
         </p>
         <h1
           ref={titleRef}
           className="font-heading text-4xl md:text-5xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-6"
         >
-          Чувстваш се изтощен, претоварен и без време за себе си?
+          Kailas Yogalife
         </h1>
         <p
           ref={subtitleRef}
           className="text-lg md:text-xl text-primary-foreground/85 max-w-2xl mx-auto mb-10 leading-relaxed font-body"
         >
-          Има място, където можеш да спреш, да дишаш
-          и да се върнеш към себе си.
+          Кайлас – живот с йога. Опознайте йога като житейска философия и
+          практика, която внася в живота ви спокойствие и радост, осъзнатост и
+          удовлетвореност!
         </p>
         <div
           ref={buttonsRef}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <SunGlowButton href="#events" variant="hero">
-            Виж предстоящите ретрийти
+            Актуален график на практиките
           </SunGlowButton>
           <SunGlowButton href="#experience" variant="hero-outline">
-            Какво представлява ретрийтът?
+            Събития
           </SunGlowButton>
         </div>
       </div>

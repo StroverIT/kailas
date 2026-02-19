@@ -84,10 +84,10 @@ const YogaTypesSection = () => {
         {/* Intro text */}
         <div ref={introRef} className="max-w-3xl mx-auto text-center mb-12 space-y-4">
           <p className="text-muted-foreground font-body leading-relaxed">
-            <strong className="text-foreground">БАХИРАНГА</strong> или външна йога — практикуваме я за постигане на баланс в живота и хармония в различните измерения на личността.
+            <strong className="text-foreground">БАХИРАНГА</strong> или саням е външна йога, която практикуваме за постигане на баланс в живота и хармония в различните измерения на личността.
           </p>
           <p className="text-muted-foreground font-body leading-relaxed">
-            <strong className="text-foreground">АНТАРАНГА</strong> или вътрешна йога — чрез нея развиваме способността да управляваме генетично присъщите ни и вградени в поведението, личността и природата ни черти.
+            <strong className="text-foreground">АНТАРАНГА</strong> или вътрешна, изразяваща йога – чрез нея развиваме способността да управляваме генетично присъщите ни и вградени в поведението, личността и природата ни черти.
           </p>
         </div>
 
