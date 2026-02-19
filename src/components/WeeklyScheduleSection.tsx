@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 
 type ScheduleSignupForm = {
@@ -131,9 +132,30 @@ const WeeklyScheduleSection = () => {
         </div>
 
         {loading ? (
-          <p className="text-center text-muted-foreground">
-            Зареждане на графика...
-          </p>
+          <div className="space-y-3">
+            {allDays.map((day) => (
+              <div
+                key={day}
+                className="rounded-xl border border-border overflow-hidden bg-card"
+              >
+                <div className="flex items-start gap-4 p-4 md:p-5">
+                  <div className="w-32 md:w-40 shrink-0">
+                    <Skeleton className="h-5 w-24" />
+                  </div>
+                  <div className="flex-1 space-y-3">
+                    <div className="flex items-center gap-3">
+                      <Skeleton className="h-4 w-16 shrink-0" />
+                      <Skeleton className="h-4 flex-1 max-w-[200px]" />
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Skeleton className="h-4 w-16 shrink-0" />
+                      <Skeleton className="h-4 flex-1 max-w-[280px]" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="space-y-3">
             {allDays.map((day) => {
@@ -143,16 +165,14 @@ const WeeklyScheduleSection = () => {
               return (
                 <div
                   key={day}
-                  className={`rounded-xl border border-border overflow-hidden ${
-                    hasEntries ? "bg-card" : "bg-muted/30"
-                  }`}
+                  className={`rounded-xl border border-border overflow-hidden ${hasEntries ? "bg-card" : "bg-muted/30"
+                    }`}
                 >
                   <div className="flex items-start gap-4 p-4 md:p-5">
                     <div className="w-32 md:w-40 shrink-0">
                       <span
-                        className={`font-heading text-sm md:text-base font-semibold ${
-                          hasEntries ? "text-primary" : "text-muted-foreground"
-                        }`}
+                        className={`font-heading text-sm md:text-base font-semibold ${hasEntries ? "text-primary" : "text-muted-foreground"
+                          }`}
                       >
                         {day}
                       </span>
