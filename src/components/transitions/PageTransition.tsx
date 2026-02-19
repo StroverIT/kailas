@@ -51,14 +51,12 @@ export function PageTransitionProvider({
     return (href: string) => {
       if (isRunningRef.current) return;
       isRunningRef.current = true;
-      setShowLoader(true);
 
       const overlay = overlayRef.current;
       const content = contentRef.current;
       if (!overlay) {
         router.push(href);
         isRunningRef.current = false;
-        setShowLoader(false);
         return;
       }
 
@@ -81,8 +79,11 @@ export function PageTransitionProvider({
         tl.to(content, { duration: 0.25, filter: "blur(4px)" }, "<");
       }
 
-      // Navigate at peak cover
-      tl.add(() => router.push(href));
+      // Navigate at peak cover, then show loader (below overlay) for the reveal
+      tl.add(() => {
+        router.push(href);
+        setShowLoader(true);
+      });
 
       // Uncover (enter): curtain lowers from top
       tl.set(overlay, { transformOrigin: "50% 0%" });
@@ -100,6 +101,8 @@ export function PageTransitionProvider({
     <PageTransitionContext.Provider value={value}>
       {/* Fixed content (e.g. Navbar) - outside blurred wrapper so position:fixed works */}
       {fixedContent}
+      {/* Loading animation (below curtain overlay) */}
+      <YogaLoader show={showLoader} label="Зареждане..." />
       {/* Curtain overlay */}
       <div
         ref={overlayRef}
@@ -107,7 +110,7 @@ export function PageTransitionProvider({
         style={{
           position: "fixed",
           inset: 0,
-          zIndex: 9998,
+          zIndex: 10000,
           opacity: 0,
           visibility: "hidden",
           pointerEvents: "none",
@@ -115,8 +118,6 @@ export function PageTransitionProvider({
           transformOrigin: "50% 100%",
         }}
       />
-      {/* Loading animation between pages (above curtain) */}
-      <YogaLoader show={true} label="Зареждане..." />
       {/* Content wrapper (blur target) */}
       <div ref={contentRef}>
         {children}
