@@ -178,15 +178,13 @@ const HeroSection = () => {
           ref={titleRef}
           className="font-heading text-4xl md:text-5xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-6"
         >
-          Kailas Yogalife
+          Кайлас - живот с йога
         </h1>
         <p
           ref={subtitleRef}
           className="text-lg md:text-xl text-primary-foreground/85 max-w-2xl mx-auto mb-10 leading-relaxed font-body"
         >
-          Кайлас – живот с йога. Опознайте йога като житейска философия и
-          практика, която внася в живота ви спокойствие и радост, осъзнатост и
-          удовлетвореност!
+          Опознайте йога като житейска философия и практика, която внася в живота ви спокойствие и радост, осъзнатост и удовлетвореност
         </p>
         <div
           ref={buttonsRef}
