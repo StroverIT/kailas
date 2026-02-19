@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Download, CheckCircle } from "lucide-react";
+import { revealConfig } from "@/lib/animationConfig";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,21 +28,21 @@ const LeadMagnetSection = () => {
         {
           opacity: 1,
           scale: 1,
-          duration: 0.6,
-          ease: "power3.out",
-          scrollTrigger: { trigger: iconRef.current, start: "top 85%" },
+          duration: revealConfig.duration.fast,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: iconRef.current, start: revealConfig.start },
         }
       );
       gsap.fromTo(
         contentRef.current,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: revealConfig.y.content },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          delay: 0.1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: contentRef.current, start: "top 88%" },
+          duration: revealConfig.duration.header,
+          delay: revealConfig.stagger,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: contentRef.current, start: revealConfig.startContent },
         }
       );
     }, sectionRef);

@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Clock, Users } from "lucide-react";
 import {
   allDays,
   type ScheduleEntry,
   groupScheduleByDay,
 } from "@/lib/scheduleUtils";
+import { revealConfig } from "@/lib/animationConfig";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +23,8 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 
+gsap.registerPlugin(ScrollTrigger);
+
 type ScheduleSignupForm = {
   name: string;
   email: string;
@@ -28,6 +33,10 @@ type ScheduleSignupForm = {
 };
 
 const WeeklyScheduleSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [entries, setEntries] = useState<ScheduleEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [signupEntry, setSignupEntry] = useState<ScheduleEntry | null>(null);
@@ -71,7 +80,55 @@ const WeeklyScheduleSection = () => {
     };
   }, []);
 
+  // Recalculate ScrollTrigger positions after schedule content loads (fixes production
+  // bug where sections below only reveal near bottom due to layout settling late).
+  useEffect(() => {
+    if (loading) return;
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [loading]);
+
   const grouped = useMemo(() => groupScheduleByDay(entries), [entries]);
+
+  useEffect(() => {
+    if (loading) return;
+    cardRefs.current = cardRefs.current.slice(0, allDays.length);
+    const ctx = gsap.context(() => {
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current,
+          { opacity: 0, y: revealConfig.y.header },
+          {
+            opacity: 1,
+            y: 0,
+            duration: revealConfig.duration.header,
+            ease: revealConfig.ease,
+            scrollTrigger: { trigger: headerRef.current, start: revealConfig.start },
+          }
+        );
+      }
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return;
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: revealConfig.y.card },
+          {
+            opacity: 1,
+            y: 0,
+            duration: revealConfig.duration.card,
+            delay: i * revealConfig.stagger,
+            ease: revealConfig.ease,
+            scrollTrigger: { trigger: listRef.current ?? card, start: revealConfig.startContent },
+          }
+        );
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, [loading]);
 
   const handleOpenSignup = (entry: ScheduleEntry) => {
     setSignupEntry(entry);
@@ -121,9 +178,9 @@ const WeeklyScheduleSection = () => {
   };
 
   return (
-    <section id="schedule" className="section-padding bg-gradient-section">
+    <section ref={sectionRef} id="schedule" className="section-padding bg-gradient-section">
       <div className="container mx-auto max-w-5xl">
-        <div className="text-center mb-14">
+        <div ref={headerRef} className="text-center mb-14">
           <h2 className="section-heading mb-4">Актуален график на практиките</h2>
           <div className="w-16 h-1 bg-secondary mx-auto mb-4" />
           <p className="section-subheading mx-auto">
@@ -157,14 +214,17 @@ const WeeklyScheduleSection = () => {
             ))}
           </div>
         ) : (
-          <div className="space-y-3">
-            {allDays.map((day) => {
+          <div ref={listRef} className="space-y-3">
+            {allDays.map((day, i) => {
               const entriesForDay = grouped[day] ?? [];
               const hasEntries = entriesForDay.length > 0;
 
               return (
                 <div
                   key={day}
+                  ref={(el) => {
+                    cardRefs.current[i] = el;
+                  }}
                   className={`rounded-xl border border-border overflow-hidden ${hasEntries ? "bg-card" : "bg-muted/30"
                     }`}
                 >

@@ -13,6 +13,7 @@ import { LeafMountainLogo } from "./animations/LeafMountainLogo";
 gsap.registerPlugin(ScrollTrigger);
 
 const ConceptSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
   const kailasCardRef = useRef<HTMLDivElement>(null);
   const prakritiCardRef = useRef<HTMLDivElement>(null);
   const missionRef = useRef<HTMLDivElement>(null);
@@ -71,13 +72,13 @@ const ConceptSection = () => {
           scrollTrigger: { trigger: missionRef.current, start: revealConfig.startContent },
         }
       );
-    });
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="concept" className="section-padding bg-gradient-section">
+    <section ref={sectionRef} id="concept" className="section-padding bg-gradient-section">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16 relative">
           <SandSweepAccent>
