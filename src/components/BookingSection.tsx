@@ -76,11 +76,10 @@ const BookingSection = () => {
     <section ref={sectionRef} id="booking" className="section-padding bg-gradient-section">
       <div className="container mx-auto max-w-2xl">
         <div ref={headerRef} className="text-center mb-12">
-          <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">Запази място</p>
-          <h2 className="section-heading mb-4">Започни своята трансформация</h2>
+          <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">Следваща стъпка</p>
+          <h2 className="section-heading mb-4">Готов ли си да си върнеш енергията?</h2>
           <p className="section-subheading mx-auto">
-            Попълни формата и ще се свържем с теб в рамките на 24 часа,
-            за да намерим най-подходящия ретрийт за теб.
+            Запази място за следващия ретрийт. Попълни формата и ще се свържем с теб в рамките на 24 часа.
           </p>
         </div>
 

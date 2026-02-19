@@ -1,38 +1,44 @@
 import HeroSection from "@/components/HeroSection";
-import ConceptSection from "@/components/ConceptSection";
-import SpaceSection from "@/components/SpaceSection";
-import PurposeSection from "@/components/PurposeSection";
-import FoodSection from "@/components/FoodSection";
-import YogaSystemSection from "@/components/YogaSystemSection";
-import YogaTypesSection from "@/components/YogaTypesSection";
-import AudienceSection from "@/components/AudienceSection";
-import EventsSection from "@/components/EventsSection";
+import ProblemSection from "@/components/ProblemSection";
+import SolutionSection from "@/components/SolutionSection";
+import ExperienceSection from "@/components/ExperienceSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import LeadMagnetSection from "@/components/LeadMagnetSection";
-import BookingSection from "@/components/BookingSection";
+import EventsSection from "@/components/EventsSection";
+import ConceptSection from "@/components/ConceptSection";
+import YogaSystemSection from "@/components/YogaSystemSection";
+import SpaceSection from "@/components/SpaceSection";
+import FoodSection from "@/components/FoodSection";
 import StatsSection from "@/components/StatsSection";
 import FoundationSection from "@/components/FoundationSection";
+import BookingSection from "@/components/BookingSection";
 import FooterSection from "@/components/FooterSection";
 import { EnergyLineDivider } from "@/components/animations/EnergyLineDivider";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen">
+      {/* 1. HERO – Hook */}
       <HeroSection />
-      <ConceptSection />
-      <EnergyLineDivider />
-      <SpaceSection />
-      <PurposeSection />
-      <FoodSection />
-      <YogaSystemSection />
-      <YogaTypesSection />
-      <AudienceSection />
+      {/* 2. PROBLEM – This is you */}
+      <ProblemSection />
+      {/* 3. SOLUTION – How we help */}
+      <SolutionSection />
+      {/* 4. EXPERIENCE – What happens there */}
+      <ExperienceSection />
+      {/* 5. SOCIAL PROOF */}
+      <TestimonialsSection />
+      {/* 6. UPCOMING EVENTS – Calendar */}
       <EventsSection />
       <EnergyLineDivider />
-      <TestimonialsSection />
-      {/* <LeadMagnetSection /> */}
+      {/* 7. ABOUT US – Trust builder */}
+      <ConceptSection />
+      <YogaSystemSection />
+      {/* 8. FACILITIES */}
+      <SpaceSection />
+      <FoodSection />
       <StatsSection />
       <FoundationSection />
+      {/* 9. FINAL CTA */}
       <BookingSection />
       <FooterSection />
     </div>

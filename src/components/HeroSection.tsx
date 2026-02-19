@@ -172,30 +172,30 @@ const HeroSection = () => {
           ref={taglineRef}
           className="text-sm md:text-base font-body tracking-[0.3em] uppercase text-primary-foreground/70 mb-6"
         >
-          Врачански Балкан · 10.6 декара тишина
+          Само на 2 км от пещера Леденика
         </p>
         <h1
           ref={titleRef}
           className="font-heading text-4xl md:text-5xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-6"
         >
-          Пространство за пребиваване и живот в концепцията на йога
+          Чувстваш се изтощен, претоварен и без време за себе си?
         </h1>
         <p
           ref={subtitleRef}
           className="text-lg md:text-xl text-primary-foreground/85 max-w-2xl mx-auto mb-10 leading-relaxed font-body"
         >
-          Кайлас Йогалайф не е просто студио. Това са 10 декара тишина, панорамни
-          гледки и автентична йога, създадени за твоята пълна трансформация.
+          Има място, където можеш да спреш, да дишаш
+          и да се върнеш към себе си.
         </p>
         <div
           ref={buttonsRef}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <SunGlowButton href="#events" variant="hero">
-            Практики и събития
+            Виж предстоящите ретрийти
           </SunGlowButton>
-          <SunGlowButton href="#concept" variant="hero-outline">
-            Научи повече
+          <SunGlowButton href="#experience" variant="hero-outline">
+            Какво представлява ретрийтът?
           </SunGlowButton>
         </div>
       </div>

@@ -86,7 +86,7 @@ const SpaceSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
           {spaces.map((space, i) => (
             <div
               key={space.title}
