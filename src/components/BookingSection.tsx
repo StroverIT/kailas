@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
+import { revealConfig } from "@/lib/animationConfig";
 import { Input } from "@/components/ui/input";
 import { CheckCircle } from "lucide-react";
 
@@ -23,25 +24,25 @@ const BookingSection = () => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         headerRef.current,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: revealConfig.y.header },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: headerRef.current, start: "top 85%" },
+          duration: revealConfig.duration.header,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: headerRef.current, start: revealConfig.start },
         }
       );
       gsap.fromTo(
         formWrapperRef.current,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: revealConfig.y.content },
         {
           opacity: 1,
           y: 0,
-          duration: 0.7,
-          delay: 0.15,
-          ease: "power3.out",
-          scrollTrigger: { trigger: formWrapperRef.current, start: "top 90%" },
+          duration: revealConfig.duration.content,
+          delay: revealConfig.stagger,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: formWrapperRef.current, start: revealConfig.startContent },
         }
       );
     }, sectionRef);

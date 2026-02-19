@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { revealConfig } from "@/lib/animationConfig";
 import { Mountain, Users, Sunrise } from "lucide-react";
 import { ScrollReveal } from "./ScrollReveal";
 import { SandSweepAccent } from "./animations/SandSweepAccent";
@@ -26,46 +27,48 @@ const ConceptSection = () => {
           {
             rotation: 3,
             opacity: 1,
-            duration: 0.9,
-            ease: "power2.out",
-            scrollTrigger: { trigger: shapeRef.current, start: "top 88%" },
+            duration: revealConfig.duration.content,
+            ease: revealConfig.ease,
+            scrollTrigger: { trigger: shapeRef.current, start: revealConfig.startContent },
           }
         );
       }
 
       gsap.fromTo(
         kailasCardRef.current,
-        { opacity: 0, y: 24 },
+        { opacity: 0, y: revealConfig.y.content },
         {
           opacity: 1,
           y: 0,
-          duration: 0.85,
-          ease: "power3.out",
-          scrollTrigger: { trigger: kailasCardRef.current, start: "top 85%" },
+          duration: revealConfig.duration.content,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: kailasCardRef.current, start: revealConfig.start },
         }
       );
 
       gsap.fromTo(
         prakritiCardRef.current,
-        { opacity: 0, y: 24 },
+        { opacity: 0, y: revealConfig.y.content },
         {
           opacity: 1,
           y: 0,
-          duration: 0.85,
-          delay: 0.12,
-          ease: "power3.out",
-          scrollTrigger: { trigger: prakritiCardRef.current, start: "top 85%" },
+          duration: revealConfig.duration.content,
+          delay: revealConfig.stagger,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: prakritiCardRef.current, start: revealConfig.start },
         }
       );
 
       gsap.fromTo(
         missionRef.current,
-        { opacity: 0, y: 24 },
+        { opacity: 0, y: revealConfig.y.content },
         {
           opacity: 1,
           y: 0,
-          duration: 0.75,
-          scrollTrigger: { trigger: missionRef.current, start: "top 90%" },
+          duration: revealConfig.duration.content,
+          delay: revealConfig.stagger * 2,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: missionRef.current, start: revealConfig.startContent },
         }
       );
     });

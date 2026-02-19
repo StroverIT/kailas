@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Check } from "lucide-react";
+import { revealConfig } from "@/lib/animationConfig";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,27 +27,27 @@ const ProblemSection = () => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         headerRef.current,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: revealConfig.y.header },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: headerRef.current, start: "top 85%" },
+          duration: revealConfig.duration.header,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: headerRef.current, start: revealConfig.start },
         }
       );
       itemRefs.current.forEach((item, i) => {
         if (!item) return;
         gsap.fromTo(
           item,
-          { opacity: 0, x: -24 },
+          { opacity: 0, y: revealConfig.y.content },
           {
             opacity: 1,
-            x: 0,
-            duration: 0.6,
-            delay: i * 0.08,
-            ease: "power3.out",
-            scrollTrigger: { trigger: listRef.current, start: "top 88%" },
+            y: 0,
+            duration: revealConfig.duration.fast,
+            delay: i * revealConfig.stagger,
+            ease: revealConfig.ease,
+            scrollTrigger: { trigger: listRef.current, start: revealConfig.startContent },
           }
         );
       });

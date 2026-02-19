@@ -3,6 +3,7 @@
 import { useRef, useEffect, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { revealConfig } from "@/lib/animationConfig";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,8 +20,8 @@ export function ScrollReveal({
   children,
   className = "",
   delay = 0,
-  y = 40,
-  duration = 0.8,
+  y = revealConfig.y.header,
+  duration = revealConfig.duration.header,
   once = true,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -37,10 +38,10 @@ export function ScrollReveal({
         y: 0,
         duration,
         delay,
-        ease: "power3.out",
+        ease: revealConfig.ease,
         scrollTrigger: {
           trigger: el,
-          start: "top 85%",
+          start: revealConfig.start,
           toggleActions: once ? "play none none none" : "play none none reverse",
         },
       }

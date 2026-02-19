@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { revealConfig } from "@/lib/animationConfig";
 import { format } from "date-fns";
 import { bg } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
@@ -115,13 +116,13 @@ const EventsSection = () => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         headerRef.current,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: revealConfig.y.header },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: headerRef.current, start: "top 85%" },
+          duration: revealConfig.duration.header,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: headerRef.current, start: revealConfig.start },
         }
       );
       dotRefs.current.forEach((dot, i) => {
@@ -131,10 +132,10 @@ const EventsSection = () => {
           { scale: 0 },
           {
             scale: 1,
-            duration: 0.5,
-            delay: 0.1 + i * 0.05,
+            duration: revealConfig.duration.fast,
+            delay: revealConfig.stagger + i * 0.05,
             ease: "elastic.out(1, 0.5)",
-            scrollTrigger: { trigger: timelineRef.current, start: "top 90%" },
+            scrollTrigger: { trigger: timelineRef.current, start: revealConfig.startContent },
           }
         );
       });
@@ -143,22 +144,22 @@ const EventsSection = () => {
         { scaleX: 0, transformOrigin: "left center" },
         {
           scaleX: 1,
-          duration: 0.8,
-          delay: 0.3,
+          duration: revealConfig.duration.content,
+          delay: revealConfig.stagger * 2,
           ease: "power2.inOut",
-          scrollTrigger: { trigger: timelineRef.current, start: "top 90%" },
+          scrollTrigger: { trigger: timelineRef.current, start: revealConfig.startContent },
         }
       );
       gsap.fromTo(
         filterRef.current,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: revealConfig.y.content },
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
-          delay: 0.2,
-          ease: "power3.out",
-          scrollTrigger: { trigger: filterRef.current, start: "top 90%" },
+          duration: revealConfig.duration.fast,
+          delay: revealConfig.stagger * 3,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: filterRef.current, start: revealConfig.startContent },
         }
       );
     }, sectionRef);
@@ -173,14 +174,14 @@ const EventsSection = () => {
         if (!card) return;
         gsap.fromTo(
           card,
-          { opacity: 0, y: 40 },
+          { opacity: 0, y: revealConfig.y.card },
           {
             opacity: 1,
             y: 0,
-            duration: 0.6,
-            delay: i * 0.08,
-            ease: "power3.out",
-            scrollTrigger: { trigger: gridRef.current, start: "top 88%" },
+            duration: revealConfig.duration.fast,
+            delay: i * revealConfig.stagger,
+            ease: revealConfig.ease,
+            scrollTrigger: { trigger: gridRef.current, start: revealConfig.startContent },
           }
         );
       });

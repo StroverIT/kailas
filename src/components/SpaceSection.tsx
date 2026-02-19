@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Eye, Wind, Sunrise, Trees } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { revealConfig } from "@/lib/animationConfig";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,25 +42,34 @@ const spaces = [
 
 const SpaceSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: revealConfig.y.header },
+        {
+          opacity: 1,
+          y: 0,
+          duration: revealConfig.duration.header,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: headerRef.current, start: revealConfig.start },
+        }
+      );
       cardRefs.current.forEach((card, i) => {
         if (!card) return;
         gsap.fromTo(
           card,
-          { opacity: 0, y: 50 },
+          { opacity: 0, y: revealConfig.y.card },
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
-            delay: i * 0.1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-            },
+            duration: revealConfig.duration.card,
+            delay: i * revealConfig.stagger,
+            ease: revealConfig.ease,
+            scrollTrigger: { trigger: sectionRef.current, start: revealConfig.startContent },
           }
         );
       });
@@ -75,7 +85,7 @@ const SpaceSection = () => {
       className="section-padding bg-background"
     >
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
+        <div ref={headerRef} className="text-center mb-16">
           <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
             Ретрийт база
           </p>

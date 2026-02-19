@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { revealConfig } from "@/lib/animationConfig";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
 
@@ -21,14 +22,14 @@ const FooterSection = () => {
       [brandRef, navRef, contactRef].forEach((ref, i) => {
         gsap.fromTo(
           ref.current,
-          { opacity: 0, y: 30 },
+          { opacity: 0, y: revealConfig.y.content },
           {
             opacity: 1,
             y: 0,
-            duration: 0.7,
-            delay: i * 0.1,
-            ease: "power3.out",
-            scrollTrigger: { trigger: ref.current, start: "top 92%" },
+            duration: revealConfig.duration.content,
+            delay: i * revealConfig.stagger,
+            ease: revealConfig.ease,
+            scrollTrigger: { trigger: ref.current, start: revealConfig.startContent },
           }
         );
       });
@@ -37,9 +38,9 @@ const FooterSection = () => {
         { opacity: 0 },
         {
           opacity: 1,
-          duration: 0.5,
-          delay: 0.3,
-          scrollTrigger: { trigger: bottomRef.current, start: "top 95%" },
+          duration: revealConfig.duration.fast,
+          delay: revealConfig.stagger * 3,
+          scrollTrigger: { trigger: bottomRef.current, start: revealConfig.startContent },
         }
       );
     }, footerRef);

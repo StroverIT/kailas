@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Leaf } from "lucide-react";
+import { revealConfig } from "@/lib/animationConfig";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,13 +16,13 @@ const FoodSection = () => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         contentRef.current,
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: revealConfig.y.content },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: contentRef.current, start: "top 85%" },
+          duration: revealConfig.duration.content,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: contentRef.current, start: revealConfig.start },
         }
       );
     }, sectionRef);

@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Heart, Wind, Moon, Music, Flame, HandHeart } from "lucide-react";
+import { revealConfig } from "@/lib/animationConfig";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,27 +27,27 @@ const YogaSystemSection = () => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         textRef.current,
-        { opacity: 0, y: 50 },
+        { opacity: 0, y: revealConfig.y.header },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: textRef.current, start: "top 85%" },
+          duration: revealConfig.duration.header,
+          ease: revealConfig.ease,
+          scrollTrigger: { trigger: textRef.current, start: revealConfig.start },
         }
       );
       practiceRefs.current.forEach((card, i) => {
         if (!card) return;
         gsap.fromTo(
           card,
-          { opacity: 0, y: 40 },
+          { opacity: 0, y: revealConfig.y.card },
           {
             opacity: 1,
             y: 0,
-            duration: 0.6,
-            delay: i * 0.08,
-            ease: "power3.out",
-            scrollTrigger: { trigger: cardsRef.current, start: "top 85%" },
+            duration: revealConfig.duration.fast,
+            delay: i * revealConfig.stagger,
+            ease: revealConfig.ease,
+            scrollTrigger: { trigger: cardsRef.current, start: revealConfig.start },
           }
         );
       });
