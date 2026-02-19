@@ -1,4 +1,5 @@
 import HeroSection from "@/components/HeroSection";
+import YogaPracticesSection from "@/components/YogaPracticesSection";
 import ConceptSection from "@/components/ConceptSection";
 import SpaceSection from "@/components/SpaceSection";
 import YogaSystemSection from "@/components/YogaSystemSection";
@@ -15,6 +16,8 @@ export default function HomePage() {
     <div className="min-h-screen">
       {/* HERO */}
       <HeroSection />
+      {/* YOGA PRACTICES */}
+      <YogaPracticesSection />
       {/* ABOUT / PLACE */}
       <ConceptSection />
       <SpaceSection />
