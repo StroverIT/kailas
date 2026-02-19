@@ -101,3 +101,23 @@ export async function getBlogPostBySlug(
   });
   return row ? rowToDisplay(row) : null;
 }
+
+/** Slugs for the 4 yoga practices shown on the homepage, in display order */
+export const YOGA_PRACTICE_SLUGS = [
+  "yoga-v-delnika",
+  "yoga-nidra",
+  "purvi-stapki-yoga",
+  "yoga-za-vichki",
+] as const;
+
+export async function getYogaPracticePosts(): Promise<BlogPostDisplay[]> {
+  const blogPost = getBlogPostDelegate();
+  const rows = await blogPost.findMany({
+    where: { slug: { in: [...YOGA_PRACTICE_SLUGS] } },
+  });
+  const bySlug = new Map(rows.map((r) => [r.slug, r]));
+  const ordered = YOGA_PRACTICE_SLUGS.map((s) => bySlug.get(s)).filter(
+    (r): r is NonNullable<typeof r> => r != null
+  );
+  return ordered.map(rowToDisplay);
+}
