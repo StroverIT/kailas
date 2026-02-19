@@ -14,7 +14,8 @@
     "db:push": "prisma db push",
     "db:push:prod": "sh -c 'set -a && . ./.env.production && set +a && prisma db push'",
     "db:migrate:prod": "sh -c 'set -a && . ./.env.production && set +a && prisma migrate deploy'",
-    "blog:upload-images": "tsx scripts/upload-blog-images.ts"
+    "blog:upload-images": "tsx scripts/upload-blog-images.ts",
+    "sync:prod": "tsx scripts/sync-to-production.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
