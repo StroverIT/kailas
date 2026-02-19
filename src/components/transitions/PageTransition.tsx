@@ -5,11 +5,13 @@ import {
   useContext,
   useRef,
   useMemo,
+  useState,
   type ReactNode,
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
+import YogaLoader from "@/components/YogaLoader";
 
 // ---------------------------------------------------------------------------
 // Context & Provider (curtain-style: scaleY cover + content blur)
@@ -43,17 +45,20 @@ export function PageTransitionProvider({
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const isRunningRef = useRef(false);
+  const [showLoader, setShowLoader] = useState(false);
 
   const transitionTo = useMemo(() => {
     return (href: string) => {
       if (isRunningRef.current) return;
       isRunningRef.current = true;
+      setShowLoader(true);
 
       const overlay = overlayRef.current;
       const content = contentRef.current;
       if (!overlay) {
         router.push(href);
         isRunningRef.current = false;
+        setShowLoader(false);
         return;
       }
 
@@ -61,6 +66,7 @@ export function PageTransitionProvider({
         defaults: { ease: "power2.inOut" },
         onComplete: () => {
           isRunningRef.current = false;
+          setShowLoader(false);
         },
       });
 
@@ -101,7 +107,7 @@ export function PageTransitionProvider({
         style={{
           position: "fixed",
           inset: 0,
-          zIndex: 9999,
+          zIndex: 9998,
           opacity: 0,
           visibility: "hidden",
           pointerEvents: "none",
@@ -109,6 +115,8 @@ export function PageTransitionProvider({
           transformOrigin: "50% 100%",
         }}
       />
+      {/* Loading animation between pages (above curtain) */}
+      <YogaLoader show={true} label="Зареждане..." />
       {/* Content wrapper (blur target) */}
       <div ref={contentRef}>
         {children}
