@@ -9,6 +9,7 @@ import EventsSection from "@/components/EventsSection";
 import LeadMagnetSection from "@/components/LeadMagnetSection";
 import BookingSection from "@/components/BookingSection";
 import FooterSection from "@/components/FooterSection";
+import YogaSystemSection from "@/components/YogaSystemSection";
 
 export default function HomePage() {
   return (
@@ -22,7 +23,7 @@ export default function HomePage() {
       <ConceptSection />
       <SpaceSection />
       {/* YOGA SYSTEM & TYPES */}
-      {/* <YogaSystemSection /> */}
+      <YogaSystemSection />
       <YogaTypesSection />
       {/* WHO IT'S FOR */}
       {/* <AudienceSection /> */}
