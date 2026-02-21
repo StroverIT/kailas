@@ -12,8 +12,6 @@ import {
   Sparkles,
   BookOpen,
   Church,
-  ChevronDown,
-  ChevronUp,
 } from "lucide-react";
 import FooterSection from "@/components/FooterSection";
 import { revealConfig } from "@/lib/animationConfig";
@@ -252,12 +250,9 @@ export default function PraktikiPage() {
                       >
                         {!isExpanded ? (
                           <>
-                            <div className="flex items-center justify-center gap-2 mb-3">
-                              <h3 className="font-heading text-xl font-semibold text-foreground transition-colors duration-300 hover:text-secondary text-center">
-                                {practice.title}
-                              </h3>
-                              <ChevronDown className="w-5 h-5 flex-shrink-0 text-muted-foreground transition-colors duration-300 hover:text-secondary" />
-                            </div>
+                            <h3 className="font-heading text-xl font-semibold text-foreground transition-colors duration-300 hover:text-secondary text-center mb-3">
+                              {practice.title}
+                            </h3>
                             <p className="text-muted-foreground font-body leading-relaxed text-sm text-center mb-4">
                               {practice.description}
                             </p>
@@ -303,19 +298,6 @@ export default function PraktikiPage() {
                                 </div>
                               )}
                             </div>
-
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex items-center gap-2"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                toggleCard(index);
-                              }}
-                            >
-                              <span>Затвори</span>
-                              <ChevronUp className="w-4 h-4" />
-                            </Button>
                           </div>
                         )}
                       </div>
