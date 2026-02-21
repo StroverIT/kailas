@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import FooterSection from "@/components/FooterSection";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
+import YogaTypesGrid from "@/components/YogaTypesGrid";
 import {
   Heart,
   Users,
@@ -234,22 +235,18 @@ export default function AboutPage() {
           </div>
 
           {/* Yoga Chakra */}
-          <div className="mb-12 p-8 rounded-2xl bg-gradient-to-br from-secondary/5 to-transparent border border-secondary/20">
-            <h3 className="font-heading text-xl md:text-2xl font-semibold text-foreground mb-4 flex items-center gap-2">
-              <span className="text-secondary">◉</span> Йога чакра или Колелото
-              на йога
-            </h3>
-            <p className="text-muted-foreground font-body leading-relaxed">
-              Тук са видовете йога Бахиранга и Антаранга:{" "}
-              <span className="font-semibold text-foreground">хатха йога</span>,{" "}
-              <span className="font-semibold text-foreground">раджа йога</span>,{" "}
-              <span className="font-semibold text-foreground">гяна йога</span>,{" "}
-              <span className="font-semibold text-foreground">крия йога</span>,{" "}
-              <span className="font-semibold text-foreground">бхакти йога</span>
-              ,{" "}
-              <span className="font-semibold text-foreground">карма йога</span>.
-            </p>
-          </div>
+          <YogaTypesGrid
+            title="Йога чакра или Колелото на йога"
+            description="Тук са видовете йога Бахиранга и Антаранга:"
+            types={[
+              { id: 1, name: "Хатха йога" },
+              { id: 2, name: "Раджа йога" },
+              { id: 3, name: "Гяна йога" },
+              { id: 4, name: "Крия йога" },
+              { id: 5, name: "Бхакти йога" },
+              { id: 6, name: "Карма йога" },
+            ]}
+          />
 
           {/* Yoga Vidya */}
           <div className="mb-12 p-8 rounded-2xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
