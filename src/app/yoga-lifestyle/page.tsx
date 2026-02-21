@@ -73,7 +73,7 @@ export default function YogaLifestylePage() {
             Начин на живот
           </p>
           <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-6">
-            Йога - лайф стайл
+            Йога - път към осъзнат живот
           </h1>
           <p className="text-xl md:text-2xl font-body leading-relaxed text-muted-foreground max-w-3xl mx-auto">
             Оцветете живота си в осъзната радост, истинска любов и безпричинно
