@@ -13,7 +13,7 @@ const navLinks = [
   { label: "За нас", href: "/za-nas" },
   { label: "Предлагаме ви", href: "/#yoga-system" },
   { label: "Йога център", href: "/#space" },
-  { label: "Йога - лайф стайл", href: "/yoga-lifestyle" },
+  { label: "Йога лайф стайл", href: "/yoga-lifestyle" },
   { label: "Събития", href: "/#events" },
   { label: "Блог", href: "/blog" },
   { label: "Фондация", href: "/#foundation" },
