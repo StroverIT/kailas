@@ -13,6 +13,7 @@ const navLinks = [
   { label: "За нас", href: "/za-nas" },
   { label: "Предлагаме ви", href: "/#yoga-system" },
   { label: "Йога център", href: "/#space" },
+  { label: "Йога - лайф стайл", href: "/yoga-lifestyle" },
   { label: "Събития", href: "/#events" },
   { label: "Блог", href: "/blog" },
   { label: "Фондация", href: "/#foundation" },
@@ -38,7 +39,7 @@ const Navbar = () => {
     gsap.fromTo(
       navRef.current,
       { opacity: 0, y: -20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
+      { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
     );
   }, []);
 
@@ -47,10 +48,11 @@ const Navbar = () => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${showTransparentNav
-        ? "bg-transparent py-5"
-        : "bg-background/95 backdrop-blur-md shadow-md py-3"
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        showTransparentNav
+          ? "bg-transparent py-5"
+          : "bg-background/95 backdrop-blur-md shadow-md py-3"
+      }`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 lg:px-8">
         <AnimatedLink href="/" className="flex items-center">
@@ -69,8 +71,11 @@ const Navbar = () => {
             <AnimatedLink
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors duration-300 ${showTransparentNav ? "text-white/90 hover:text-white" : "text-foreground hover:text-secondary"
-                }`}
+              className={`text-sm font-medium transition-colors duration-300 ${
+                showTransparentNav
+                  ? "text-white/90 hover:text-white"
+                  : "text-foreground hover:text-secondary"
+              }`}
             >
               {link.label}
             </AnimatedLink>
