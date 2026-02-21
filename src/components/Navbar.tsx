@@ -10,9 +10,8 @@ import { AnimatedLink } from "@/components/transitions/PageTransition";
 
 const navLinks = [
   { label: "Начало", href: "/#hero" },
-  { label: "За нас", href: "/za-nas" },
-  { label: "Предлагаме ви", href: "/#yoga-system" },
-  { label: "Йога център", href: "/#space" },
+  { label: "Йога център", href: "/za-nas" },
+  { label: "Практиките", href: "/#yoga-system" },
   { label: "Йога лайф стайл", href: "/yoga-lifestyle" },
   { label: "Събития", href: "/#events" },
   { label: "Блог", href: "/blog" },
