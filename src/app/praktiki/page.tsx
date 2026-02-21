@@ -241,19 +241,19 @@ export default function PraktikiPage() {
                   }`}
                   onClick={() => toggleCard(index)}
                 >
-                  <div className="p-8">
+                  <div className="p-6">
                     <div
                       className={`flex ${isExpanded ? "flex-col md:flex-row items-start gap-8" : "flex-col items-center"} transition-all duration-500`}
                     >
                       {/* Icon */}
                       <div
                         className={`flex-shrink-0 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${
-                          isExpanded ? "w-20 h-20" : "w-16 h-16 mb-5"
+                          isExpanded ? "w-20 h-20" : "w-14 h-14 mb-4"
                         }`}
                       >
                         <practice.icon
                           className={`text-primary transition-all duration-500 group-hover:text-secondary ${
-                            isExpanded ? "w-10 h-10" : "w-8 h-8"
+                            isExpanded ? "w-10 h-10" : "w-7 h-7"
                           }`}
                         />
                       </div>
@@ -264,16 +264,16 @@ export default function PraktikiPage() {
                       >
                         {!isExpanded ? (
                           <>
-                            <h3 className="font-heading text-xl md:text-2xl font-bold text-foreground transition-colors duration-300 group-hover:text-secondary text-center mb-4 leading-snug">
+                            <h3 className="font-heading text-lg md:text-xl font-bold text-foreground transition-colors duration-300 group-hover:text-secondary text-center mb-3 leading-snug">
                               {practice.title}
                             </h3>
-                            <p className="text-muted-foreground font-body leading-relaxed text-base text-center mb-5">
+                            <p className="text-muted-foreground font-body leading-relaxed text-sm text-center mb-4">
                               {practice.description}
                             </p>
                             <div className="flex justify-center">
-                              <span className="text-sm font-medium text-secondary/70 group-hover:text-secondary transition-colors flex items-center gap-2">
+                              <span className="text-xs font-medium text-secondary/70 group-hover:text-secondary transition-colors flex items-center gap-2">
                                 Виж повече
-                                <Sparkles className="w-4 h-4 animate-pulse" />
+                                <Sparkles className="w-3 h-3 animate-pulse" />
                               </span>
                             </div>
                           </>
@@ -336,17 +336,17 @@ export default function PraktikiPage() {
           </div>
 
           {/* Additional Info */}
-          <div className="mt-20 text-center max-w-4xl mx-auto">
-            <div className="bg-card p-8 md:p-12 rounded-2xl shadow-lg border border-border">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 mb-6">
-                <Heart className="w-8 h-8 text-primary" />
+          <div className="mt-16 text-center max-w-4xl mx-auto">
+            <div className="bg-card p-6 md:p-8 rounded-2xl shadow-lg border border-border">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 mb-4">
+                <Heart className="w-6 h-6 text-primary" />
               </div>
 
-              <h3 className="font-heading text-3xl md:text-4xl font-semibold mb-6 text-foreground">
+              <h3 className="font-heading text-2xl md:text-3xl font-semibold mb-4 text-foreground">
                 Интегриран подход
               </h3>
 
-              <p className="text-muted-foreground font-body leading-relaxed text-lg mb-8 max-w-2xl mx-auto">
+              <p className="text-muted-foreground font-body leading-relaxed text-base md:text-lg mb-6 max-w-2xl mx-auto">
                 Практиките през седмицата са насочени към хора с траен интерес
                 към йога, търсещи развитие и задълбочаване на познанията,
                 уменията и ефектите на йога. Заниманията интегрират знания и
