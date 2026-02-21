@@ -178,28 +178,19 @@ export default function PraktikiPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-cream-dark/30 to-background">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative pt-32 pb-24 section-padding overflow-hidden"
+        className="pt-28 pb-20 section-padding bg-gradient-section"
       >
-        {/* Decorative background elements */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-primary rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="container mx-auto max-w-5xl text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 border border-secondary/20 mb-6">
-            <Sparkles className="w-4 h-4 text-secondary" />
-            <p className="text-sm tracking-wider uppercase text-secondary font-body font-medium">
-              Нашите практики
-            </p>
-          </div>
+        <div className="container mx-auto max-w-4xl text-center">
+          <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
+            Нашите практики
+          </p>
           <h1
             ref={titleRef}
-            className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight"
+            className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-6"
           >
             Практиките в{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
@@ -208,7 +199,7 @@ export default function PraktikiPage() {
           </h1>
           <p
             ref={subtitleRef}
-            className="text-lg md:text-xl lg:text-2xl font-body leading-relaxed text-muted-foreground max-w-3xl mx-auto"
+            className="text-xl md:text-2xl font-body leading-relaxed text-muted-foreground max-w-3xl mx-auto"
           >
             Интегриран подход към йога, обединяващ древни традиции с модерни
             практики за цялостно развитие
@@ -217,14 +208,11 @@ export default function PraktikiPage() {
       </section>
 
       {/* Practices Section */}
-      <section className="py-20 section-padding bg-background relative">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(circle_at_50%_50%,_rgba(0,0,0,0.1)_1px,_transparent_1px)] bg-[length:24px_24px]"></div>
-
-        <div className="container mx-auto max-w-7xl relative z-10">
+      <section className="py-16 section-padding">
+        <div className="container mx-auto max-w-7xl">
           {/* Section intro */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h2 className="font-heading text-3xl md:text-4xl font-semibold text-foreground mb-4">
               Разнообразие от практики
             </h2>
             <p className="text-muted-foreground font-body text-lg leading-relaxed">
@@ -349,46 +337,40 @@ export default function PraktikiPage() {
 
           {/* Additional Info */}
           <div className="mt-20 text-center max-w-4xl mx-auto">
-            <div className="relative bg-gradient-to-br from-card via-card to-primary/5 border-2 border-border/50 rounded-3xl p-10 md:p-12 shadow-2xl overflow-hidden">
-              {/* Decorative elements */}
-              <div className="absolute top-0 right-0 w-40 h-40 bg-secondary/10 rounded-full blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl"></div>
-
-              <div className="relative z-10">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 mb-6">
-                  <Heart className="w-8 h-8 text-primary" />
-                </div>
-
-                <h3 className="font-heading text-3xl md:text-4xl font-bold mb-6 text-foreground">
-                  Интегриран подход
-                </h3>
-
-                <p className="text-muted-foreground font-body leading-relaxed text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-                  Практиките през седмицата са насочени към хора с траен интерес
-                  към йога, търсещи развитие и задълбочаване на познанията,
-                  уменията и ефектите на йога. Заниманията интегрират знания и
-                  практики от различните йогически традиции.
-                </p>
-
-                <Button
-                  variant="default"
-                  size="lg"
-                  className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                  onClick={() => {
-                    const bookingSection = document.querySelector("#booking");
-                    if (bookingSection) {
-                      bookingSection.scrollIntoView({ behavior: "smooth" });
-                    } else {
-                      window.location.href = "/#booking";
-                    }
-                  }}
-                >
-                  <span className="flex items-center gap-3">
-                    Запази място в клас
-                    <Sparkles className="w-5 h-5" />
-                  </span>
-                </Button>
+            <div className="bg-card p-8 md:p-12 rounded-2xl shadow-lg border border-border">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 mb-6">
+                <Heart className="w-8 h-8 text-primary" />
               </div>
+
+              <h3 className="font-heading text-3xl md:text-4xl font-semibold mb-6 text-foreground">
+                Интегриран подход
+              </h3>
+
+              <p className="text-muted-foreground font-body leading-relaxed text-lg mb-8 max-w-2xl mx-auto">
+                Практиките през седмицата са насочени към хора с траен интерес
+                към йога, търсещи развитие и задълбочаване на познанията,
+                уменията и ефектите на йога. Заниманията интегрират знания и
+                практики от различните йогически традиции.
+              </p>
+
+              <Button
+                variant="default"
+                size="lg"
+                className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                onClick={() => {
+                  const bookingSection = document.querySelector("#booking");
+                  if (bookingSection) {
+                    bookingSection.scrollIntoView({ behavior: "smooth" });
+                  } else {
+                    window.location.href = "/#booking";
+                  }
+                }}
+              >
+                <span className="flex items-center gap-3">
+                  Запази място в клас
+                  <Sparkles className="w-5 h-5" />
+                </span>
+              </Button>
             </div>
           </div>
         </div>
