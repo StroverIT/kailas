@@ -16,7 +16,6 @@ const navLinks = [
   { label: "Йога лайф стайл", href: "/yoga-lifestyle" },
   { label: "Събития", href: "/#events" },
   { label: "Блог", href: "/blog" },
-  { label: "Фондация", href: "/#foundation" },
 ];
 
 const Navbar = () => {
