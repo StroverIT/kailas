@@ -25,7 +25,7 @@ export default function HomePage() {
       <ConceptSection />
       <SpaceSection />
       {/* YOGA SYSTEM & TYPES */}
-      <YogaSystemSection />
+      {/* <YogaSystemSection /> */}
       <YogaTypesSection />
       {/* WHO IT'S FOR */}
       {/* <AudienceSection /> */}
