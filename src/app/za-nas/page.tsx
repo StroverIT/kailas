@@ -325,12 +325,16 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 border-l-4 border-secondary">
-              <p className="text-lg font-semibold text-foreground flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-secondary" />В основата - едно
-                несекващо вдъхновение, пробудено от вълшебството на йога, което
-                продължава вече 19 години.
-              </p>
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 border-l-4 border-secondary">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 mt-1">
+                  <Sparkles className="w-6 h-6 text-secondary" />
+                </div>
+                <p className="text-lg font-semibold text-foreground leading-relaxed">
+                  В основата - едно несекващо вдъхновение, пробудено от
+                  вълшебството на йога, което продължава вече 19 години.
+                </p>
+              </div>
             </div>
 
             {/* Mariana Karlova */}
