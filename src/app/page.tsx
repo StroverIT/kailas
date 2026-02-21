@@ -19,6 +19,8 @@ export default function HomePage() {
       {/* YOGA PRACTICES */}
       <YogaPracticesSection />
       <WeeklyScheduleSection />
+      {/* EVENTS */}
+      <EventsSection />
       {/* ABOUT / PLACE */}
       <ConceptSection />
       <SpaceSection />
@@ -29,8 +31,6 @@ export default function HomePage() {
       {/* <AudienceSection /> */}
       {/* FOOD */}
       <FoodSection />
-      {/* EVENTS */}
-      <EventsSection />
       {/* LEAD MAGNET */}
       <LeadMagnetSection />
       {/* FINAL CTA */}
