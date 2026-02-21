@@ -94,7 +94,10 @@ export default function AboutPage() {
               За нас
             </p>
             <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-6">
-              Йога център „Кайлас"
+              Йога център{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
+                „Кайлас“
+              </span>
             </h1>
             <p className="text-muted-foreground font-body text-lg leading-relaxed max-w-2xl mx-auto">
               Йога център „Кайлас“ е резултат от вдъхновението от опита на
