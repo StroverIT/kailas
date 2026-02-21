@@ -178,25 +178,37 @@ export default function PraktikiPage() {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-b from-background via-cream-dark/30 to-background">
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="pt-28 pb-20 section-padding bg-gradient-section"
+        className="relative pt-32 pb-24 section-padding overflow-hidden"
       >
-        <div className="container mx-auto max-w-4xl text-center">
-          <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
-            Нашите практики
-          </p>
+        {/* Decorative background elements */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto max-w-5xl text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 border border-secondary/20 mb-6">
+            <Sparkles className="w-4 h-4 text-secondary" />
+            <p className="text-sm tracking-wider uppercase text-secondary font-body font-medium">
+              Нашите практики
+            </p>
+          </div>
           <h1
             ref={titleRef}
-            className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-6"
+            className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight"
           >
-            Практиките в Кайлас
+            Практиките в{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
+              Кайлас
+            </span>
           </h1>
           <p
             ref={subtitleRef}
-            className="text-xl md:text-2xl font-body leading-relaxed text-muted-foreground max-w-3xl mx-auto"
+            className="text-lg md:text-xl lg:text-2xl font-body leading-relaxed text-muted-foreground max-w-3xl mx-auto"
           >
             Интегриран подход към йога, обединяващ древни традиции с модерни
             практики за цялостно развитие
@@ -205,11 +217,25 @@ export default function PraktikiPage() {
       </section>
 
       {/* Practices Section */}
-      <section className="py-16 section-padding bg-background">
-        <div className="container mx-auto max-w-6xl">
+      <section className="py-20 section-padding bg-background relative">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(circle_at_50%_50%,_rgba(0,0,0,0.1)_1px,_transparent_1px)] bg-[length:24px_24px]"></div>
+
+        <div className="container mx-auto max-w-7xl relative z-10">
+          {/* Section intro */}
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Разнообразие от практики
+            </h2>
+            <p className="text-muted-foreground font-body text-lg leading-relaxed">
+              Изберете практиката, която резонира с вас. Кликнете върху всяка
+              карта за повече информация.
+            </p>
+          </div>
+
           <div
             ref={practicesGridRef}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {practices.map((practice, index) => {
               const isExpanded = expandedCard === index;
@@ -220,26 +246,26 @@ export default function PraktikiPage() {
                   ref={(el) => {
                     practiceCardRefs.current[index] = el;
                   }}
-                  className={`bg-card border border-border rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer ${
+                  className={`group bg-card/50 backdrop-blur-sm border-2 border-border rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer ${
                     isExpanded
-                      ? "md:col-span-2 lg:col-span-3 shadow-lg border-secondary"
-                      : "hover:shadow-md hover:border-secondary/50"
+                      ? "md:col-span-2 lg:col-span-3 shadow-2xl border-secondary/50 bg-card"
+                      : "hover:shadow-xl hover:border-secondary/30 hover:scale-[1.02] hover:-translate-y-1"
                   }`}
                   onClick={() => toggleCard(index)}
                 >
-                  <div className="p-6">
+                  <div className="p-8">
                     <div
-                      className={`flex ${isExpanded ? "flex-row items-start gap-6" : "flex-col items-center"} transition-all duration-300`}
+                      className={`flex ${isExpanded ? "flex-col md:flex-row items-start gap-8" : "flex-col items-center"} transition-all duration-500`}
                     >
                       {/* Icon */}
                       <div
-                        className={`flex-shrink-0 rounded-xl bg-primary/10 flex items-center justify-center transition-colors duration-300 hover:bg-secondary/20 ${
-                          isExpanded ? "w-16 h-16" : "w-14 h-14 mb-4"
+                        className={`flex-shrink-0 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${
+                          isExpanded ? "w-20 h-20" : "w-16 h-16 mb-5"
                         }`}
                       >
                         <practice.icon
-                          className={`text-primary transition-colors duration-300 hover:text-secondary ${
-                            isExpanded ? "w-8 h-8" : "w-7 h-7"
+                          className={`text-primary transition-all duration-500 group-hover:text-secondary ${
+                            isExpanded ? "w-10 h-10" : "w-8 h-8"
                           }`}
                         />
                       </div>
@@ -250,19 +276,25 @@ export default function PraktikiPage() {
                       >
                         {!isExpanded ? (
                           <>
-                            <h3 className="font-heading text-xl font-semibold text-foreground transition-colors duration-300 hover:text-secondary text-center mb-3">
+                            <h3 className="font-heading text-xl md:text-2xl font-bold text-foreground transition-colors duration-300 group-hover:text-secondary text-center mb-4 leading-snug">
                               {practice.title}
                             </h3>
-                            <p className="text-muted-foreground font-body leading-relaxed text-sm text-center mb-4">
+                            <p className="text-muted-foreground font-body leading-relaxed text-base text-center mb-5">
                               {practice.description}
                             </p>
+                            <div className="flex justify-center">
+                              <span className="text-sm font-medium text-secondary/70 group-hover:text-secondary transition-colors flex items-center gap-2">
+                                Виж повече
+                                <Sparkles className="w-4 h-4 animate-pulse" />
+                              </span>
+                            </div>
                           </>
                         ) : (
                           <>
-                            <h3 className="font-heading text-2xl md:text-3xl font-semibold text-foreground transition-colors duration-300 hover:text-secondary mb-3">
+                            <h3 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4">
                               {practice.title}
                             </h3>
-                            <p className="text-muted-foreground font-body leading-relaxed text-base mb-4">
+                            <p className="text-muted-foreground font-body leading-relaxed text-lg mb-3">
                               {practice.description}
                             </p>
                           </>
@@ -270,26 +302,28 @@ export default function PraktikiPage() {
 
                         {/* Expanded content */}
                         {isExpanded && (
-                          <div className="space-y-4">
-                            <div className="border-t border-border pt-4">
-                              <p className="text-foreground font-body leading-relaxed mb-4">
+                          <div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-700">
+                            <div className="border-t-2 border-border/50 pt-6">
+                              <p className="text-foreground/90 font-body leading-relaxed text-lg mb-6">
                                 {practice.details}
                               </p>
 
                               {practice.benefits && (
-                                <div className="space-y-2">
-                                  <h4 className="font-heading font-semibold text-foreground flex items-center gap-2">
-                                    <Sparkles className="w-4 h-4 text-secondary" />
-                                    Ползи от практиката:
+                                <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl p-6 border border-border/50">
+                                  <h4 className="font-heading text-xl font-bold text-foreground flex items-center gap-3 mb-4">
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-secondary/20">
+                                      <Sparkles className="w-5 h-5 text-secondary" />
+                                    </div>
+                                    Ползи от практиката
                                   </h4>
-                                  <ul className="space-y-2 ml-6">
+                                  <ul className="space-y-3">
                                     {practice.benefits.map((benefit, i) => (
                                       <li
                                         key={i}
-                                        className="text-muted-foreground font-body flex items-start gap-2"
+                                        className="text-foreground/80 font-body text-base flex items-start gap-3 group/item"
                                       >
-                                        <span className="text-secondary mt-1">
-                                          •
+                                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-secondary/20 text-secondary text-sm font-bold flex-shrink-0 mt-0.5 group-hover/item:scale-110 transition-transform">
+                                          ✓
                                         </span>
                                         {benefit}
                                       </li>
@@ -297,6 +331,11 @@ export default function PraktikiPage() {
                                   </ul>
                                 </div>
                               )}
+
+                              <button className="mt-6 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 mx-auto md:mx-0">
+                                Затвори
+                                <span className="text-xs">✕</span>
+                              </button>
                             </div>
                           </div>
                         )}
@@ -309,31 +348,47 @@ export default function PraktikiPage() {
           </div>
 
           {/* Additional Info */}
-          <div className="mt-16 text-center max-w-3xl mx-auto">
-            <div className="bg-card border border-border rounded-2xl p-8 shadow-lg">
-              <h3 className="font-heading text-2xl font-semibold mb-4 text-foreground">
-                Интегриран подход
-              </h3>
-              <p className="text-muted-foreground font-body leading-relaxed text-lg mb-6">
-                Практиките през седмицата са насочени към хора с траен интерес
-                към йога, търсещи развитие и задълбочаване на познанията,
-                уменията и ефектите на йога. Заниманията интегрират знания и
-                практики от различните йогически традиции.
-              </p>
-              <Button
-                variant="default"
-                size="lg"
-                onClick={() => {
-                  const bookingSection = document.querySelector("#booking");
-                  if (bookingSection) {
-                    bookingSection.scrollIntoView({ behavior: "smooth" });
-                  } else {
-                    window.location.href = "/#booking";
-                  }
-                }}
-              >
-                Запази място в клас
-              </Button>
+          <div className="mt-20 text-center max-w-4xl mx-auto">
+            <div className="relative bg-gradient-to-br from-card via-card to-primary/5 border-2 border-border/50 rounded-3xl p-10 md:p-12 shadow-2xl overflow-hidden">
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-secondary/10 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl"></div>
+
+              <div className="relative z-10">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 mb-6">
+                  <Heart className="w-8 h-8 text-primary" />
+                </div>
+
+                <h3 className="font-heading text-3xl md:text-4xl font-bold mb-6 text-foreground">
+                  Интегриран подход
+                </h3>
+
+                <p className="text-muted-foreground font-body leading-relaxed text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+                  Практиките през седмицата са насочени към хора с траен интерес
+                  към йога, търсещи развитие и задълбочаване на познанията,
+                  уменията и ефектите на йога. Заниманията интегрират знания и
+                  практики от различните йогически традиции.
+                </p>
+
+                <Button
+                  variant="default"
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  onClick={() => {
+                    const bookingSection = document.querySelector("#booking");
+                    if (bookingSection) {
+                      bookingSection.scrollIntoView({ behavior: "smooth" });
+                    } else {
+                      window.location.href = "/#booking";
+                    }
+                  }}
+                >
+                  <span className="flex items-center gap-3">
+                    Запази място в клас
+                    <Sparkles className="w-5 h-5" />
+                  </span>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
