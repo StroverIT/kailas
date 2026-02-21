@@ -30,8 +30,11 @@ const ConceptSection = () => {
             opacity: 1,
             duration: revealConfig.duration.content,
             ease: revealConfig.ease,
-            scrollTrigger: { trigger: shapeRef.current, start: revealConfig.startContent },
-          }
+            scrollTrigger: {
+              trigger: shapeRef.current,
+              start: revealConfig.startContent,
+            },
+          },
         );
       }
 
@@ -43,8 +46,11 @@ const ConceptSection = () => {
           y: 0,
           duration: revealConfig.duration.content,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: kailasCardRef.current, start: revealConfig.start },
-        }
+          scrollTrigger: {
+            trigger: kailasCardRef.current,
+            start: revealConfig.start,
+          },
+        },
       );
 
       gsap.fromTo(
@@ -56,8 +62,11 @@ const ConceptSection = () => {
           duration: revealConfig.duration.content,
           delay: revealConfig.stagger,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: prakritiCardRef.current, start: revealConfig.start },
-        }
+          scrollTrigger: {
+            trigger: prakritiCardRef.current,
+            start: revealConfig.start,
+          },
+        },
       );
 
       gsap.fromTo(
@@ -69,8 +78,11 @@ const ConceptSection = () => {
           duration: revealConfig.duration.content,
           delay: revealConfig.stagger * 2,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: missionRef.current, start: revealConfig.startContent },
-        }
+          scrollTrigger: {
+            trigger: missionRef.current,
+            start: revealConfig.startContent,
+          },
+        },
       );
     }, sectionRef);
 
@@ -78,7 +90,11 @@ const ConceptSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="concept" className="section-padding bg-gradient-section">
+    <section
+      ref={sectionRef}
+      id="concept"
+      className="section-padding bg-gradient-section"
+    >
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16 relative">
           <SandSweepAccent>
@@ -88,17 +104,23 @@ const ConceptSection = () => {
               </p>
             </ScrollReveal>
             <ScrollReveal delay={0.1}>
-              <h2 className="section-heading mb-6">Йога център „Кайлас"</h2>
+              <h2 className="section-heading mb-6">
+                Йога център{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
+                  „Кайлас“
+                </span>
+              </h2>
             </ScrollReveal>
           </SandSweepAccent>
           <ScrollReveal delay={0.2}>
             <p className="section-subheading mx-auto">
-              Чиста природа и спокойствие. Йога център „Кайлас" се намира в сърцето на
-              Природен парк Врачански Балкан, само на 2 км от пещерата Леденика.
-              Разположен е върху площ от 10.6 дка с панорамна гледка към изгрева и
-              равнината. Замислен и построен през 2010 година първоначално като място за
-              ведически практики с огън и киртан (йогиски песни). От 2020 година
-              функционира като цялостен комплекс за йога и духовни практики.
+              Чиста природа и спокойствие. Йога център „Кайлас" се намира в
+              сърцето на Природен парк Врачански Балкан, само на 2 км от
+              пещерата Леденика. Разположен е върху площ от 10.6 дка с панорамна
+              гледка към изгрева и равнината. Замислен и построен през 2010
+              година първоначално като място за ведически практики с огън и
+              киртан (йогиски песни). От 2020 година функционира като цялостен
+              комплекс за йога и духовни практики.
             </p>
           </ScrollReveal>
         </div>
@@ -129,10 +151,11 @@ const ConceptSection = () => {
                 Място за изучаване и споделяне на йога
               </h3>
               <p className="text-muted-foreground leading-relaxed font-body">
-                Центърът е изграден като място за изучаване и споделяне на йога като начин на
-                живот. По време на участието в ежедневните дейности, се запознавате и
-                изучавате различни видове йога и се учите как да ги вграждате в ежедневието си
-                и така да подобрявате качеството си на живот.
+                Центърът е изграден като място за изучаване и споделяне на йога
+                като начин на живот. По време на участието в ежедневните
+                дейности, се запознавате и изучавате различни видове йога и се
+                учите как да ги вграждате в ежедневието си и така да подобрявате
+                качеството си на живот.
               </p>
             </div>
           </div>
@@ -158,10 +181,12 @@ const ConceptSection = () => {
                 Предназначение
               </h3>
               <p className="text-muted-foreground leading-relaxed font-body">
-                Нашата мисия е да осигурим пространство и достъп до преживяване на йога като
-                цялостна система за живот. Постепенно, с опознаването на философията и
-                практиките на йога, се свързвате по-пълноценно с вътрешния си свят и се
-                научавате да хармонизирате този свят със света, който ви обгражда в ежедневието.
+                Нашата мисия е да осигурим пространство и достъп до преживяване
+                на йога като цялостна система за живот. Постепенно, с
+                опознаването на философията и практиките на йога, се свързвате
+                по-пълноценно с вътрешния си свят и се научавате да
+                хармонизирате този свят със света, който ви обгражда в
+                ежедневието.
               </p>
             </div>
           </div>
@@ -175,11 +200,12 @@ const ConceptSection = () => {
             </span>
           </div>
           <blockquote className="font-heading text-xl md:text-2xl italic text-foreground/80 max-w-3xl mx-auto leading-relaxed">
-            Центърът предлага класически йога практики на място и онлайн, с които да
-            придобиете базисни познания и умения в йога, да обогатите преживяването си, да се
-            фокусирате върху конкретни здравословни проблеми или житейски дилеми. За кратко
-            или по-дълго сте добре дошли в „Кайлас" йога център, за да се върнете към себе си,
-            да преосмислите пътя си и да продължите напред.
+            Центърът предлага класически йога практики на място и онлайн, с
+            които да придобиете базисни познания и умения в йога, да обогатите
+            преживяването си, да се фокусирате върху конкретни здравословни
+            проблеми или житейски дилеми. За кратко или по-дълго сте добре дошли
+            в „Кайлас" йога център, за да се върнете към себе си, да
+            преосмислите пътя си и да продължите напред.
           </blockquote>
         </div>
       </div>
