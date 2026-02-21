@@ -296,31 +296,33 @@ export default function AboutPage() {
 
           <div className="space-y-6 text-muted-foreground font-body leading-relaxed">
             {/* Timeline */}
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-secondary/5 to-transparent border border-secondary/20">
-              <div className="space-y-4">
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-20 font-semibold text-secondary">
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-muted/40 to-muted/10 border border-border/50">
+              <div className="space-y-6">
+                <div className="flex gap-6 items-start">
+                  <div className="flex-shrink-0 w-16 text-xl font-bold font-heading text-secondary">
                     2010
                   </div>
-                  <p>
+                  <p className="text-foreground/80 leading-relaxed pt-1">
                     Началото беше поставено с къща за киртан и духовни
                     споделяния, и обособено място за ведически ритуали.
                   </p>
                 </div>
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-20 font-semibold text-secondary">
+                <div className="flex gap-6 items-start">
+                  <div className="flex-shrink-0 w-16 text-xl font-bold font-heading text-secondary">
                     2019
                   </div>
-                  <p>
+                  <p className="text-foreground/80 leading-relaxed pt-1">
                     Беше построена основната сграда – панорамна зала и споделено
                     пространство за сън с всички удобства.
                   </p>
                 </div>
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-20 font-semibold text-secondary">
+                <div className="flex gap-6 items-start">
+                  <div className="flex-shrink-0 w-16 text-xl font-bold font-heading text-secondary">
                     2023
                   </div>
-                  <p>Къща с четири двойни стаи с всички удобства.</p>
+                  <p className="text-foreground/80 leading-relaxed pt-1">
+                    Къща с четири двойни стаи с всички удобства.
+                  </p>
                 </div>
               </div>
             </div>
