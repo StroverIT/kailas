@@ -3,13 +3,11 @@ import YogaPracticesSection from "@/components/YogaPracticesSection";
 import WeeklyScheduleSection from "@/components/WeeklyScheduleSection";
 import ConceptSection from "@/components/ConceptSection";
 import SpaceSection from "@/components/SpaceSection";
-import YogaTypesSection from "@/components/YogaTypesSection";
 import FoodSection from "@/components/FoodSection";
 import EventsSection from "@/components/EventsSection";
 import LeadMagnetSection from "@/components/LeadMagnetSection";
 import BookingSection from "@/components/BookingSection";
 import FooterSection from "@/components/FooterSection";
-import YogaSystemSection from "@/components/YogaSystemSection";
 
 export default function HomePage() {
   return (
