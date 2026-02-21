@@ -11,14 +11,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 const spaces = [
   {
-    image: "/images/HALL-2.png",
+    image: "/images/20231029_1025372-2048x1197.jpg",
     icon: Eye,
     title: "Зала за събития",
     description:
       "Разполага с площ от 100 кв.м. и панорама от три страни. Оборудвана е с постелки и помощни средства за практики по йога. Предлага възможност за окачване до 11 люлки за въздушна йога при необходимост. Мултимедиен проектор, екран, озвучаване, микрофони.",
   },
   {
-    image: "/images/20231029_1025372-2048x1197.jpg",
+    image: "/images/HALL-2.png",
     icon: Wind,
     title: "Тераса",
     description:
@@ -35,8 +35,7 @@ const spaces = [
     image: "/images/20220520_201852-scaled.jpg",
     icon: Trees,
     title: "Природа",
-    description:
-      `Йога център „Кайлас" се намира в сърцето на Природен парк Врачански Балкан, само на 2 км от пещерата Леденика. Разположен е върху площ от 10.6 дка с панорамна гледка към изгрева и равнината.`,
+    description: `Йога център „Кайлас" се намира в сърцето на Природен парк Врачански Балкан, само на 2 км от пещерата Леденика. Разположен е върху площ от 10.6 дка с панорамна гледка към изгрева и равнината.`,
   },
 ];
 
@@ -55,8 +54,11 @@ const SpaceSection = () => {
           y: 0,
           duration: revealConfig.duration.header,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: headerRef.current, start: revealConfig.start },
-        }
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: revealConfig.start,
+          },
+        },
       );
       cardRefs.current.forEach((card, i) => {
         if (!card) return;
@@ -69,8 +71,11 @@ const SpaceSection = () => {
             duration: revealConfig.duration.card,
             delay: i * revealConfig.stagger,
             ease: revealConfig.ease,
-            scrollTrigger: { trigger: sectionRef.current, start: revealConfig.startContent },
-          }
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: revealConfig.startContent,
+            },
+          },
         );
       });
     }, sectionRef);
@@ -91,8 +96,9 @@ const SpaceSection = () => {
           </p>
           <h2 className="section-heading mb-6">Чиста природа и спокойствие</h2>
           <p className="section-subheading mx-auto">
-            Йога център „Кайлас" – 10.6 декара в Природен парк „Врачански Балкан",
-            на 2 км от пещера Леденика. Панорамна гледка към изгрева и равнината.
+            Йога център „Кайлас" – 10.6 декара в Природен парк „Врачански
+            Балкан", на 2 км от пещера Леденика. Панорамна гледка към изгрева и
+            равнината.
           </p>
         </div>
 
