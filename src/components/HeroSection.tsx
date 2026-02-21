@@ -27,31 +27,31 @@ const HeroSection = () => {
       tl.fromTo(
         taglineRef.current,
         { opacity: 0, y: 30 },
-        { opacity: 0.7, y: 0, duration: 0.8 }
+        { opacity: 0.7, y: 0, duration: 0.8 },
       )
         .fromTo(
           titleRef.current,
           { opacity: 0, y: 30 },
           { opacity: 1, y: 0, duration: 0.8 },
-          "-=0.6"
+          "-=0.6",
         )
         .fromTo(
           subtitleRef.current,
           { opacity: 0, y: 30 },
           { opacity: 1, y: 0, duration: 0.8 },
-          "-=0.6"
+          "-=0.6",
         )
         .fromTo(
           buttonsRef.current,
           { opacity: 0, y: 30 },
           { opacity: 1, y: 0, duration: 0.8 },
-          "-=0.6"
+          "-=0.6",
         )
         .fromTo(
           scrollIndicatorRef.current,
           { opacity: 0 },
           { opacity: 1, duration: 0.6 },
-          "-=0.4"
+          "-=0.4",
         );
 
       gsap.to(scrollIndicatorRef.current, {
@@ -113,7 +113,7 @@ const HeroSection = () => {
             end: "bottom top",
             scrub: 0.8,
           },
-        }
+        },
       );
     }, sectionRef);
 
@@ -157,13 +157,19 @@ const HeroSection = () => {
       <div
         ref={forestLightGreenRef}
         className="absolute inset-0 z-[1] pointer-events-none opacity-60"
-        style={{ background: "linear-gradient(180deg, rgba(101, 155, 127, 0.12) 0%, transparent 100%)" }}
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(101, 155, 127, 0.12) 0%, transparent 100%)",
+        }}
         aria-hidden
       />
       <div
         ref={forestLightGoldRef}
         className="absolute inset-0 z-[1] pointer-events-none opacity-0"
-        style={{ background: "linear-gradient(180deg, transparent 0%, rgba(209, 177, 112, 0.15) 100%)" }}
+        style={{
+          background:
+            "linear-gradient(180deg, transparent 0%, rgba(209, 177, 112, 0.15) 100%)",
+        }}
         aria-hidden
       />
 
@@ -178,13 +184,14 @@ const HeroSection = () => {
           ref={titleRef}
           className="font-heading text-4xl md:text-5xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-6"
         >
-          Кайлас - живот с йога
+          Живей с йога в прегръдката на природата
         </h1>
         <p
           ref={subtitleRef}
           className="text-lg md:text-xl text-primary-foreground/85 max-w-2xl mx-auto mb-10 leading-relaxed font-body"
         >
-          Опознайте йога като житейска философия и практика, която внася в живота ви спокойствие и радост, осъзнатост и удовлетвореност
+          Опознайте йога като житейска философия и практика, която внася в
+          живота ви спокойствие и радост, осъзнатост и удовлетвореност
         </p>
         <div
           ref={buttonsRef}
