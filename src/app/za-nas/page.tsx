@@ -203,15 +203,15 @@ export default function AboutPage() {
 
           {/* Satyananda Yoga */}
           <div className="mb-12 p-8 rounded-2xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
-            <div className="flex items-start gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0 mt-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0">
                 <Sparkles className="w-5 h-5 text-secondary" />
               </div>
               <h3 className="font-heading text-xl md:text-2xl font-semibold text-foreground">
                 Сатянанда йога
               </h3>
             </div>
-            <div className="space-y-4 text-muted-foreground font-body leading-relaxed pl-13">
+            <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
               <p>
                 Разработена от Шри Свами Сатянанда и доразвивана от неговите
                 ученици, традицията на Сатянанда йога ни предоставя пълноценна
