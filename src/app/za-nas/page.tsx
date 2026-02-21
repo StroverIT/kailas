@@ -110,36 +110,36 @@ export default function AboutPage() {
 
       {/* Gallery */}
       <section className="section-padding section-padding bg-background">
-        <div className="container mx-auto max-w-4xl">
+        <div className="container mx-auto max-w-6xl">
           <h2 className="font-heading text-2xl font-semibold text-foreground mb-8 text-center">
             Галерия
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
               <Image
                 src="/images/gallery-20220605.jpg"
                 alt="Йога център Кайлас – практики"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="(max-width: 1024px) 100vw, 33vw"
               />
             </div>
-            <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
+            <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
               <Image
                 src="/images/gallery-DSC09196.jpeg"
                 alt="Йога център Кайлас – пространство"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="(max-width: 1024px) 100vw, 33vw"
               />
             </div>
-            <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
+            <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
               <Image
                 src="/images/gallery-20220129.jpg"
                 alt="Йога център Кайлас – природа"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="(max-width: 1024px) 100vw, 33vw"
               />
             </div>
           </div>
