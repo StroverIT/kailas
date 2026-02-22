@@ -124,7 +124,7 @@ const HeroSection = () => {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden"
     >
       {/* Background image - Breath scale */}
       <div ref={bgRef} className="absolute inset-0 overflow-hidden">
@@ -173,29 +173,29 @@ const HeroSection = () => {
         aria-hidden
       />
 
-      <div className="relative z-10 container mx-auto px-4 text-center max-w-4xl">
+      <div className="relative z-10 container mx-auto px-6 sm:px-8 text-center max-w-4xl py-8">
         <p
           ref={taglineRef}
-          className="text-sm md:text-base font-body tracking-[0.3em] uppercase text-primary-foreground/70 mb-6"
+          className="text-xs sm:text-sm md:text-base font-body tracking-[0.2em] sm:tracking-[0.3em] uppercase text-primary-foreground/70 mb-4 sm:mb-6"
         >
           Да приложим познанието на йога за един по-добър живот
         </p>
         <h1
           ref={titleRef}
-          className="font-heading text-4xl md:text-5xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-6"
+          className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-4 sm:mb-6 px-2"
         >
           Живей с йога в прегръдката на природата
         </h1>
         <p
           ref={subtitleRef}
-          className="text-lg md:text-xl text-primary-foreground/85 max-w-2xl mx-auto mb-10 leading-relaxed font-body"
+          className="text-base sm:text-lg md:text-xl text-primary-foreground/85 max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-body px-2"
         >
           Опознайте йога като житейска философия и практика, която внася в
           живота ви спокойствие и радост, осъзнатост и удовлетвореност
         </p>
         <div
           ref={buttonsRef}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0"
         >
           <SunGlowButton href="#schedule" variant="hero">
             Актуален график на практиките
@@ -209,10 +209,10 @@ const HeroSection = () => {
       {/* Scroll indicator */}
       <div
         ref={scrollIndicatorRef}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2"
       >
-        <div className="w-6 h-10 rounded-full border-2 border-primary-foreground/40 flex justify-center pt-2">
-          <div className="w-1 h-3 bg-primary-foreground/60 rounded-full animate-pulse" />
+        <div className="w-5 h-9 sm:w-6 sm:h-10 rounded-full border-2 border-primary-foreground/40 flex justify-center pt-2">
+          <div className="w-1 h-2 sm:h-3 bg-primary-foreground/60 rounded-full animate-pulse" />
         </div>
       </div>
     </section>

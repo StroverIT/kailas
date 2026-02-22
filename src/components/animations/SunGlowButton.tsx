@@ -64,13 +64,13 @@ export function SunGlowButton({
       gsap.fromTo(
         btnRef.current,
         { scale: 0.96 },
-        { scale: 1, duration: 0.3, ease: "elastic.out(1, 0.5)" }
+        { scale: 1, duration: 0.3, ease: "elastic.out(1, 0.5)" },
       );
       if (glowRef.current) {
         gsap.fromTo(
           glowRef.current,
           { scale: 1.5, opacity: 0.8 },
-          { scale: 1.4, opacity: 0.6, duration: 0.25 }
+          { scale: 1.4, opacity: 0.6, duration: 0.25 },
         );
       }
     }
@@ -85,11 +85,13 @@ export function SunGlowButton({
   const commonProps = {
     onClick: handleClick,
     className: cn(
-      "relative inline-flex items-center justify-center text-base px-8 py-6 rounded-md transition-transform duration-200 ease-out",
+      "relative inline-flex items-center justify-center text-sm sm:text-base px-6 py-4 sm:px-8 sm:py-6 rounded-md transition-transform duration-200 ease-out w-full sm:w-auto",
       variantClass,
-      className
+      className,
     ),
-    style: { transform: `translate(${pos.x}px, ${pos.y}px)` } as React.CSSProperties,
+    style: {
+      transform: `translate(${pos.x}px, ${pos.y}px)`,
+    } as React.CSSProperties,
   };
 
   return (
@@ -106,11 +108,19 @@ export function SunGlowButton({
         aria-hidden
       />
       {as === "a" && href ? (
-        <a ref={btnRef as React.RefObject<HTMLAnchorElement>} href={href} {...commonProps}>
+        <a
+          ref={btnRef as React.RefObject<HTMLAnchorElement>}
+          href={href}
+          {...commonProps}
+        >
           {children}
         </a>
       ) : (
-        <button ref={btnRef as React.RefObject<HTMLButtonElement>} type="button" {...commonProps}>
+        <button
+          ref={btnRef as React.RefObject<HTMLButtonElement>}
+          type="button"
+          {...commonProps}
+        >
           {children}
         </button>
       )}
