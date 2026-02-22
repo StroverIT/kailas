@@ -107,8 +107,11 @@ const WeeklyScheduleSection = () => {
             y: 0,
             duration: revealConfig.duration.header,
             ease: revealConfig.ease,
-            scrollTrigger: { trigger: headerRef.current, start: revealConfig.start },
-          }
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: revealConfig.start,
+            },
+          },
         );
       }
       cardRefs.current.forEach((card, i) => {
@@ -122,8 +125,11 @@ const WeeklyScheduleSection = () => {
             duration: revealConfig.duration.card,
             delay: i * revealConfig.stagger,
             ease: revealConfig.ease,
-            scrollTrigger: { trigger: listRef.current ?? card, start: revealConfig.startContent },
-          }
+            scrollTrigger: {
+              trigger: listRef.current ?? card,
+              start: revealConfig.startContent,
+            },
+          },
         );
       });
     }, sectionRef);
@@ -171,20 +177,29 @@ const WeeklyScheduleSection = () => {
       setSignupSubmitted(true);
     } catch (err) {
       setSignupError(
-        err instanceof Error ? err.message : "Неуспешно записване"
+        err instanceof Error ? err.message : "Неуспешно записване",
       );
     }
     setSignupLoading(false);
   };
 
   return (
-    <section ref={sectionRef} id="schedule" className="section-padding bg-gradient-section">
+    <section
+      ref={sectionRef}
+      id="schedule"
+      className="section-padding bg-gradient-section"
+    >
       <div className="container mx-auto max-w-5xl">
         <div ref={headerRef} className="text-center mb-14">
-          <h2 className="section-heading mb-4">Актуален график на практиките</h2>
+          <h2 className="section-heading mb-4">
+            Актуален график на практиките
+          </h2>
           <div className="w-16 h-1 bg-secondary mx-auto mb-4" />
           <p className="section-subheading mx-auto">
-            Седмична програма на редовните практики в <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">Кайлас</span>
+            Седмична програма на редовните практики в{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
+              Кайлас
+            </span>
           </p>
         </div>
 
@@ -225,14 +240,16 @@ const WeeklyScheduleSection = () => {
                   ref={(el) => {
                     cardRefs.current[i] = el;
                   }}
-                  className={`rounded-xl border border-border overflow-hidden ${hasEntries ? "bg-card" : "bg-muted/30"
-                    }`}
+                  className={`rounded-xl border border-border overflow-hidden ${
+                    hasEntries ? "bg-card" : "bg-muted/30"
+                  }`}
                 >
                   <div className="flex items-start gap-4 p-4 md:p-5">
                     <div className="w-32 md:w-40 shrink-0">
                       <span
-                        className={`font-heading text-sm md:text-base font-semibold ${hasEntries ? "text-primary" : "text-muted-foreground"
-                          }`}
+                        className={`font-heading text-sm md:text-base font-semibold ${
+                          hasEntries ? "text-primary" : "text-muted-foreground"
+                        }`}
                       >
                         {day}
                       </span>
@@ -380,4 +397,3 @@ const WeeklyScheduleSection = () => {
 };
 
 export default WeeklyScheduleSection;
-

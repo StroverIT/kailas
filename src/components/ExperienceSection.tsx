@@ -64,8 +64,11 @@ const ExperienceSection = () => {
           y: 0,
           duration: revealConfig.duration.header,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: headerRef.current, start: revealConfig.start },
-        }
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: revealConfig.start,
+          },
+        },
       );
       gsap.fromTo(
         day1Ref.current,
@@ -75,8 +78,11 @@ const ExperienceSection = () => {
           y: 0,
           duration: revealConfig.duration.content,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: day1Ref.current, start: revealConfig.startContent },
-        }
+          scrollTrigger: {
+            trigger: day1Ref.current,
+            start: revealConfig.startContent,
+          },
+        },
       );
       gsap.fromTo(
         day2Ref.current,
@@ -87,51 +93,70 @@ const ExperienceSection = () => {
           duration: revealConfig.duration.content,
           delay: revealConfig.stagger,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: day2Ref.current, start: revealConfig.startContent },
-        }
+          scrollTrigger: {
+            trigger: day2Ref.current,
+            start: revealConfig.startContent,
+          },
+        },
       );
     }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} id="experience" className="section-padding bg-background">
+    <section
+      ref={sectionRef}
+      id="experience"
+      className="section-padding bg-background"
+    >
       <div className="container mx-auto max-w-5xl">
         <div ref={headerRef} className="text-center mb-12">
           <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
             Събития
           </p>
-          <h2 className="section-heading mb-6">Актуален график на практиките</h2>
+          <h2 className="section-heading mb-6">
+            Актуален график на практиките
+          </h2>
           <div className="space-y-4 max-w-2xl mx-auto text-muted-foreground font-body leading-relaxed">
             <p>
-              Центърът е изграден като място за изучаване и споделяне на йога като начин на живот.
-              По време на участието в ежедневните дейности се запознавате и изучавате различни
-              видове йога и се учите как да ги вграждате в ежедневието си.
+              Центърът е изграден като място за изучаване и споделяне на йога
+              като начин на живот. По време на участието в ежедневните дейности
+              се запознавате и изучавате различни видове йога и се учите как да
+              ги вграждате в ежедневието си.
             </p>
             <p>
-              Йога център <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">„Кайлас"</span> предлага класически йога практики на място и онлайн, с които
-              да придобиете базисни познания и умения в йога и да обогатите преживяването си.
+              Йога център{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
+                „Кайлас"
+              </span>{" "}
+              предлага класически йога практики на място и онлайн, с които да
+              придобиете базисни познания и умения в йога и да обогатите
+              преживяването си.
             </p>
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           {/* Ден 1 */}
-          <div
-            ref={day1Ref}
-            className="glass-card overflow-hidden"
-          >
+          <div ref={day1Ref} className="glass-card overflow-hidden">
             <div className="bg-secondary/10 px-6 py-4 flex items-center gap-3">
               <Moon className="w-6 h-6 text-secondary" />
-              <h3 className="font-heading text-xl font-semibold text-foreground">Ден 1</h3>
+              <h3 className="font-heading text-xl font-semibold text-foreground">
+                Ден 1
+              </h3>
             </div>
             <div className="p-6 space-y-6">
               {day1.map((block, i) => (
                 <div key={i}>
-                  <p className="text-sm font-body text-secondary font-semibold mb-2">{block.time}</p>
+                  <p className="text-sm font-body text-secondary font-semibold mb-2">
+                    {block.time}
+                  </p>
                   <ul className="space-y-1">
                     {block.activities.map((activity, j) => (
-                      <li key={j} className="flex gap-2 font-body text-muted-foreground">
+                      <li
+                        key={j}
+                        className="flex gap-2 font-body text-muted-foreground"
+                      >
                         <span className="text-secondary">–</span>
                         <span>{activity}</span>
                       </li>
@@ -143,21 +168,25 @@ const ExperienceSection = () => {
           </div>
 
           {/* Ден 2 */}
-          <div
-            ref={day2Ref}
-            className="glass-card overflow-hidden"
-          >
+          <div ref={day2Ref} className="glass-card overflow-hidden">
             <div className="bg-secondary/10 px-6 py-4 flex items-center gap-3">
               <Sunrise className="w-6 h-6 text-secondary" />
-              <h3 className="font-heading text-xl font-semibold text-foreground">Ден 2</h3>
+              <h3 className="font-heading text-xl font-semibold text-foreground">
+                Ден 2
+              </h3>
             </div>
             <div className="p-6 space-y-6">
               {day2.map((block, i) => (
                 <div key={i}>
-                  <p className="text-sm font-body text-secondary font-semibold mb-2">{block.time}</p>
+                  <p className="text-sm font-body text-secondary font-semibold mb-2">
+                    {block.time}
+                  </p>
                   <ul className="space-y-1">
                     {block.activities.map((activity, j) => (
-                      <li key={j} className="flex gap-2 font-body text-muted-foreground">
+                      <li
+                        key={j}
+                        className="flex gap-2 font-body text-muted-foreground"
+                      >
                         <span className="text-secondary">–</span>
                         <span>{activity}</span>
                       </li>
@@ -171,7 +200,9 @@ const ExperienceSection = () => {
 
         <div className="text-center mt-10 space-y-2">
           <p className="text-muted-foreground font-body leading-relaxed max-w-2xl mx-auto">
-            През целия уикенд ще имаш възможност да се запознаеш с принципите на йогийския начин на живот и да научиш практики, които можеш да приложиш и след като се върнеш в ежедневието си.
+            През целия уикенд ще имаш възможност да се запознаеш с принципите на
+            йогийския начин на живот и да научиш практики, които можеш да
+            приложиш и след като се върнеш в ежедневието си.
           </p>
           <p className="text-sm text-muted-foreground font-body">
             Програмата може да варира в зависимост от темата на ретрийта.

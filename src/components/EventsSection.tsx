@@ -14,11 +14,24 @@ import EventRegistrationModal from "./EventRegistrationModal";
 gsap.registerPlugin(ScrollTrigger);
 
 const MONTH_KEYS: Record<string, number> = {
-  mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7,
-  sep: 8, oct: 9, nov: 10, dec: 11,
+  mar: 2,
+  apr: 3,
+  may: 4,
+  jun: 5,
+  jul: 6,
+  aug: 7,
+  sep: 8,
+  oct: 9,
+  nov: 10,
+  dec: 11,
 };
 
-function formatEventDate(event: { date: string; month: string; time?: string | null; duration?: string | null }): string {
+function formatEventDate(event: {
+  date: string;
+  month: string;
+  time?: string | null;
+  duration?: string | null;
+}): string {
   const dayMatch = event.date.match(/\d+/);
   const day = dayMatch ? parseInt(dayMatch[0], 10) : 1;
   const monthIndex = MONTH_KEYS[event.month] ?? 0;
@@ -27,7 +40,12 @@ function formatEventDate(event: { date: string; month: string; time?: string | n
     const parts = event.time.split(":");
     const h = parseInt(parts[0] ?? "0", 10) || 0;
     const m = parseInt(parts[1] ?? "0", 10) || 0;
-    d.setHours(Math.min(23, Math.max(0, h)), Math.min(59, Math.max(0, m)), 0, 0);
+    d.setHours(
+      Math.min(23, Math.max(0, h)),
+      Math.min(59, Math.max(0, m)),
+      0,
+      0,
+    );
   }
   if (Number.isNaN(d.getTime())) {
     return [event.date, event.time, event.duration].filter(Boolean).join(" · ");
@@ -108,7 +126,10 @@ const EventsSection = () => {
     fetchEvents();
   }, []);
 
-  const filtered = activeMonth === "all" ? events : events.filter((e) => e.month === activeMonth);
+  const filtered =
+    activeMonth === "all"
+      ? events
+      : events.filter((e) => e.month === activeMonth);
 
   // Header, timeline, filter animate on load
   useEffect(() => {
@@ -122,8 +143,11 @@ const EventsSection = () => {
           y: 0,
           duration: revealConfig.duration.header,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: headerRef.current, start: revealConfig.start },
-        }
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: revealConfig.start,
+          },
+        },
       );
       dotRefs.current.forEach((dot, i) => {
         if (!dot) return;
@@ -135,8 +159,11 @@ const EventsSection = () => {
             duration: revealConfig.duration.fast,
             delay: revealConfig.stagger + i * 0.05,
             ease: "elastic.out(1, 0.5)",
-            scrollTrigger: { trigger: timelineRef.current, start: revealConfig.startContent },
-          }
+            scrollTrigger: {
+              trigger: timelineRef.current,
+              start: revealConfig.startContent,
+            },
+          },
         );
       });
       gsap.fromTo(
@@ -147,8 +174,11 @@ const EventsSection = () => {
           duration: revealConfig.duration.content,
           delay: revealConfig.stagger * 2,
           ease: "power2.inOut",
-          scrollTrigger: { trigger: timelineRef.current, start: revealConfig.startContent },
-        }
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: revealConfig.startContent,
+          },
+        },
       );
       gsap.fromTo(
         filterRef.current,
@@ -159,8 +189,11 @@ const EventsSection = () => {
           duration: revealConfig.duration.fast,
           delay: revealConfig.stagger * 3,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: filterRef.current, start: revealConfig.startContent },
-        }
+          scrollTrigger: {
+            trigger: filterRef.current,
+            start: revealConfig.startContent,
+          },
+        },
       );
     }, sectionRef);
     return () => ctx.revert();
@@ -181,8 +214,11 @@ const EventsSection = () => {
             duration: revealConfig.duration.fast,
             delay: i * revealConfig.stagger,
             ease: revealConfig.ease,
-            scrollTrigger: { trigger: gridRef.current, start: revealConfig.startContent },
-          }
+            scrollTrigger: {
+              trigger: gridRef.current,
+              start: revealConfig.startContent,
+            },
+          },
         );
       });
     }, sectionRef);
@@ -190,7 +226,11 @@ const EventsSection = () => {
   }, [loading, error, activeMonth, events]);
 
   return (
-    <section ref={sectionRef} id="events" className="section-padding bg-background">
+    <section
+      ref={sectionRef}
+      id="events"
+      className="section-padding bg-background"
+    >
       <div className="container mx-auto max-w-6xl">
         <div ref={headerRef} className="text-center mb-12">
           <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
@@ -198,7 +238,11 @@ const EventsSection = () => {
           </p>
           <h2 className="section-heading mb-6">Събития</h2>
           <p className="section-subheading mx-auto">
-            Присъедини се към нашите практики, ретрийти и събития в Йога център <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">„Кайлас"</span>.
+            Присъедини се към нашите практики, ретрийти и събития в Йога център{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
+              „Кайлас"
+            </span>
+            .
           </p>
         </div>
 
@@ -210,11 +254,13 @@ const EventsSection = () => {
               className="absolute top-1/2 left-0 right-0 h-0.5 bg-border -translate-y-1/2 origin-left"
               style={{ transform: "scaleX(0)" }}
             />
-
           </div>
         </div>
 
-        <div ref={filterRef} className="flex flex-wrap justify-center gap-2 mb-8">
+        <div
+          ref={filterRef}
+          className="flex flex-wrap justify-center gap-2 mb-8"
+        >
           {months.map((m) => (
             <button
               key={m.key}
@@ -223,7 +269,7 @@ const EventsSection = () => {
                 "rounded-full px-5 py-2 text-sm font-body transition-colors",
                 activeMonth === m.key
                   ? "bg-secondary text-secondary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  : "bg-muted text-muted-foreground hover:bg-muted/80",
               )}
             >
               {m.label}
@@ -232,17 +278,19 @@ const EventsSection = () => {
         </div>
 
         {loading && (
-          <p className="text-center text-muted-foreground py-12">Зареждане...</p>
+          <p className="text-center text-muted-foreground py-12">
+            Зареждане...
+          </p>
         )}
-        {error && (
-          <p className="text-center text-destructive py-12">{error}</p>
-        )}
+        {error && <p className="text-center text-destructive py-12">{error}</p>}
         {!loading && !error && (
           <div ref={gridRef} className="grid sm:grid-cols-2 gap-5">
             {filtered.map((e, i) => (
               <div
                 key={e.id}
-                ref={(el) => { cardRefs.current[i] = el; }}
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
                 className="glass-card p-6 lg:p-7 hover-lift group flex flex-col"
               >
                 <div className="flex items-center gap-3 mb-4">
@@ -268,7 +316,6 @@ const EventsSection = () => {
                   {e.description}
                 </p>
 
-
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground font-body mb-5">
                   <span className="flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5" />
@@ -276,7 +323,7 @@ const EventsSection = () => {
                   </span>
                   <span className="flex items-center gap-1">
                     <Users className="w-3.5 h-3.5" />
-                    {(e.registeredCount ?? 0)}/{e.spots} места
+                    {e.registeredCount ?? 0}/{e.spots} места
                   </span>
                   <span className="flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5" />

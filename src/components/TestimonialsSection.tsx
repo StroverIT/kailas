@@ -149,14 +149,18 @@ export default function TestimonialsSection() {
             >
               <Quote className="w-10 h-10 text-secondary/50 mb-4" />
               <blockquote className="font-heading text-xl md:text-2xl italic text-foreground/90 mb-6 leading-relaxed">
-                {t.quote.split('Кайлас').map((part, idx, arr) => (
+                {t.quote.split("Кайлас").map((part, idx, arr) =>
                   idx < arr.length - 1 ? (
                     <span key={idx}>
                       {part}
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">Кайлас</span>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
+                        Кайлас
+                      </span>
                     </span>
-                  ) : part
-                ))}
+                  ) : (
+                    part
+                  ),
+                )}
               </blockquote>
               <footer>
                 <cite className="font-body font-semibold text-foreground not-italic">
