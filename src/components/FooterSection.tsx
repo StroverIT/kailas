@@ -143,7 +143,7 @@ const FooterSection = () => {
           className="border-t border-primary-foreground/10 pt-10 pb-4 text-center"
         >
           <p className="text-sm text-primary-foreground/50 font-body">
-            © {new Date().getFullYear()} Кайлас Йогалайф & Пракрити Йога. Всички
+            © {new Date().getFullYear()} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">Кайлас</span> Йогалайф & Пракрити Йога. Всички
             права запазени.
           </p>
           <p className="text-sm text-primary-foreground/50 font-body mt-3">

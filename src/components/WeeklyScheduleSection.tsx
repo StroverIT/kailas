@@ -184,7 +184,7 @@ const WeeklyScheduleSection = () => {
           <h2 className="section-heading mb-4">Актуален график на практиките</h2>
           <div className="w-16 h-1 bg-secondary mx-auto mb-4" />
           <p className="section-subheading mx-auto">
-            Седмична програма на редовните практики в Кайлас
+            Седмична програма на редовните практики в <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">Кайлас</span>
           </p>
         </div>
 

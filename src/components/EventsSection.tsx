@@ -198,7 +198,7 @@ const EventsSection = () => {
           </p>
           <h2 className="section-heading mb-6">Събития</h2>
           <p className="section-subheading mx-auto">
-            Присъедини се към нашите практики, ретрийти и събития в Йога център „Кайлас".
+            Присъедини се към нашите практики, ретрийти и събития в Йога център <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">„Кайлас"</span>.
           </p>
         </div>
 

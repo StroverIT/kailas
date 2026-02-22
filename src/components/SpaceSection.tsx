@@ -96,7 +96,7 @@ const SpaceSection = () => {
           </p>
           <h2 className="section-heading mb-6">Чиста природа и спокойствие</h2>
           <p className="section-subheading mx-auto">
-            Йога център „Кайлас" – 10.6 декара в Природен парк „Врачански
+            Йога център <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">„Кайлас"</span> – 10.6 декара в Природен парк „Врачански
             Балкан", на 2 км от пещера Леденика. Панорамна гледка към изгрева и
             равнината.
           </p>

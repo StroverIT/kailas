@@ -32,7 +32,7 @@ function useCalmCarousel() {
           duration: 0.5,
           ease: "power2.out",
           onComplete: () => setActiveState(index),
-        }
+        },
       );
     } else {
       setActiveState(index);
@@ -80,8 +80,11 @@ export default function TestimonialsSection() {
           y: 0,
           duration: revealConfig.duration.header,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: headerRef.current, start: revealConfig.start },
-        }
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: revealConfig.start,
+          },
+        },
       );
       gsap.fromTo(
         carouselRef.current,
@@ -92,8 +95,11 @@ export default function TestimonialsSection() {
           duration: revealConfig.duration.content,
           delay: revealConfig.stagger,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: carouselRef.current, start: revealConfig.startContent },
-        }
+          scrollTrigger: {
+            trigger: carouselRef.current,
+            start: revealConfig.startContent,
+          },
+        },
       );
       gsap.fromTo(
         navRef.current,
@@ -104,15 +110,19 @@ export default function TestimonialsSection() {
           duration: revealConfig.duration.fast,
           delay: revealConfig.stagger * 2,
           ease: revealConfig.ease,
-          scrollTrigger: { trigger: navRef.current, start: revealConfig.startContent },
-        }
+          scrollTrigger: {
+            trigger: navRef.current,
+            start: revealConfig.startContent,
+          },
+        },
       );
     }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   const next = () => goTo((active + 1) % testimonials.length);
-  const prev = () => goTo((active - 1 + testimonials.length) % testimonials.length);
+  const prev = () =>
+    goTo((active - 1 + testimonials.length) % testimonials.length);
 
   return (
     <section ref={sectionRef} className="section-padding bg-muted/30">
@@ -132,18 +142,29 @@ export default function TestimonialsSection() {
                 slideRefs.current[i] = el;
               }}
               className={`absolute inset-0 flex flex-col items-center justify-center text-center ${
-                i === active ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                i === active
+                  ? "opacity-100 pointer-events-auto"
+                  : "opacity-0 pointer-events-none"
               }`}
             >
               <Quote className="w-10 h-10 text-secondary/50 mb-4" />
               <blockquote className="font-heading text-xl md:text-2xl italic text-foreground/90 mb-6 leading-relaxed">
-                {t.quote}
+                {t.quote.split('Кайлас').map((part, idx, arr) => (
+                  idx < arr.length - 1 ? (
+                    <span key={idx}>
+                      {part}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">Кайлас</span>
+                    </span>
+                  ) : part
+                ))}
               </blockquote>
               <footer>
                 <cite className="font-body font-semibold text-foreground not-italic">
                   {t.author}
                 </cite>
-                <p className="text-sm text-muted-foreground font-body mt-1">{t.role}</p>
+                <p className="text-sm text-muted-foreground font-body mt-1">
+                  {t.role}
+                </p>
               </footer>
             </div>
           ))}
@@ -163,7 +184,9 @@ export default function TestimonialsSection() {
                 key={i}
                 onClick={() => goTo(i)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  i === active ? "bg-secondary scale-125" : "bg-muted-foreground/40"
+                  i === active
+                    ? "bg-secondary scale-125"
+                    : "bg-muted-foreground/40"
                 }`}
                 aria-label={`Отзив ${i + 1}`}
               />

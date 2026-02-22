@@ -72,7 +72,7 @@ const PurposeSection = () => {
           </p>
           <p className="font-heading text-lg text-foreground/90">
             За кратко или по-дълго сте{" "}
-            <strong className="text-secondary">добре дошли в „Кайлас" йога център</strong>,
+            <strong className="text-secondary">добре дошли в <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">„Кайлас"</span> йога център</strong>,
             за да се върнете към себе си, да преосмислите пътя си и да продължите напред.
           </p>
         </div>
