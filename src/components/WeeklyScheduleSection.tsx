@@ -210,19 +210,11 @@ const WeeklyScheduleSection = () => {
                 key={day}
                 className="rounded-xl border border-border overflow-hidden bg-card"
               >
-                <div className="flex items-start gap-4 p-4 md:p-5">
-                  <div className="w-32 md:w-40 shrink-0">
-                    <Skeleton className="h-5 w-24" />
-                  </div>
-                  <div className="flex-1 space-y-3">
-                    <div className="flex items-center gap-3">
-                      <Skeleton className="h-4 w-16 shrink-0" />
-                      <Skeleton className="h-4 flex-1 max-w-[200px]" />
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Skeleton className="h-4 w-16 shrink-0" />
-                      <Skeleton className="h-4 flex-1 max-w-[280px]" />
-                    </div>
+                <div className="p-3 md:p-4">
+                  <Skeleton className="h-5 w-24 mb-3" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-full max-w-[280px]" />
+                    <Skeleton className="h-4 w-full max-w-[240px]" />
                   </div>
                 </div>
               </div>
@@ -244,10 +236,11 @@ const WeeklyScheduleSection = () => {
                     hasEntries ? "bg-card" : "bg-muted/30"
                   }`}
                 >
-                  <div className="flex items-start gap-4 p-4 md:p-5">
-                    <div className="w-32 md:w-40 shrink-0">
+                  <div className="p-3 md:p-5">
+                    {/* Day Header */}
+                    <div className="mb-3 md:mb-4">
                       <span
-                        className={`font-heading text-sm md:text-base font-semibold ${
+                        className={`font-heading text-base md:text-lg font-semibold ${
                           hasEntries ? "text-primary" : "text-muted-foreground"
                         }`}
                       >
@@ -255,46 +248,48 @@ const WeeklyScheduleSection = () => {
                       </span>
                     </div>
 
-                    <div className="flex-1">
+                    {/* Schedule Entries */}
+                    <div className="space-y-3">
                       {hasEntries ? (
-                        <div className="space-y-3">
-                          {entriesForDay.map((entry) => (
-                            <div
-                              key={entry.id}
-                              className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
-                            >
-                              <div className="flex items-start gap-3">
-                                <div className="flex items-center gap-1.5 text-secondary shrink-0 mt-0.5">
-                                  <Clock className="w-3.5 h-3.5" />
-                                  <span className="text-sm font-medium whitespace-nowrap">
-                                    {entry.startTime} – {entry.endTime}
-                                  </span>
-                                </div>
-                                <div>
-                                  <span className="text-sm md:text-base font-medium text-foreground">
-                                    {entry.title}
-                                  </span>
-                                  {entry.description && (
-                                    <span className="text-sm text-muted-foreground ml-2">
-                                      ({entry.description})
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  className="text-xs sm:text-sm"
-                                  onClick={() => handleOpenSignup(entry)}
-                                >
-                                  <Users className="w-3.5 h-3.5 mr-1" />
-                                  Запиши се
-                                </Button>
-                              </div>
+                        entriesForDay.map((entry) => (
+                          <div
+                            key={entry.id}
+                            className="flex flex-col gap-2.5 pb-3 last:pb-0 border-b last:border-b-0 border-border/50"
+                          >
+                            {/* Time */}
+                            <div className="flex items-center gap-1.5 text-secondary">
+                              <Clock className="w-4 h-4 shrink-0" />
+                              <span className="text-sm md:text-base font-medium">
+                                {entry.startTime} – {entry.endTime}
+                              </span>
                             </div>
-                          ))}
-                        </div>
+
+                            {/* Title and Description */}
+                            <div className="flex flex-col gap-1">
+                              <span className="text-sm md:text-base font-medium text-foreground">
+                                {entry.title}
+                              </span>
+                              {entry.description && (
+                                <span className="text-xs md:text-sm text-muted-foreground">
+                                  {entry.description}
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Action Button */}
+                            <div className="flex items-center pt-1">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-xs md:text-sm w-full sm:w-auto"
+                                onClick={() => handleOpenSignup(entry)}
+                              >
+                                <Users className="w-3.5 h-3.5 mr-1.5" />
+                                Запиши се
+                              </Button>
+                            </div>
+                          </div>
+                        ))
                       ) : (
                         <span className="text-sm text-muted-foreground italic">
                           Няма планирани практики
