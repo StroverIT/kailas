@@ -17,11 +17,21 @@ const navLinks = [
   { label: "Блог", href: "/blog" },
 ];
 
+const MENU_ANIMATION = {
+  duration: 0.35,
+  ease: "power3.inOut",
+  stagger: 0.05,
+};
+
 const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuInnerRef = useRef<HTMLDivElement>(null);
+  const menuLinksRef = useRef<HTMLDivElement>(null);
+  const hasBeenOpenRef = useRef(false);
 
   useEffect(() => {
     if (!navRef.current) return;
@@ -31,6 +41,54 @@ const Navbar = () => {
       { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
     );
   }, []);
+
+  // Mobile menu GSAP animations
+  useEffect(() => {
+    const menu = menuRef.current;
+    const menuInner = menuInnerRef.current;
+    const menuLinks = menuLinksRef.current;
+
+    if (!menu || !menuInner || !menuLinks) return;
+
+    const linkItems = menuLinks.querySelectorAll("a, button");
+    const { duration, ease, stagger } = MENU_ANIMATION;
+
+    if (mobileOpen) {
+      hasBeenOpenRef.current = true;
+      gsap.killTweensOf([menu, menuInner, linkItems]);
+
+      // Enter animation
+      gsap.set(menu, { height: "auto", overflow: "hidden" });
+      const fullHeight = menu.offsetHeight;
+      gsap.set(menu, { height: 0 });
+      gsap.set(menuInner, { opacity: 0, y: -12 });
+      gsap.set(linkItems, { opacity: 0, y: 8 });
+
+      const tl = gsap.timeline({ defaults: { duration, ease } });
+      tl.to(menu, { height: fullHeight, duration: duration * 1.2 })
+        .to(menuInner, { opacity: 1, y: 0 }, "-=0.25")
+        .to(
+          linkItems,
+          { opacity: 1, y: 0, stagger, overwrite: true },
+          "-=0.2",
+        );
+    } else {
+      gsap.killTweensOf([menu, menuInner, linkItems]);
+
+      if (!hasBeenOpenRef.current) {
+        // Initial closed state - set instantly
+        gsap.set(menu, { height: 0, overflow: "hidden" });
+        gsap.set(menuInner, { opacity: 0, y: -12 });
+        gsap.set(linkItems, { opacity: 0, y: 8 });
+      } else {
+        // Exit animation
+        const tl = gsap.timeline({ defaults: { duration, ease } });
+        tl.to(linkItems, { opacity: 0, y: -8, stagger: stagger / 2 })
+          .to(menuInner, { opacity: 0, y: -12 }, "-=0.2")
+          .to(menu, { height: 0, overflow: "hidden", duration: duration * 1.2 }, "-=0.1");
+      }
+    }
+  }, [mobileOpen]);
 
   // Handle hash navigation after page load
   useEffect(() => {
@@ -102,10 +160,16 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden bg-background/98 backdrop-blur-lg border-t border-border animate-fade-up">
-          <div className="flex flex-col gap-4 px-6 py-6">
+      {/* Mobile menu - always mounted for exit animation */}
+      <div ref={menuRef} className="md:hidden overflow-hidden h-0">
+        <div
+          ref={menuInnerRef}
+          className="bg-background/98 backdrop-blur-lg border-t border-border"
+        >
+          <div
+            ref={menuLinksRef}
+            className="flex flex-col gap-4 px-6 py-6"
+          >
             {navLinks.map((link) => (
               <AnimatedLink
                 key={link.href}
@@ -122,13 +186,11 @@ const Navbar = () => {
               onClick={() => {
                 setMobileOpen(false);
                 if (pathname === "/") {
-                  // If already on home page, just scroll to booking section
                   const bookingSection = document.getElementById("booking");
                   if (bookingSection) {
                     bookingSection.scrollIntoView({ behavior: "smooth" });
                   }
                 } else {
-                  // Navigate to home page with hash
                   router.push("/#booking");
                 }
               }}
@@ -137,7 +199,7 @@ const Navbar = () => {
             </Button>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };
