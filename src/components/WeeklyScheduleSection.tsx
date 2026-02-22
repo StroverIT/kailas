@@ -210,9 +210,9 @@ const WeeklyScheduleSection = () => {
                 key={day}
                 className="rounded-xl border border-border overflow-hidden bg-card"
               >
-                <div className="p-3 md:p-4">
-                  <Skeleton className="h-5 w-24 mb-3" />
-                  <div className="space-y-2">
+                <div className="p-3 md:p-4 md:flex md:items-start md:gap-4">
+                  <Skeleton className="h-5 w-24 mb-3 md:mb-0 md:w-40 md:shrink-0" />
+                  <div className="space-y-2 md:flex-1">
                     <Skeleton className="h-4 w-full max-w-[280px]" />
                     <Skeleton className="h-4 w-full max-w-[240px]" />
                   </div>
@@ -236,11 +236,11 @@ const WeeklyScheduleSection = () => {
                     hasEntries ? "bg-card" : "bg-muted/30"
                   }`}
                 >
-                  <div className="p-3 md:p-5">
-                    {/* Day Header */}
-                    <div className="mb-3 md:mb-4">
+                  {/* Mobile Layout */}
+                  <div className="p-3 md:hidden">
+                    <div className="mb-3">
                       <span
-                        className={`font-heading text-base md:text-lg font-semibold ${
+                        className={`font-heading text-base font-semibold ${
                           hasEntries ? "text-primary" : "text-muted-foreground"
                         }`}
                       >
@@ -248,7 +248,6 @@ const WeeklyScheduleSection = () => {
                       </span>
                     </div>
 
-                    {/* Schedule Entries */}
                     <div className="space-y-3">
                       {hasEntries ? (
                         entriesForDay.map((entry) => (
@@ -256,32 +255,29 @@ const WeeklyScheduleSection = () => {
                             key={entry.id}
                             className="flex flex-col gap-2.5 pb-3 last:pb-0 border-b last:border-b-0 border-border/50"
                           >
-                            {/* Time */}
                             <div className="flex items-center gap-1.5 text-secondary">
                               <Clock className="w-4 h-4 shrink-0" />
-                              <span className="text-sm md:text-base font-medium">
+                              <span className="text-sm font-medium">
                                 {entry.startTime} – {entry.endTime}
                               </span>
                             </div>
 
-                            {/* Title and Description */}
                             <div className="flex flex-col gap-1">
-                              <span className="text-sm md:text-base font-medium text-foreground">
+                              <span className="text-sm font-medium text-foreground">
                                 {entry.title}
                               </span>
                               {entry.description && (
-                                <span className="text-xs md:text-sm text-muted-foreground">
+                                <span className="text-xs text-muted-foreground">
                                   {entry.description}
                                 </span>
                               )}
                             </div>
 
-                            {/* Action Button */}
                             <div className="flex items-center pt-1">
                               <Button
                                 variant="outline"
                                 size="sm"
-                                className="text-xs md:text-sm w-full sm:w-auto"
+                                className="text-xs w-full"
                                 onClick={() => handleOpenSignup(entry)}
                               >
                                 <Users className="w-3.5 h-3.5 mr-1.5" />
@@ -290,6 +286,64 @@ const WeeklyScheduleSection = () => {
                             </div>
                           </div>
                         ))
+                      ) : (
+                        <span className="text-sm text-muted-foreground italic">
+                          Няма планирани практики
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Desktop Layout */}
+                  <div className="hidden md:flex items-start gap-4 p-5">
+                    <div className="w-40 shrink-0">
+                      <span
+                        className={`font-heading text-base font-semibold ${
+                          hasEntries ? "text-primary" : "text-muted-foreground"
+                        }`}
+                      >
+                        {day}
+                      </span>
+                    </div>
+
+                    <div className="flex-1">
+                      {hasEntries ? (
+                        <div className="space-y-3">
+                          {entriesForDay.map((entry) => (
+                            <div
+                              key={entry.id}
+                              className="flex items-center justify-between gap-4"
+                            >
+                              <div className="flex items-start gap-3">
+                                <div className="flex items-center gap-1.5 text-secondary shrink-0 mt-0.5">
+                                  <Clock className="w-3.5 h-3.5" />
+                                  <span className="text-sm font-medium whitespace-nowrap">
+                                    {entry.startTime} – {entry.endTime}
+                                  </span>
+                                </div>
+                                <div>
+                                  <span className="text-base font-medium text-foreground">
+                                    {entry.title}
+                                  </span>
+                                  {entry.description && (
+                                    <span className="text-sm text-muted-foreground ml-2">
+                                      ({entry.description})
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-sm shrink-0"
+                                onClick={() => handleOpenSignup(entry)}
+                              >
+                                <Users className="w-3.5 h-3.5 mr-1" />
+                                Запиши се
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
                       ) : (
                         <span className="text-sm text-muted-foreground italic">
                           Няма планирани практики
