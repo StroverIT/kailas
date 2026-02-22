@@ -5,7 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
 
 const navLinks = [
@@ -19,6 +19,7 @@ const navLinks = [
 
 const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -40,6 +41,30 @@ const Navbar = () => {
       { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
     );
   }, []);
+
+  // Handle hash navigation after page load
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && pathname === "/") {
+      // Scroll to top immediately to prevent browser's default hash scroll
+      window.scrollTo(0, 0);
+
+      const scrollToElement = () => {
+        const element = document.getElementById(hash.substring(1));
+        if (element) {
+          // Use requestAnimationFrame to ensure rendering is complete
+          requestAnimationFrame(() => {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        }
+      };
+
+      // Wait for page transition animation to complete
+      const timer = setTimeout(scrollToElement, 1300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [pathname]);
 
   if (pathname?.includes("/admin")) return null;
 
@@ -109,11 +134,25 @@ const Navbar = () => {
                 {link.label}
               </AnimatedLink>
             ))}
-            <AnimatedLink href="/#booking" onClick={() => setMobileOpen(false)}>
-              <Button variant="nav" className="w-full">
-                Запази място
-              </Button>
-            </AnimatedLink>
+            <Button
+              variant="nav"
+              className="w-full"
+              onClick={() => {
+                setMobileOpen(false);
+                if (pathname === "/") {
+                  // If already on home page, just scroll to booking section
+                  const bookingSection = document.getElementById("booking");
+                  if (bookingSection) {
+                    bookingSection.scrollIntoView({ behavior: "smooth" });
+                  }
+                } else {
+                  // Navigate to home page with hash
+                  router.push("/#booking");
+                }
+              }}
+            >
+              Запази място
+            </Button>
           </div>
         </div>
       )}
