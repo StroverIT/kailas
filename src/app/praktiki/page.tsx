@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -112,6 +113,7 @@ const practices = [
 ];
 
 export default function PraktikiPage() {
+  const router = useRouter();
   const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -356,17 +358,12 @@ export default function PraktikiPage() {
               <Button
                 variant="default"
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white font-semibold px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                 onClick={() => {
-                  const bookingSection = document.querySelector("#booking");
-                  if (bookingSection) {
-                    bookingSection.scrollIntoView({ behavior: "smooth" });
-                  } else {
-                    window.location.href = "/#booking";
-                  }
+                  router.push("/#booking");
                 }}
               >
-                <span className="flex items-center gap-3">
+                <span className="flex items-center gap-3 justify-center">
                   Запази място в клас
                   <Sparkles className="w-5 h-5" />
                 </span>
