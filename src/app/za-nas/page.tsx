@@ -241,17 +241,17 @@ export default function AboutPage() {
           <YogaTypesGrid
             title="Йога Бахиранга"
             types={[
-              { id: 1, name: "Хатха йога" },
-              { id: 2, name: "Раджа йога" },
-              { id: 3, name: "Крия йога" },
+              { id: 1, name: "Хатха йога", slug: "hatha-yoga" },
+              { id: 2, name: "Раджа йога", slug: "raja-yoga" },
+              { id: 3, name: "Крия йога", slug: "kriya-yoga" },
             ]}
           />
           <YogaTypesGrid
             title="Йога Антаранга"
             types={[
-              { id: 4, name: "Гяна йога" },
-              { id: 5, name: "Бхакти йога" },
-              { id: 6, name: "Карма йога" },
+              { id: 4, name: "Гяна йога", slug: "gyana-yoga" },
+              { id: 5, name: "Бхакти йога", slug: "bhakti-yoga" },
+              { id: 6, name: "Карма йога", slug: "karma-yoga" },
             ]}
           />
 

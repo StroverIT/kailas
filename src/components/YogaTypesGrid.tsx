@@ -1,6 +1,9 @@
+import Link from "next/link";
+
 interface YogaType {
   id: number;
   name: string;
+  slug?: string;
 }
 
 interface YogaTypesGridProps {
@@ -28,21 +31,41 @@ export default function YogaTypesGrid({
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-        {types.map((type) => (
-          <div
-            key={type.id}
-            className="group p-4 md:p-5 rounded-xl bg-gradient-to-br from-secondary/10 to-secondary/5 border border-secondary/20 hover:border-secondary/40 hover:shadow-md transition-all duration-300"
-          >
-            <div className="flex items-center justify-center mb-2">
-              <div className="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <span className="text-secondary font-bold">{type.id}</span>
+        {types.map((type) => {
+          const CardContent = (
+            <>
+              <div className="flex items-center justify-center mb-2">
+                <div className="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <span className="text-secondary font-bold">{type.id}</span>
+                </div>
               </div>
+              <p className="text-center font-heading font-semibold text-foreground text-sm md:text-base">
+                {type.name}
+              </p>
+            </>
+          );
+
+          if (type.slug) {
+            return (
+              <Link
+                key={type.id}
+                href={`/blog/${type.slug}`}
+                className="group p-4 md:p-5 rounded-xl bg-gradient-to-br from-secondary/10 to-secondary/5 border border-secondary/20 hover:border-secondary/40 hover:shadow-md transition-all duration-300 cursor-pointer"
+              >
+                {CardContent}
+              </Link>
+            );
+          }
+
+          return (
+            <div
+              key={type.id}
+              className="group p-4 md:p-5 rounded-xl bg-gradient-to-br from-secondary/10 to-secondary/5 border border-secondary/20 hover:border-secondary/40 hover:shadow-md transition-all duration-300"
+            >
+              {CardContent}
             </div>
-            <p className="text-center font-heading font-semibold text-foreground text-sm md:text-base">
-              {type.name}
-            </p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
