@@ -76,10 +76,10 @@ export default function AboutPage() {
       {/* Hero with image */}
       <section
         ref={heroRef}
-        className="pt-28 pb-20 section-padding bg-gradient-section"
+        className="pt-20 pb-12 md:pt-28 md:pb-20 section-padding bg-gradient-section"
       >
         <div className="container mx-auto max-w-4xl">
-          <div className="relative w-full aspect-video max-h-[400px] rounded-2xl overflow-hidden mb-12">
+          <div className="relative w-full aspect-video max-h-[250px] md:max-h-[400px] rounded-xl md:rounded-2xl overflow-hidden mb-6 md:mb-12">
             <Image
               src="/images/about-header.png"
               alt="Йога център Кайлас"
@@ -90,16 +90,16 @@ export default function AboutPage() {
             />
           </div>
           <div className="text-center">
-            <p className="text-sm tracking-[0.2em] uppercase text-secondary font-body mb-3">
+            <p className="text-xs md:text-sm tracking-[0.2em] uppercase text-secondary font-body mb-2 md:mb-3">
               За нас
             </p>
-            <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-6">
+            <h1 className="font-heading text-2xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 md:mb-6 px-4">
               Йога център{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
                 „Кайлас“
               </span>
             </h1>
-            <p className="text-muted-foreground font-body text-lg leading-relaxed max-w-2xl mx-auto">
+            <p className="text-muted-foreground font-body text-base md:text-lg leading-relaxed max-w-2xl mx-auto px-4">
               Йога център „Кайлас“ е резултат от вдъхновението от опита на
               неговия създател да трансформира живота си. Той е израз на
               желанието да сподели този опит и натрупаните познания, и умения, с
@@ -112,12 +112,12 @@ export default function AboutPage() {
       </section>
 
       {/* Gallery */}
-      <section className="section-padding section-padding bg-background">
+      <section className="py-12 md:py-16 lg:py-20 section-padding bg-background">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="font-heading text-2xl font-semibold text-foreground mb-8 text-center">
+          <h2 className="font-heading text-xl md:text-2xl font-semibold text-foreground mb-6 md:mb-8 text-center px-4">
             Галерия
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
             <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
               <Image
                 src="/images/gallery-20220605.jpg"
@@ -150,18 +150,18 @@ export default function AboutPage() {
       </section>
 
       {/* Mission */}
-      <section className="section-padding bg-muted/30">
+      <section className="py-12 md:py-16 lg:py-20 section-padding bg-muted/30">
         <div ref={missionRef} className="container mx-auto max-w-4xl">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center">
-              <Heart className="w-6 h-6 text-secondary" />
+          <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6 px-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-secondary/10 flex items-center justify-center flex-shrink-0">
+              <Heart className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
             </div>
-            <h2 className="font-heading text-2xl md:text-3xl font-semibold text-foreground">
+            <h2 className="font-heading text-xl md:text-2xl lg:text-3xl font-semibold text-foreground">
               Мисия
             </h2>
           </div>
-          <blockquote className="border-l-4 border-secondary/50 pl-6 py-4 text-lg md:text-xl text-muted-foreground font-body italic leading-relaxed">
-            <ul className="flex flex-col space-y-4">
+          <blockquote className="border-l-4 border-secondary/50 pl-4 md:pl-6 py-3 md:py-4 text-base md:text-lg lg:text-xl text-muted-foreground font-body italic leading-relaxed">
+            <ul className="flex flex-col space-y-3 md:space-y-4">
               <li>
                 Нашата мисия е да предоставим пространство, опит, знания и
                 умения, споделеност и подкрепа, за всеки, който желае да извърви
@@ -194,28 +194,28 @@ export default function AboutPage() {
       </section>
 
       {/* Founder */}
-      <section className="section-padding bg-background">
+      <section className="py-12 md:py-16 lg:py-20 section-padding bg-background">
         <div ref={founderRef} className="container mx-auto max-w-4xl">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center shadow-sm">
-              <Mountain className="w-6 h-6 text-secondary" />
+          <div className="flex items-start gap-2 md:gap-3 mb-6 md:mb-8 px-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center shadow-sm flex-shrink-0">
+              <Mountain className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
             </div>
-            <h2 className="font-heading text-2xl md:text-3xl font-semibold text-foreground">
+            <h2 className="font-heading text-lg md:text-2xl lg:text-3xl font-semibold text-foreground leading-tight">
               Традицията – класическа интегрална йога на Бихарската школа
             </h2>
           </div>
 
           {/* Satyananda Yoga */}
-          <div className="mb-12 p-8 rounded-2xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
-            <div className="flex items-center gap-3 mb-4">
+          <div className="mb-8 md:mb-12 p-6 md:p-8 rounded-2xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
+            <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
               <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0">
                 <Sparkles className="w-5 h-5 text-secondary" />
               </div>
-              <h3 className="font-heading text-xl md:text-2xl font-semibold text-foreground">
+              <h3 className="font-heading text-lg md:text-xl lg:text-2xl font-semibold text-foreground">
                 Сатянанда йога
               </h3>
             </div>
-            <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
+            <div className="space-y-3 md:space-y-4 text-sm md:text-base text-muted-foreground font-body leading-relaxed">
               <p>
                 Разработена от Шри Свами Сатянанда и доразвивана от неговите
                 ученици, традицията на Сатянанда йога ни предоставя пълноценна
@@ -239,24 +239,28 @@ export default function AboutPage() {
 
           {/* Yoga Chakra */}
           <YogaTypesGrid
-            title="Йога чакра или Колелото на йога"
-            description="Тук са видовете йога Бахиранга и Антаранга:"
+            title="Йога Бахиранга"
             types={[
               { id: 1, name: "Хатха йога" },
               { id: 2, name: "Раджа йога" },
-              { id: 3, name: "Гяна йога" },
-              { id: 4, name: "Крия йога" },
+              { id: 3, name: "Крия йога" },
+            ]}
+          />
+          <YogaTypesGrid
+            title="Йога Антаранга"
+            types={[
+              { id: 4, name: "Гяна йога" },
               { id: 5, name: "Бхакти йога" },
               { id: 6, name: "Карма йога" },
             ]}
           />
 
           {/* Yoga Vidya */}
-          <div className="mb-12 p-8 rounded-2xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
-            <h3 className="font-heading text-xl md:text-2xl font-semibold text-foreground mb-4 flex items-center gap-2">
+          <div className="mb-8 md:mb-12 p-6 md:p-8 rounded-2xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
+            <h3 className="font-heading text-lg md:text-xl lg:text-2xl font-semibold text-foreground mb-3 md:mb-4 flex items-center gap-2">
               <span className="text-secondary">◉</span> Йога видя
             </h3>
-            <p className="text-muted-foreground font-body leading-relaxed">
+            <p className="text-sm md:text-base text-muted-foreground font-body leading-relaxed">
               Познанието на Ведите, Упанишадите и Пураните, запознаване с извори
               на йога от древността и мъдростта на адептите в йога. Връзката
               между древното познание и съвременните научни изследвания.
@@ -264,16 +268,16 @@ export default function AboutPage() {
           </div>
 
           {/* Working Environment */}
-          <div className="mt-12 p-8 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 border-2 border-secondary/30 shadow-lg">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center flex-shrink-0">
-                <Users className="w-6 h-6 text-secondary" />
+          <div className="mt-8 md:mt-12 p-6 md:p-8 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 border-2 border-secondary/30 shadow-lg">
+            <div className="flex items-start gap-3 md:gap-4">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-secondary/20 flex items-center justify-center flex-shrink-0">
+                <Users className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
               </div>
               <div>
-                <p className="font-heading text-xl font-semibold text-foreground mb-2">
+                <p className="font-heading text-lg md:text-xl font-semibold text-foreground mb-1 md:mb-2">
                   Работим в малки групи
                 </p>
-                <p className="text-muted-foreground font-body text-lg">
+                <p className="text-muted-foreground font-body text-base md:text-lg">
                   Обстановката е комфортна, спокойна и приятелска.
                 </p>
               </div>
@@ -283,56 +287,56 @@ export default function AboutPage() {
       </section>
 
       {/* Inspiration */}
-      <section className="section-padding bg-gradient-to-b from-muted/30 to-background">
+      <section className="py-12 md:py-16 lg:py-20 section-padding bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto max-w-4xl">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center shadow-sm">
-              <Heart className="w-6 h-6 text-secondary" />
+          <div className="flex items-center gap-2 md:gap-3 mb-6 md:mb-8 px-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center shadow-sm flex-shrink-0">
+              <Heart className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
             </div>
-            <h2 className="font-heading text-2xl md:text-3xl font-semibold text-foreground">
+            <h2 className="font-heading text-xl md:text-2xl lg:text-3xl font-semibold text-foreground">
               Вдъхновението
             </h2>
           </div>
 
-          <div className="space-y-6 text-muted-foreground font-body leading-relaxed">
+          <div className="space-y-4 md:space-y-6 text-muted-foreground font-body leading-relaxed">
             {/* Timeline */}
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-muted/40 to-muted/10 border border-border/50">
-              <div className="space-y-6">
-                <div className="flex gap-6 items-start">
-                  <div className="flex-shrink-0 w-16 text-xl font-bold font-heading text-secondary">
+            <div className="p-6 md:p-8 rounded-2xl bg-gradient-to-br from-muted/40 to-muted/10 border border-border/50">
+              <div className="space-y-4 md:space-y-6">
+                <div className="flex flex-col md:flex-row gap-2 md:gap-6 items-start">
+                  <div className="flex-shrink-0 w-full md:w-16 text-lg md:text-xl font-bold font-heading text-secondary">
                     2010
                   </div>
-                  <p className="text-foreground/80 leading-relaxed pt-1">
+                  <p className="text-sm md:text-base text-foreground/80 leading-relaxed w-full md:pt-1">
                     Началото беше поставено с къща за киртан и духовни
                     споделяния, и обособено място за ведически ритуали.
                   </p>
                 </div>
-                <div className="flex gap-6 items-start">
-                  <div className="flex-shrink-0 w-16 text-xl font-bold font-heading text-secondary">
+                <div className="flex flex-col md:flex-row gap-2 md:gap-6 items-start">
+                  <div className="flex-shrink-0 w-full md:w-16 text-lg md:text-xl font-bold font-heading text-secondary">
                     2019
                   </div>
-                  <p className="text-foreground/80 leading-relaxed pt-1">
+                  <p className="text-sm md:text-base text-foreground/80 leading-relaxed w-full md:pt-1">
                     Беше построена основната сграда – панорамна зала и споделено
                     пространство за сън с всички удобства.
                   </p>
                 </div>
-                <div className="flex gap-6 items-start">
-                  <div className="flex-shrink-0 w-16 text-xl font-bold font-heading text-secondary">
+                <div className="flex flex-col md:flex-row gap-2 md:gap-6 items-start">
+                  <div className="flex-shrink-0 w-full md:w-16 text-lg md:text-xl font-bold font-heading text-secondary">
                     2023
                   </div>
-                  <p className="text-foreground/80 leading-relaxed pt-1">
+                  <p className="text-sm md:text-base text-foreground/80 leading-relaxed w-full md:pt-1">
                     Къща с четири двойни стаи с всички удобства.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 border-l-4 border-secondary">
-              <div className="flex items-start gap-4">
+            <div className="p-6 md:p-8 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 border-l-4 border-secondary">
+              <div className="flex items-start gap-3 md:gap-4">
                 <div className="flex-shrink-0 mt-1">
-                  <Sparkles className="w-6 h-6 text-secondary" />
+                  <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
                 </div>
-                <p className="text-lg font-semibold text-foreground leading-relaxed">
+                <p className="text-base md:text-lg font-semibold text-foreground leading-relaxed">
                   В основата - едно несекващо вдъхновение, пробудено от
                   вълшебството на йога, което продължава вече 19 години.
                 </p>
@@ -340,19 +344,19 @@ export default function AboutPage() {
             </div>
 
             {/* Mariana Karlova */}
-            <div className="mt-12 pt-12 border-t-2 border-secondary/20">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center">
-                  <Award className="w-5 h-5 text-secondary" />
+            <div className="mt-8 md:mt-12 pt-8 md:pt-12 border-t-2 border-secondary/20">
+              <div className="flex items-center gap-2 md:gap-3 mb-6 md:mb-8 px-4">
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center flex-shrink-0">
+                  <Award className="w-4 h-4 md:w-5 md:h-5 text-secondary" />
                 </div>
-                <h3 className="font-heading text-2xl font-semibold text-foreground">
+                <h3 className="font-heading text-xl md:text-2xl font-semibold text-foreground">
                   Движещата сила
                 </h3>
               </div>
 
-              <div className="space-y-6 p-8 rounded-2xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
-                <div className="prose prose-lg max-w-none">
-                  <p className="text-lg font-semibold text-foreground mb-6">
+              <div className="space-y-4 md:space-y-6 p-6 md:p-8 rounded-2xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
+                <div className="prose prose-sm md:prose-lg max-w-none">
+                  <p className="text-base md:text-lg font-semibold text-foreground mb-4 md:mb-6">
                     Мариана Кърлова - Даятма
                   </p>
 
@@ -367,8 +371,8 @@ export default function AboutPage() {
                     качествата към които да се стремя.
                   </p>
 
-                  <div className="p-6 my-6 rounded-xl bg-secondary/5 border-l-4 border-secondary/50">
-                    <p className="italic text-foreground">
+                  <div className="p-4 md:p-6 my-4 md:my-6 rounded-xl bg-secondary/5 border-l-4 border-secondary/50">
+                    <p className="italic text-sm md:text-base text-foreground">
                       Срещнах йога през пролетта на 2007 година. Впечатлението
                       от тази първа среща остана незабравимо за мен! Този момент
                       положи начало на пълно преобразяване в живота ми.
@@ -394,8 +398,8 @@ export default function AboutPage() {
                     по-радостна и по-креативна.
                   </p>
 
-                  <div className="p-6 my-6 rounded-xl bg-muted/50">
-                    <h4 className="font-heading text-lg font-semibold text-foreground mb-3">
+                  <div className="p-4 md:p-6 my-4 md:my-6 rounded-xl bg-muted/50">
+                    <h4 className="font-heading text-base md:text-lg font-semibold text-foreground mb-2 md:mb-3">
                       Сатянанда йога / Бихарска школа
                     </h4>
                     <p>
@@ -432,8 +436,8 @@ export default function AboutPage() {
                     международното йога общество.
                   </p>
 
-                  <div className="p-6 my-6 rounded-xl bg-secondary/5">
-                    <p className="font-medium text-foreground">
+                  <div className="p-4 md:p-6 my-4 md:my-6 rounded-xl bg-secondary/5">
+                    <p className="font-medium text-sm md:text-base text-foreground">
                       Преподавам йога в светлината на философията на йогийската
                       науката и ведическото познание.
                     </p>
@@ -464,8 +468,8 @@ export default function AboutPage() {
                     моето семейство, приятели и съмишленици.
                   </p>
 
-                  <div className="p-8 my-6 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 border-2 border-secondary/30">
-                    <p className="text-xl font-semibold text-foreground text-center">
+                  <div className="p-6 md:p-8 my-4 md:my-6 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 border-2 border-secondary/30">
+                    <p className="text-lg md:text-xl font-semibold text-foreground text-center">
                       Ако и вие искате да надзърнете в света на йога, да
                       преоткриете силата и енергията си, да опознаете себе си,
                       се оздравите, да се радвате повече на ежедневието си и
@@ -480,34 +484,34 @@ export default function AboutPage() {
       </section>
 
       {/* Values / CTA */}
-      <section className="section-padding bg-gradient-section">
+      <section className="py-12 md:py-16 lg:py-20 section-padding bg-gradient-section">
         <div
           ref={valuesRef}
           className="container mx-auto max-w-4xl text-center"
         >
-          <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mx-auto mb-6">
-            <BookOpen className="w-7 h-7 text-secondary" />
+          <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-secondary/10 flex items-center justify-center mx-auto mb-4 md:mb-6">
+            <BookOpen className="w-6 h-6 md:w-7 md:h-7 text-secondary" />
           </div>
-          <h2 className="font-heading text-2xl font-semibold text-foreground mb-4">
+          <h2 className="font-heading text-xl md:text-2xl font-semibold text-foreground mb-3 md:mb-4 px-4">
             Запознайте се с практиките и видовете йога
           </h2>
-          <p className="text-muted-foreground font-body mb-8 max-w-xl mx-auto">
+          <p className="text-sm md:text-base text-muted-foreground font-body mb-6 md:mb-8 max-w-xl mx-auto px-4">
             Разгледайте нашите практики, прочетете за различните видове йога и
             се запишете за следващото събитие.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 px-4">
             <AnimatedLink href="/#yoga-system">
-              <span className="inline-flex items-center justify-center rounded-lg bg-secondary px-6 py-3 text-sm font-medium text-secondary-foreground hover:bg-secondary/90 transition-colors">
+              <span className="inline-flex items-center justify-center rounded-lg bg-secondary px-6 py-3 text-sm font-medium text-secondary-foreground hover:bg-secondary/90 transition-colors w-full sm:w-auto">
                 Предлагаме ви
               </span>
             </AnimatedLink>
             <AnimatedLink href="/#yoga-types">
-              <span className="inline-flex items-center justify-center rounded-lg border border-border bg-background px-6 py-3 text-sm font-medium text-foreground hover:bg-muted transition-colors">
+              <span className="inline-flex items-center justify-center rounded-lg border border-border bg-background px-6 py-3 text-sm font-medium text-foreground hover:bg-muted transition-colors w-full sm:w-auto">
                 Видове йога
               </span>
             </AnimatedLink>
             <AnimatedLink href="/#events">
-              <span className="inline-flex items-center justify-center rounded-lg border border-border bg-background px-6 py-3 text-sm font-medium text-foreground hover:bg-muted transition-colors">
+              <span className="inline-flex items-center justify-center rounded-lg border border-border bg-background px-6 py-3 text-sm font-medium text-foreground hover:bg-muted transition-colors w-full sm:w-auto">
                 Събития
               </span>
             </AnimatedLink>

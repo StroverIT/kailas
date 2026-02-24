@@ -84,7 +84,7 @@ const YogaSystemSection = () => {
             Нашите практики
           </p>
           <p className="text-primary-foreground/90 font-body mb-4">
-            Какво получавате от практиките, които провеждаме (групово або
+            Какво получавате от практиките, които провеждаме (групово или
             индивидуално)?
           </p>
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-6">
