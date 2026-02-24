@@ -98,7 +98,7 @@ const BookingSection = () => {
           <h2 className="section-heading mb-4">
             Добре дошли в{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
-              „Кайлас"
+              „Кайлас“
             </span>{" "}
             йога център
           </h2>

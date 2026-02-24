@@ -127,7 +127,7 @@ const ExperienceSection = () => {
             <p>
               Йога център{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
-                „Кайлас"
+                „Кайлас“
               </span>{" "}
               предлага класически йога практики на място и онлайн, с които да
               придобиете базисни познания и умения в йога и да обогатите

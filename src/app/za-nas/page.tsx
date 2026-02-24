@@ -121,7 +121,7 @@ export default function AboutPage() {
             <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
               <Image
                 src="/images/gallery-20220605.jpg"
-                alt="Йога център Кайлас – практики"
+                alt="Йога център „Кайлас“ – практики"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 33vw"
@@ -130,7 +130,7 @@ export default function AboutPage() {
             <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
               <Image
                 src="/images/gallery-DSC09196.jpeg"
-                alt="Йога център Кайлас – пространство"
+                alt="Йога център „Кайлас“ – пространство"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 33vw"
@@ -139,7 +139,7 @@ export default function AboutPage() {
             <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
               <Image
                 src="/images/gallery-20220129.jpg"
-                alt="Йога център Кайлас – природа"
+                alt="Йога център „Кайлас“ – природа"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 33vw"

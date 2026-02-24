@@ -116,7 +116,7 @@ const ConceptSection = () => {
             <p className="section-subheading mx-auto">
               Чиста природа и спокойствие. Йога център{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
-                „Кайлас"
+                „Кайлас“
               </span>{" "}
               се намира в сърцето на Природен парк Врачански Балкан, само на 2
               км от пещерата Леденика. Разположен е върху площ от 10.6 дка с

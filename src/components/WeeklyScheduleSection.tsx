@@ -198,7 +198,7 @@ const WeeklyScheduleSection = () => {
           <p className="section-subheading mx-auto">
             Седмична програма на редовните практики в{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
-              Кайлас
+              „Кайлас“
             </span>
           </p>
         </div>
