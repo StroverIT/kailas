@@ -129,24 +129,16 @@ const HeroSection = () => {
       {/* Background image - Breath scale */}
       <div ref={bgRef} className="absolute inset-0 overflow-hidden">
         <Image
-          src="/images/20220520_201852-scaled.jpg"
+          src="/images/herosection.jpg"
           alt=""
           fill
           priority
-          className="object-cover object-center scale-100"
+          className="object-cover object-center"
           sizes="100vw"
         />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, hsl(var(--warm-dark) / 0.6) 0%, hsl(var(--warm-dark) / 0.3) 50%, hsl(var(--primary) / 0.4) 100%)",
-          }}
-          aria-hidden
-        />
+
       </div>
       {/* Overlay + pulse */}
-      <div className="absolute inset-0 bg-gradient-hero z-[1]" />
       <div
         ref={overlayPulseRef}
         className="absolute inset-0 z-[1] bg-primary/20"
@@ -173,16 +165,11 @@ const HeroSection = () => {
         aria-hidden
       />
 
-      <div className="relative z-10 container mx-auto px-6 sm:px-8 text-center max-w-4xl py-8">
-        <p
-          ref={taglineRef}
-          className="text-xs sm:text-sm md:text-base font-body tracking-[0.2em] sm:tracking-[0.3em] uppercase text-primary-foreground/70 mb-4 sm:mb-6"
-        >
-          Да приложим познанието на йога за един по-добър живот
-        </p>
+      <div className="relative z-10 container mx-auto px-6 sm:px-8 text-center max-w-4xl pt-56">
+
         <h1
           ref={titleRef}
-          className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-4 sm:mb-6 px-2"
+          className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-primary-foreground leading-tight mb-4 sm:mb-6 px-2"
         >
           Живей с йога в прегръдката на природата
         </h1>
@@ -195,10 +182,10 @@ const HeroSection = () => {
         </p>
         <div
           ref={buttonsRef}
-          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0 pt-28"
         >
           <SunGlowButton href="#schedule" variant="hero">
-            Актуален график на практиките
+            График на практиките
           </SunGlowButton>
           <SunGlowButton href="#events" variant="hero-outline">
             Събития

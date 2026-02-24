@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
+import { Lora } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { GoogleAnalyticsProvider } from "@/components/GoogleAnalytics";
 import { Providers } from "./providers";
 import "@/index.css";
+
+const lora = Lora({
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Kailas Yogalife",
@@ -25,7 +31,9 @@ export default function RootLayout({
   return (
     <html lang="bg" suppressHydrationWarning>
       <GoogleAnalyticsProvider />
-      <body className="min-h-screen bg-background text-foreground antialiased">
+      <body
+        className={`${lora.className} min-h-screen bg-background text-foreground antialiased`}
+      >
         <Providers>
           {children}
           <Toaster />
