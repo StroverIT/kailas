@@ -239,13 +239,17 @@ export default function AboutPage() {
 
           {/* Yoga Chakra */}
           <YogaTypesGrid
-            title="Йога чакра или Колелото на йога"
-            description="Тук са видовете йога Бахиранга и Антаранга:"
+            title="Йога Бахиранга"
             types={[
               { id: 1, name: "Хатха йога" },
               { id: 2, name: "Раджа йога" },
-              { id: 3, name: "Гяна йога" },
-              { id: 4, name: "Крия йога" },
+              { id: 3, name: "Крия йога" },
+            ]}
+          />
+          <YogaTypesGrid
+            title="Йога Антаранга"
+            types={[
+              { id: 4, name: "Гяна йога" },
               { id: 5, name: "Бхакти йога" },
               { id: 6, name: "Карма йога" },
             ]}
