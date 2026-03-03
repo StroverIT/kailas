@@ -3,35 +3,18 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  Heart,
-  Moon,
-  Flame,
-  Music,
-  HandHeart,
-  Sparkles,
-  BookOpen,
-  Church,
-} from "lucide-react";
+import { useRouter } from "next/navigation";
 import { revealConfig } from "@/lib/animationConfig";
+import { practices } from "@/app/praktiki/data";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const practices = [
-
-
-  {
-    name: "Хатха йога",
-    desc: "Йога Нидра е древна техника за дълбока релаксация, която води до състояние между будност и сън. Тази практика намалява стреса, подобрява качеството на съня и води до дълбока регенерация на тялото и ума.",
-    icon: Moon,
-  }
-];
-
 const YogaSystemSection = () => {
+  const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const practiceRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const practiceRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -107,25 +90,27 @@ const YogaSystemSection = () => {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {practices.map((p, i) => (
-            <div
-              key={p.name}
+            <button
+              key={p.title}
               ref={(el) => {
                 practiceRefs.current[i] = el;
               }}
-              className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-primary-foreground/15 transition-all duration-300 hover:scale-105"
+              type="button"
+              onClick={() => router.push(`/praktiki?practice=${i}`)}
+              className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-primary-foreground/15 transition-all duration-300 hover:scale-105 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-secondary"
             >
               <div className="flex flex-col items-center text-center">
                 <div className="bg-primary-foreground/10 rounded-full p-4 mb-4">
                   <p.icon className="w-8 h-8 text-secondary" />
                 </div>
                 <h4 className="font-heading text-lg font-semibold mb-3">
-                  {p.name}
+                  {p.title}
                 </h4>
                 <p className="text-sm text-primary-foreground/70 font-body leading-relaxed">
-                  {p.desc}
+                  {p.description}
                 </p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

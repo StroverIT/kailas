@@ -1,119 +1,21 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  Heart,
-  Moon,
-  Flame,
-  Music,
-  HandHeart,
-  Sparkles,
-  BookOpen,
-  Church,
-} from "lucide-react";
+
 import FooterSection from "@/components/FooterSection";
-import { revealConfig } from "@/lib/animationConfig";
 import { Button } from "@/components/ui/button";
+import { practices } from "./data";
+import { Sparkles, Heart } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const practices = [
-  {
-    icon: Heart,
-    title: "Класове по йога",
-    description:
-      "Интегрират практики на асани (физически упражнения с фокус на ума и осъзнавания), дихателни техники (пранаяма), мантра, релаксация, медитация",
-    details:
-      "Нашите класове по йога са интегриран подход, който съчетава физическата практика с ментална дисциплина. Всяка сесия включва работа с тялото чрез асани, контрол на дишането чрез пранаяма, използване на мантри за фокусиране на ума, задълбочена релаксация и медитативни практики.",
-    benefits: [
-      "Физическа сила и гъвкавост",
-      "Ментална яснота",
-      "Емоционален баланс",
-    ],
-  },
-  {
-    icon: Moon,
-    title: "Практики за осъзната релаксация",
-    description: "Йога Нидра, Йогическа дрямка и др.",
-    details:
-      "Йога Нидра е древна техника за дълбока релаксация, която води до състояние между будност и сън. Тази практика намалява стреса, подобрява качеството на съня и води до дълбока регенерация на тялото и ума.",
-    benefits: ["Намаляване на стреса", "По-добър сън", "Дълбока регенерация"],
-  },
-  {
-    icon: Flame,
-    title: "Класове по медитация",
-    description: "Различни техники на медитация за вътрешен мир и осъзнаване",
-    details:
-      "Практикуваме различни форми на медитация - от концентрация върху дишането до випасана и любяща доброта медитация. Всяка техника има своя уникален ефект върху ума и съзнанието.",
-    benefits: [
-      "Вътрешен мир",
-      "По-добра концентрация",
-      "Емоционална стабилност",
-    ],
-  },
-  {
-    icon: Sparkles,
-    title: "Раджа йога",
-    description: "Царският път на йога - контрол на ума и медитативни практики",
-    details:
-      "Раджа йога е систематичен подход за контрол на ума чрез осемте стъпки на Патанджали. Това е пътят към самопознание чрез дисциплина, самоконтрол и медитация.",
-    benefits: ["Контрол на ума", "Вътрешна дисциплина", "Духовно развитие"],
-  },
-  {
-    icon: BookOpen,
-    title: "Йога видя",
-    description: "Свързване с познанието и мъдростта",
-    details:
-      "Йога видя е пътят на познанието и мъдростта. Чрез изучаване на древните текстове, философски размисъл и дискусии се разкрива дълбокото разбиране на реалността и себе си.",
-    benefits: ["Дълбоко разбиране", "Философска мъдрост", "Самопознание"],
-  },
-  {
-    icon: HandHeart,
-    title: "Карма йога и сева",
-    description: "Йога на безкористното действие и служене",
-    details:
-      "Карма йога учи на безкористно действие без привързаност към резултата. Сева (служене) е практическото приложение на тази философия чрез помощ на другите без очакване за награда.",
-    benefits: ["Безкористност", "Чувство за цел", "Духовен растеж"],
-  },
-  {
-    icon: Heart,
-    title: "Бхакти йога",
-    description: "Йога на преданието и любовта",
-    details:
-      "Бхакти йога е пътят на предаността и божествената любов. Чрез пеене, молитва и ритуали се развива дълбока връзка с божественото и се отваря сърцето.",
-    benefits: [
-      "Отвореност на сърцето",
-      "Емоционална трансформация",
-      "Духовна връзка",
-    ],
-  },
-  {
-    icon: Music,
-    title: "Практики със звуци. Мантри. Киртан",
-    description: "Използване на звук и вибрации за хармонизиране",
-    details:
-      "Звукът и вибрациите имат мощен ефект върху съзнанието. Чрез мантри и киртан (групово пеене) се създават вибрации, които хармонизират ума, тялото и духа.",
-    benefits: ["Хармонизация на енергията", "Общност", "Радост и вдъхновение"],
-  },
-  {
-    icon: Church,
-    title: "Ведически практики и ритуали",
-    description: "Древни традиционни практики от йогическата традиция",
-    details:
-      "Ведическите практики са древни ритуали и церемонии, предавани през вековете. Те включват пуджи, хавани и други свещени действия, които създават свещено пространство и подпомагат духовния растеж.",
-    benefits: [
-      "Свещено пространство",
-      "Традиционна мъдрост",
-      "Духовна трансформация",
-    ],
-  },
-];
 
 export default function PraktikiPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -179,6 +81,27 @@ export default function PraktikiPage() {
     return () => ctx.revert();
   }, []);
 
+  // Open a specific practice when coming from the home section
+  useEffect(() => {
+    const practiceParam = searchParams?.get("practice");
+    if (practiceParam !== null) {
+      const index = Number(practiceParam);
+      if (!Number.isNaN(index)) {
+        setExpandedCard(index);
+      }
+    }
+  }, [searchParams]);
+
+  // Scroll to the opened practice card
+  useEffect(() => {
+    if (expandedCard !== null) {
+      const card = practiceCardRefs.current[expandedCard];
+      if (card) {
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [expandedCard]);
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -236,11 +159,10 @@ export default function PraktikiPage() {
                   ref={(el) => {
                     practiceCardRefs.current[index] = el;
                   }}
-                  className={`group bg-card/50 backdrop-blur-sm border-2 border-border rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer ${
-                    isExpanded
-                      ? "md:col-span-2 lg:col-span-3 shadow-2xl border-secondary/50 bg-card"
-                      : "hover:shadow-xl hover:border-secondary/30 hover:scale-[1.02] hover:-translate-y-1"
-                  }`}
+                  className={`group bg-card/50 backdrop-blur-sm border-2 border-border rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer ${isExpanded
+                    ? "md:col-span-2 lg:col-span-3 shadow-2xl border-secondary/50 bg-card"
+                    : "hover:shadow-xl hover:border-secondary/30 hover:scale-[1.02] hover:-translate-y-1"
+                    }`}
                   onClick={() => toggleCard(index)}
                 >
                   <div className="p-6">
@@ -249,14 +171,12 @@ export default function PraktikiPage() {
                     >
                       {/* Icon */}
                       <div
-                        className={`flex-shrink-0 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${
-                          isExpanded ? "w-20 h-20" : "w-14 h-14 mb-4"
-                        }`}
+                        className={`flex-shrink-0 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${isExpanded ? "w-20 h-20" : "w-14 h-14 mb-4"
+                          }`}
                       >
                         <practice.icon
-                          className={`text-primary transition-all duration-500 group-hover:text-secondary ${
-                            isExpanded ? "w-10 h-10" : "w-7 h-7"
-                          }`}
+                          className={`text-primary transition-all duration-500 group-hover:text-secondary ${isExpanded ? "w-10 h-10" : "w-7 h-7"
+                            }`}
                         />
                       </div>
 
