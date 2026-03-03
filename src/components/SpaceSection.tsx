@@ -98,7 +98,7 @@ const SpaceSection = () => {
           <p className="section-subheading mx-auto">
             Йога център{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
-              „Кайлас"
+              „Кайлас“
             </span>{" "}
             – 10.6 декара в Природен парк „Врачански Балкан", на 2 км от пещера
             Леденика. Панорамна гледка към изгрева и равнината.

@@ -81,7 +81,7 @@ const PurposeSection = () => {
             <strong className="text-secondary">
               добре дошли в{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-forest-light">
-                „Кайлас"
+                „Кайлас“
               </span>{" "}
               йога център
             </strong>

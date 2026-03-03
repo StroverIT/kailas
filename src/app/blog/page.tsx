@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Блог | Кайлас Йогалайф",
   description:
-    "Йога практики, знания и събития от Йога център Кайлас. Да приложим познанието на йога за един по-добър живот.",
+    "Йога практики, знания и събития от Йога център „Кайлас“. Да приложим познанието на йога за един по-добър живот.",
 };
 
 export default async function BlogPage() {
@@ -26,7 +26,8 @@ export default async function BlogPage() {
             Блог
           </h1>
           <p className="text-muted-foreground font-body text-lg">
-            Йога практики, знания и събития. Да приложим познанието на йога за един по-добър живот.
+            Йога практики, знания и събития. Да приложим познанието на йога за
+            един по-добър живот.
           </p>
         </div>
       </section>
@@ -42,7 +43,10 @@ export default async function BlogPage() {
                 <div className="flex flex-col md:flex-row">
                   {post.image && (
                     <div className="relative w-full md:w-64 aspect-video md:aspect-[4/3] shrink-0">
-                      <AnimatedLink href={`/blog/${post.slug}`} className="block h-full">
+                      <AnimatedLink
+                        href={`/blog/${post.slug}`}
+                        className="block h-full"
+                      >
                         <Image
                           src={post.image}
                           alt={post.title}
@@ -114,7 +118,7 @@ export default async function BlogPage() {
                       >
                         {num}
                       </AnimatedLink>
-                    )
+                    ),
                 )}
               </div>
             </nav>

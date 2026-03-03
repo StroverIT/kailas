@@ -121,7 +121,7 @@ export default function AboutPage() {
             <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
               <Image
                 src="/images/gallery-20220605.jpg"
-                alt="Йога център Кайлас – практики"
+                alt="Йога център „Кайлас“ – практики"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 33vw"
@@ -130,7 +130,7 @@ export default function AboutPage() {
             <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
               <Image
                 src="/images/gallery-DSC09196.jpeg"
-                alt="Йога център Кайлас – пространство"
+                alt="Йога център „Кайлас“ – пространство"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 33vw"
@@ -139,7 +139,7 @@ export default function AboutPage() {
             <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
               <Image
                 src="/images/gallery-20220129.jpg"
-                alt="Йога център Кайлас – природа"
+                alt="Йога център „Кайлас“ – природа"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 33vw"
@@ -241,17 +241,17 @@ export default function AboutPage() {
           <YogaTypesGrid
             title="Йога Бахиранга"
             types={[
-              { id: 1, name: "Хатха йога" },
-              { id: 2, name: "Раджа йога" },
-              { id: 3, name: "Крия йога" },
+              { id: 1, name: "Хатха йога", slug: "hatha-yoga" },
+              { id: 2, name: "Раджа йога", slug: "raja-yoga" },
+              { id: 3, name: "Крия йога", slug: "kriya-yoga" },
             ]}
           />
           <YogaTypesGrid
             title="Йога Антаранга"
             types={[
-              { id: 4, name: "Гяна йога" },
-              { id: 5, name: "Бхакти йога" },
-              { id: 6, name: "Карма йога" },
+              { id: 4, name: "Гяна йога", slug: "gyana-yoga" },
+              { id: 5, name: "Бхакти йога", slug: "bhakti-yoga" },
+              { id: 6, name: "Карма йога", slug: "karma-yoga" },
             ]}
           />
 
