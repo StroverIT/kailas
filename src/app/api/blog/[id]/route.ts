@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { slugFromTitle } from "@/lib/slug";
 
 export async function GET(
   _request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   try {
@@ -19,14 +20,14 @@ export async function GET(
     console.error("GET /api/blog/[id]", error);
     return NextResponse.json(
       { error: "Failed to fetch blog post" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const session = await auth();
   if (!session?.user) {
@@ -50,7 +51,7 @@ export async function PUT(
     } = body;
 
     const data: Record<string, unknown> = {};
-    if (slug != null) data.slug = slug;
+    if (slug != null) data.slug = slugFromTitle(String(slug));
     if (title != null) data.title = title;
     if (excerpt != null) data.excerpt = excerpt;
     if (content != null) {
@@ -63,7 +64,8 @@ export async function PUT(
     }
     if (date != null) data.date = date;
     if (updatedDate !== undefined) data.updatedDate = updatedDate ?? null;
-    if (categories != null) data.categories = Array.isArray(categories) ? categories : undefined;
+    if (categories != null)
+      data.categories = Array.isArray(categories) ? categories : undefined;
     if (tags != null) data.tags = Array.isArray(tags) ? tags : undefined;
     if (featured !== undefined) data.featured = Boolean(featured);
     if (image !== undefined) data.image = image ?? null;
@@ -77,14 +79,14 @@ export async function PUT(
     console.error("PUT /api/blog/[id]", error);
     return NextResponse.json(
       { error: "Failed to update blog post" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function DELETE(
   _request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const session = await auth();
   if (!session?.user) {
@@ -99,7 +101,7 @@ export async function DELETE(
     console.error("DELETE /api/blog/[id]", error);
     return NextResponse.json(
       { error: "Failed to delete blog post" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

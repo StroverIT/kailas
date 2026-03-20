@@ -1,12 +1,6 @@
-export function slugFromTitle(title: string): string {
-  return title
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9а-яё\-]/gi, "")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "") || "";
-}
+import { slugFromTitle as slugify } from "@/lib/slug";
+
+export { slugify as slugFromTitle };
 
 /** Converts stored content (legacy JSON array or HTML) to HTML for the rich editor. */
 export function contentToHtml(content: string): string {
@@ -16,10 +10,12 @@ export function contentToHtml(content: string): string {
   try {
     const arr = JSON.parse(content);
     if (!Array.isArray(arr)) return "<p></p>";
-    return arr
-      .filter((p): p is string => typeof p === "string")
-      .map((p) => `<p>${escapeHtml(p)}</p>`)
-      .join("") || "<p></p>";
+    return (
+      arr
+        .filter((p): p is string => typeof p === "string")
+        .map((p) => `<p>${escapeHtml(p)}</p>`)
+        .join("") || "<p></p>"
+    );
   } catch {
     return `<p>${escapeHtml(content)}</p>`;
   }

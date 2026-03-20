@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { slugFromTitle } from "@/lib/slug";
 
 /** Slugs for the 4 yoga practices shown on the homepage, in display order */
 const YOGA_PRACTICE_SLUGS = [
@@ -22,7 +23,7 @@ export async function GET(request: Request) {
       });
       const bySlug = new Map(posts.map((p) => [p.slug, p]));
       const ordered = YOGA_PRACTICE_SLUGS.map((s) => bySlug.get(s)).filter(
-        (p): p is NonNullable<typeof p> => p != null
+        (p): p is NonNullable<typeof p> => p != null,
       );
       return NextResponse.json(ordered);
     }
@@ -45,7 +46,7 @@ export async function GET(request: Request) {
     console.error("GET /api/blog", error);
     return NextResponse.json(
       { error: "Failed to fetch blog posts" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -71,13 +72,12 @@ export async function POST(request: Request) {
       image,
     } = body;
 
-    if (!slug || !title || !excerpt || !date) {
+    if (!title || !excerpt || !date) {
       return NextResponse.json(
         {
-          error:
-            "Missing required fields: slug, title, excerpt, date",
+          error: "Missing required fields: title, excerpt, date",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -88,9 +88,15 @@ export async function POST(request: Request) {
           ? JSON.stringify(content)
           : "[]";
 
+    // Normalize slug: if client supplied a slug use it, otherwise derive from title.
+    const normalizedSlug =
+      slug && String(slug).trim()
+        ? slugFromTitle(String(slug))
+        : slugFromTitle(String(title));
+
     const post = await prisma.blogPost.create({
       data: {
-        slug,
+        slug: normalizedSlug,
         title,
         excerpt,
         content: contentStr,
@@ -107,7 +113,7 @@ export async function POST(request: Request) {
     console.error("POST /api/blog", error);
     return NextResponse.json(
       { error: "Failed to create blog post" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
