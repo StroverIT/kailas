@@ -5,7 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { revealConfig } from "@/lib/animationConfig";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook } from "lucide-react";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -134,6 +134,15 @@ const FooterSection = () => {
                   България
                 </span>
               </div>
+              <a
+                href="https://www.facebook.com/groups/1158203292081395/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm text-primary-foreground/60 hover:text-secondary transition-colors font-body"
+              >
+                <Facebook className="w-4 h-4 shrink-0" />
+                Присъедини се в Facebook
+              </a>
             </div>
           </div>
         </div>
