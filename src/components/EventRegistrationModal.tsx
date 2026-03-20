@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { format } from "date-fns";
+import { bg } from "date-fns/locale";
 import {
   Dialog,
   DialogContent,
@@ -14,6 +16,50 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Users, Calendar, MapPin, Clock, CheckCircle } from "lucide-react";
 import type { Event } from "./EventsSection";
+
+const MONTH_KEYS: Record<string, number> = {
+  mar: 2,
+  apr: 3,
+  may: 4,
+  jun: 5,
+  jul: 6,
+  aug: 7,
+  sep: 8,
+  oct: 9,
+  nov: 10,
+  dec: 11,
+};
+
+const MONTH_LABELS: Record<string, string> = {
+  mar: "Март",
+  apr: "Април",
+  may: "Май",
+  jun: "Юни",
+  jul: "Юли",
+  aug: "Август",
+  sep: "Септември",
+  oct: "Октомври",
+  nov: "Ноември",
+  dec: "Декември",
+};
+
+const formatEventDayMonth = (event: Event): string => {
+  const dayMatch = event.date.match(/\d+/);
+  const day = dayMatch ? parseInt(dayMatch[0], 10) : 1;
+
+  const monthIndex = MONTH_KEYS[event.month];
+  if (monthIndex == null) {
+    return `${event.date} ${MONTH_LABELS[event.month] ?? ""}`.trim();
+  }
+
+  const d = new Date(2026, monthIndex, Math.max(1, day));
+  if (Number.isNaN(d.getTime())) {
+    return `${event.date} ${MONTH_LABELS[event.month] ?? ""}`.trim();
+  }
+
+  // Uses Bulgarian locale, so July will display as "юли".
+  return format(d, "d MMMM", { locale: bg });
+};
 
 interface EventRegistrationModalProps {
   event: Event | null;
@@ -31,7 +77,12 @@ const EventRegistrationModal = ({
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [form, setForm] = useState({ name: "", email: "", phone: "", note: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    note: "",
+  });
 
   if (!event) return null;
 
@@ -99,7 +150,7 @@ const EventRegistrationModal = ({
         <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground font-body border-b border-border pb-4">
           <span className="flex items-center gap-1.5">
             <Calendar className="w-4 h-4 text-secondary" />
-            {event.date}
+            {formatEventDayMonth(event)}
           </span>
           <span className="flex items-center gap-1.5">
             <MapPin className="w-4 h-4 text-secondary" />
@@ -111,7 +162,9 @@ const EventRegistrationModal = ({
               {time}
             </span>
           )}
-          <span className={`flex items-center gap-1.5 font-semibold ${spotsColor}`}>
+          <span
+            className={`flex items-center gap-1.5 font-semibold ${spotsColor}`}
+          >
             <Users className="w-4 h-4" />
             {registered}/{event.spots} места · {spotsLeft} свободни
           </span>
@@ -124,7 +177,8 @@ const EventRegistrationModal = ({
               Записването е успешно!
             </h3>
             <p className="text-sm text-muted-foreground font-body">
-              Ще се свържем с теб на <strong>{form.email}</strong> с допълнителна информация.
+              Ще се свържем с теб на <strong>{form.email}</strong> с
+              допълнителна информация.
             </p>
             <Button onClick={handleClose} className="mt-2">
               Затвори
@@ -132,9 +186,7 @@ const EventRegistrationModal = ({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <p className="text-sm text-destructive">{error}</p>
-            )}
+            {error && <p className="text-sm text-destructive">{error}</p>}
             <div className="space-y-2">
               <Label htmlFor="reg-name">Име *</Label>
               <Input
