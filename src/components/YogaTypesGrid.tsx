@@ -4,6 +4,7 @@ interface YogaType {
   id: number;
   name: string;
   slug?: string;
+  description?: string;
 }
 
 interface YogaTypesGridProps {
@@ -34,9 +35,14 @@ export default function YogaTypesGrid({
         {types.map((type) => {
           const CardContent = (
             <>
-              <p className="text-center font-heading font-semibold text-foreground text-sm md:text-base">
+              <p className="text-center font-heading font-semibold text-foreground text-sm md:text-base mb-2">
                 {type.name}
               </p>
+              {type.description && (
+                <p className="text-center text-xs md:text-sm text-muted-foreground font-body leading-relaxed">
+                  {type.description}
+                </p>
+              )}
             </>
           );
 

@@ -240,6 +240,7 @@ export default function AboutPage() {
           {/* Yoga Chakra */}
           <YogaTypesGrid
             title="Йога Бахиранга"
+            description="БАХИРАНГА или саням е външна йога, която практикуваме за постигане на баланс в живота и хармония в различните измерения на личността."
             types={[
               { id: 1, name: "Хатха йога", slug: "hatha-yoga" },
               { id: 2, name: "Раджа йога", slug: "raja-yoga" },
@@ -248,6 +249,7 @@ export default function AboutPage() {
           />
           <YogaTypesGrid
             title="Йога Антаранга"
+            description="АНТАРАНГА или вътрешна, изразяваща йога – чрез нея развиваме способността да управляваме генетично присъщите ни и вградени в поведението, личността и природата ни черти."
             types={[
               { id: 4, name: "Гяна йога", slug: "gyana-yoga" },
               { id: 5, name: "Бхакти йога", slug: "bhakti-yoga" },
