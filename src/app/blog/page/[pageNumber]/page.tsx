@@ -77,6 +77,11 @@ export default async function BlogPagePage({ params }: PageProps) {
                         {post.date}
                         {post.updatedDate && ` – ${post.updatedDate}`}
                       </span>
+                      {post.featured && (
+                        <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 dark:bg-amber-900 dark:text-amber-100">
+                          Избрано
+                        </span>
+                      )}
                       {post.categories
                         .filter((cat) => cat !== "Uncategorized")
                         .map((cat) => (

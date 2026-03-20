@@ -178,7 +178,7 @@ export function BlogPostFormDialog({
               }
               className="rounded border-input"
             />
-            <Label htmlFor="featured">Представена</Label>
+            <Label htmlFor="featured">Избрано</Label>
           </div>
           <Button type="submit" className="w-full">
             {editing.id ? "Запази промените" : "Създай публикация"}

@@ -7,7 +7,7 @@ function getBlogPostDelegate() {
   const delegate = (prisma as any).blogPost;
   if (!delegate) {
     throw new Error(
-      "Prisma client missing BlogPost model. Run: npx prisma generate. Then restart the dev server."
+      "Prisma client missing BlogPost model. Run: npx prisma generate. Then restart the dev server.",
     );
   }
   return delegate;
@@ -38,7 +38,10 @@ function contentToDisplayHtml(content: string): string {
     if (!Array.isArray(parsed)) return t;
     return parsed
       .filter((p): p is string => typeof p === "string")
-      .map((p) => `<p>${p.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")}</p>`)
+      .map(
+        (p) =>
+          `<p>${p.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")}</p>`,
+      )
       .join("");
   } catch {
     return content;
@@ -74,12 +77,12 @@ function rowToDisplay(row: {
 }
 
 export async function getBlogPostsByPage(
-  page: number
+  page: number,
 ): Promise<BlogPostDisplay[]> {
   const blogPost = getBlogPostDelegate();
   const skip = (page - 1) * POSTS_PER_PAGE;
   const rows = await blogPost.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
     skip,
     take: POSTS_PER_PAGE,
   });
@@ -93,7 +96,7 @@ export async function getTotalPages(): Promise<number> {
 }
 
 export async function getBlogPostBySlug(
-  slug: string
+  slug: string,
 ): Promise<BlogPostDisplay | null> {
   const blogPost = getBlogPostDelegate();
   const row = await blogPost.findUnique({
@@ -117,7 +120,7 @@ export async function getYogaPracticePosts(): Promise<BlogPostDisplay[]> {
   });
   const bySlug = new Map(rows.map((r) => [r.slug, r]));
   const ordered = YOGA_PRACTICE_SLUGS.map((s) => bySlug.get(s)).filter(
-    (r): r is NonNullable<typeof r> => r != null
+    (r): r is NonNullable<typeof r> => r != null,
   );
   return ordered.map(rowToDisplay);
 }
