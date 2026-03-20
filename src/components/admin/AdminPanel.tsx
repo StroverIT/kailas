@@ -139,6 +139,9 @@ export function AdminPanel() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [scheduleDialogOpen, setScheduleDialogOpen] = useState(false);
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
+  const [expandedScheduleEntryId, setExpandedScheduleEntryId] = useState<
+    string | null
+  >(null);
   const [showAllBookingInquiries, setShowAllBookingInquiries] = useState(false);
   const [activeTab, setActiveTab] = useState<"events" | "schedule">("events");
   const [loading, setLoading] = useState(true);
@@ -731,53 +734,103 @@ export function AdminPanel() {
                         entry.id,
                       );
                       const currentCount = currentWeekSignups.length;
+                      const isExpanded = expandedScheduleEntryId === entry.id;
                       return (
-                        <div
-                          key={entry.id}
-                          className="flex items-center gap-4 px-4 py-3 border-b border-border last:border-b-0"
-                        >
-                          <div className="flex items-center gap-1.5 text-secondary shrink-0">
-                            <Clock className="w-3.5 h-3.5" />
-                            <span className="text-sm font-medium">
-                              {entry.startTime} – {entry.endTime}
-                            </span>
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <span className="text-sm font-medium text-foreground">
-                              {entry.title}
-                            </span>
-                            {entry.description && (
-                              <span className="text-sm text-muted-foreground ml-2">
-                                ({entry.description})
-                              </span>
-                            )}
-                            <div className="mt-1 text-xs text-muted-foreground">
-                              Тази седмица записани:{" "}
-                              <span className="font-semibold text-foreground">
-                                {currentCount}
+                        <div key={entry.id}>
+                          <div className="flex items-center gap-4 px-4 py-3 border-b border-border last:border-b-0">
+                            <div className="flex items-center gap-1.5 text-secondary shrink-0">
+                              <Clock className="w-3.5 h-3.5" />
+                              <span className="text-sm font-medium">
+                                {entry.startTime} – {entry.endTime}
                               </span>
                             </div>
+                            <div className="flex-1 min-w-0">
+                              <span className="text-sm font-medium text-foreground">
+                                {entry.title}
+                              </span>
+                              {entry.description && (
+                                <span className="text-sm text-muted-foreground ml-2">
+                                  ({entry.description})
+                                </span>
+                              )}
+                              <div className="mt-1 text-xs text-muted-foreground">
+                                Тази седмица записани:{" "}
+                                <span className="font-semibold text-foreground">
+                                  {currentCount}
+                                </span>
+                              </div>
+                            </div>
+                            {currentCount > 0 && (
+                              <button
+                                onClick={() =>
+                                  setExpandedScheduleEntryId(
+                                    isExpanded ? null : entry.id,
+                                  )
+                                }
+                                className="p-1 hover:bg-muted rounded transition-colors"
+                              >
+                                {isExpanded ? (
+                                  <ChevronUp className="w-4 h-4" />
+                                ) : (
+                                  <ChevronDown className="w-4 h-4" />
+                                )}
+                              </button>
+                            )}
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => {
+                                setEditingSchedule({
+                                  ...entry,
+                                });
+                                setScheduleDialogOpen(true);
+                              }}
+                            >
+                              <Pencil className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="text-destructive hover:text-destructive"
+                              onClick={() => handleDeleteSchedule(entry.id)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
                           </div>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => {
-                              setEditingSchedule({
-                                ...entry,
-                              });
-                              setScheduleDialogOpen(true);
-                            }}
-                          >
-                            <Pencil className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="text-destructive hover:text-destructive"
-                            onClick={() => handleDeleteSchedule(entry.id)}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
+                          {isExpanded && currentCount > 0 && (
+                            <div className="border-t border-border bg-muted/20 px-4 py-3">
+                              <div className="overflow-x-auto">
+                                <Table>
+                                  <TableHeader>
+                                    <TableRow>
+                                      <TableHead>Име</TableHead>
+                                      <TableHead>Имейл</TableHead>
+                                      <TableHead>Телефон</TableHead>
+                                      <TableHead>Бележка</TableHead>
+                                    </TableRow>
+                                  </TableHeader>
+                                  <TableBody>
+                                    {currentWeekSignups.map((signup) => (
+                                      <TableRow key={signup.id}>
+                                        <TableCell className="text-sm font-medium">
+                                          {signup.name}
+                                        </TableCell>
+                                        <TableCell className="text-sm">
+                                          {signup.email}
+                                        </TableCell>
+                                        <TableCell className="text-sm">
+                                          {signup.phone || "–"}
+                                        </TableCell>
+                                        <TableCell className="text-sm max-w-[200px] truncate">
+                                          {signup.note || "–"}
+                                        </TableCell>
+                                      </TableRow>
+                                    ))}
+                                  </TableBody>
+                                </Table>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
