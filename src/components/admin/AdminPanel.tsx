@@ -109,8 +109,13 @@ const monthOptions = [
   { key: "sep", label: "Септември" },
   { key: "oct", label: "Октомври" },
   { key: "nov", label: "Ноември" },
-  { key: "dec", label: "Декември" }
+  { key: "dec", label: "Декември" },
 ];
+
+const getMonthLabel = (monthKey: string): string => {
+  const month = monthOptions.find((m) => m.key === monthKey);
+  return month ? month.label : "";
+};
 
 const sourceLabels: Record<EmailEntry["source"], string> = {
   lead_magnet: "Ръководство",
@@ -124,8 +129,11 @@ export function AdminPanel() {
   const [emails, setEmails] = useState<EmailEntry[]>([]);
   const [schedule, setSchedule] = useState<ScheduleEntry[]>([]);
   const [scheduleSignups, setScheduleSignups] = useState<ScheduleSignup[]>([]);
-  const [editingEvent, setEditingEvent] = useState<Omit<Event, "id"> & { id?: string } | null>(null);
-  const [editingSchedule, setEditingSchedule] = useState<EditableScheduleEntry | null>(null);
+  const [editingEvent, setEditingEvent] = useState<
+    (Omit<Event, "id"> & { id?: string }) | null
+  >(null);
+  const [editingSchedule, setEditingSchedule] =
+    useState<EditableScheduleEntry | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [scheduleDialogOpen, setScheduleDialogOpen] = useState(false);
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
@@ -181,7 +189,13 @@ export function AdminPanel() {
       fetchSchedule(),
       fetchScheduleSignups(),
     ]);
-  }, [fetchEvents, fetchRegistrations, fetchEmails, fetchSchedule, fetchScheduleSignups]);
+  }, [
+    fetchEvents,
+    fetchRegistrations,
+    fetchEmails,
+    fetchSchedule,
+    fetchScheduleSignups,
+  ]);
 
   useEffect(() => {
     (async () => {
@@ -261,7 +275,7 @@ export function AdminPanel() {
     scheduleSignups.filter(
       (s) =>
         s.scheduleEntryId === entryId &&
-        s.weekStart.slice(0, 10) === currentWeekStartIso.slice(0, 10)
+        s.weekStart.slice(0, 10) === currentWeekStartIso.slice(0, 10),
     );
 
   const handleSaveSchedule = async (e: React.FormEvent) => {
@@ -405,7 +419,7 @@ export function AdminPanel() {
                           </TableCell>
                           <TableCell className="text-muted-foreground">
                             {new Date(entry.createdAt).toLocaleDateString(
-                              "bg-BG"
+                              "bg-BG",
                             )}
                           </TableCell>
                         </TableRow>
@@ -429,7 +443,7 @@ export function AdminPanel() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-sm font-semibold text-secondary">
-                            {event.date}
+                            {event.date} {getMonthLabel(event.month)}
                           </span>
                           <span className="text-xs bg-muted px-2 py-0.5 rounded-full text-muted-foreground">
                             {event.type}
@@ -441,9 +455,7 @@ export function AdminPanel() {
                       </div>
                       <button
                         onClick={() =>
-                          setExpandedEventId(
-                            isExpanded ? null : event.id
-                          )
+                          setExpandedEventId(isExpanded ? null : event.id)
                         }
                         className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
@@ -460,12 +472,12 @@ export function AdminPanel() {
                         size="icon"
                         onClick={() => {
                           let duration = event.duration?.match(
-                            /\s*(минути|часа|дни|ден)$/
+                            /\s*(минути|часа|дни|ден)$/,
                           )
                             ? event.duration
                             : event.duration?.match(/^\d+$/)
                               ? `${event.duration} минути`
-                              : event.duration ?? "";
+                              : (event.duration ?? "");
                           if (duration?.match(/^1\s+дни$/)) duration = "1 ден";
                           setEditingEvent({ ...event, duration });
                           setDialogOpen(true);
@@ -507,9 +519,7 @@ export function AdminPanel() {
                                       {reg.name}
                                     </TableCell>
                                     <TableCell>{reg.email}</TableCell>
-                                    <TableCell>
-                                      {reg.phone || "–"}
-                                    </TableCell>
+                                    <TableCell>{reg.phone || "–"}</TableCell>
                                     <TableCell className="max-w-[200px] truncate">
                                       {reg.note || "–"}
                                     </TableCell>
@@ -578,7 +588,9 @@ export function AdminPanel() {
                       </span>
                     </div>
                     {dayEntries.map((entry) => {
-                      const currentWeekSignups = getCurrentWeekSignupsForEntry(entry.id);
+                      const currentWeekSignups = getCurrentWeekSignupsForEntry(
+                        entry.id,
+                      );
                       const currentCount = currentWeekSignups.length;
                       return (
                         <div
@@ -660,8 +672,8 @@ export function AdminPanel() {
                             {new Date(s.weekStart).toLocaleDateString("bg-BG")}
                           </TableCell>
                           <TableCell className="text-sm">
-                            {schedule.find((e) => e.id === s.scheduleEntryId)?.title ??
-                              "–"}
+                            {schedule.find((e) => e.id === s.scheduleEntryId)
+                              ?.title ?? "–"}
                           </TableCell>
                           <TableCell className="text-sm font-medium">
                             {s.name}
@@ -684,14 +696,23 @@ export function AdminPanel() {
         )}
       </main>
 
-      <Dialog open={dialogOpen} onOpenChange={(open) => { if (!open) { setDialogOpen(false); setEditingEvent(null); } }}>
+      <Dialog
+        open={dialogOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setDialogOpen(false);
+            setEditingEvent(null);
+          }
+        }}
+      >
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-heading">
               {editingEvent?.id ? "Редактирай събитие" : "Ново събитие"}
             </DialogTitle>
             <DialogDescription className="sr-only">
-              Форма за {editingEvent?.id ? "редактиране" : "създаване"} на събитие
+              Форма за {editingEvent?.id ? "редактиране" : "създаване"} на
+              събитие
             </DialogDescription>
           </DialogHeader>
           {editingEvent && (
@@ -701,7 +722,9 @@ export function AdminPanel() {
                 <Input
                   required
                   value={editingEvent.title}
-                  onChange={(e) => setEditingEvent({ ...editingEvent, title: e.target.value })}
+                  onChange={(e) =>
+                    setEditingEvent({ ...editingEvent, title: e.target.value })
+                  }
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -711,7 +734,9 @@ export function AdminPanel() {
                     required
                     placeholder="напр. 14–16"
                     value={editingEvent.date}
-                    onChange={(e) => setEditingEvent({ ...editingEvent, date: e.target.value })}
+                    onChange={(e) =>
+                      setEditingEvent({ ...editingEvent, date: e.target.value })
+                    }
                   />
                 </div>
                 <div className="space-y-2">
@@ -719,10 +744,17 @@ export function AdminPanel() {
                   <select
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                     value={editingEvent.month}
-                    onChange={(e) => setEditingEvent({ ...editingEvent, month: e.target.value })}
+                    onChange={(e) =>
+                      setEditingEvent({
+                        ...editingEvent,
+                        month: e.target.value,
+                      })
+                    }
                   >
                     {monthOptions.map((m) => (
-                      <option key={m.key} value={m.key}>{m.label}</option>
+                      <option key={m.key} value={m.key}>
+                        {m.label}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -734,7 +766,9 @@ export function AdminPanel() {
                     required
                     placeholder="напр. Уикенд ретрийт"
                     value={editingEvent.type}
-                    onChange={(e) => setEditingEvent({ ...editingEvent, type: e.target.value })}
+                    onChange={(e) =>
+                      setEditingEvent({ ...editingEvent, type: e.target.value })
+                    }
                   />
                 </div>
                 <div className="space-y-2">
@@ -743,7 +777,12 @@ export function AdminPanel() {
                     type="number"
                     min={1}
                     value={editingEvent.spots}
-                    onChange={(e) => setEditingEvent({ ...editingEvent, spots: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setEditingEvent({
+                        ...editingEvent,
+                        spots: Number(e.target.value),
+                      })
+                    }
                   />
                 </div>
               </div>
@@ -753,7 +792,9 @@ export function AdminPanel() {
                   <Input
                     placeholder="напр. 10:00"
                     value={editingEvent.time || ""}
-                    onChange={(e) => setEditingEvent({ ...editingEvent, time: e.target.value })}
+                    onChange={(e) =>
+                      setEditingEvent({ ...editingEvent, time: e.target.value })
+                    }
                   />
                 </div>
                 <div className="space-y-2">
@@ -763,14 +804,16 @@ export function AdminPanel() {
                       type="number"
                       min={1}
                       placeholder="бр."
-                      value={
-                        editingEvent.duration?.match(/\d+/)?.[0] ?? ""
-                      }
+                      value={editingEvent.duration?.match(/\d+/)?.[0] ?? ""}
                       onChange={(e) => {
                         const num = e.target.value;
-                        const rawUnit = editingEvent.duration?.match(/\s*(минути|часа|дни|ден)$/)?.[1] ?? "минути";
+                        const rawUnit =
+                          editingEvent.duration?.match(
+                            /\s*(минути|часа|дни|ден)$/,
+                          )?.[1] ?? "минути";
                         const unit = rawUnit === "ден" ? "дни" : rawUnit;
-                        const suffix = unit === "дни" && num === "1" ? "ден" : unit;
+                        const suffix =
+                          unit === "дни" && num === "1" ? "ден" : unit;
                         setEditingEvent({
                           ...editingEvent,
                           duration: num ? `${num} ${suffix}` : "",
@@ -780,14 +823,17 @@ export function AdminPanel() {
                     />
                     <select
                       className="flex h-10 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                      value={
-                        (editingEvent.duration?.match(/\s*(минути|часа|дни|ден)$/)?.[1] ?? "минути")
-                          .replace("ден", "дни")
-                      }
+                      value={(
+                        editingEvent.duration?.match(
+                          /\s*(минути|часа|дни|ден)$/,
+                        )?.[1] ?? "минути"
+                      ).replace("ден", "дни")}
                       onChange={(e) => {
                         const unit = e.target.value;
-                        const num = editingEvent.duration?.match(/^\d+/)?.[0] ?? "";
-                        const suffix = unit === "дни" && num === "1" ? "ден" : unit;
+                        const num =
+                          editingEvent.duration?.match(/^\d+/)?.[0] ?? "";
+                        const suffix =
+                          unit === "дни" && num === "1" ? "ден" : unit;
                         setEditingEvent({
                           ...editingEvent,
                           duration: num ? `${num} ${suffix}` : "",
@@ -805,7 +851,12 @@ export function AdminPanel() {
                 <Label>Локация</Label>
                 <Input
                   value={editingEvent.location}
-                  onChange={(e) => setEditingEvent({ ...editingEvent, location: e.target.value })}
+                  onChange={(e) =>
+                    setEditingEvent({
+                      ...editingEvent,
+                      location: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -813,7 +864,12 @@ export function AdminPanel() {
                 <Textarea
                   rows={3}
                   value={editingEvent.description}
-                  onChange={(e) => setEditingEvent({ ...editingEvent, description: e.target.value })}
+                  onChange={(e) =>
+                    setEditingEvent({
+                      ...editingEvent,
+                      description: e.target.value,
+                    })
+                  }
                 />
               </div>
               <Button type="submit" className="w-full">
