@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import Image from "next/image";
-import { Eye, Wind, Sunrise, Trees } from "lucide-react";
+import { Eye, Wind, Sunrise, UtensilsCrossed } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { revealConfig } from "@/lib/animationConfig";
@@ -32,10 +32,11 @@ const spaces = [
       "Просторни общо спално помещение с 12 легла и панорамен изглед. Удобни съблекални към общото спално и залата с прилежащи тоалетни и бани с топла вода. Място за личен багаж. 4-ри стаи за двама души с отделен вход, самостоятелно санитарно помещение, тераса с изглед към изгрева.",
   },
   {
-    image: "/images/20220520_201852-scaled.jpg",
-    icon: Trees,
-    title: "Природа",
-    description: `Йога център „Кайлас" се намира в сърцето на Природен парк Врачански Балкан, само на 2 км от пещерата Леденика. Разположен е върху площ от 10.6 дка с панорамна гледка към изгрева и равнината.`,
+    image: "/images/ayurveda-eating.jpg",
+    icon: UtensilsCrossed,
+    title: "Хранене",
+    description: `В центъра се придържаме към вегетарианско и аюрведично хранене. Приготвяме храната си заедно. Винаги има топъл чай от билките, които берем и събираме в района.
+На място отглеждаме подправки и зеленчуци, които влагаме в храната ни.`,
   },
 ];
 
