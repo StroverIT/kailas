@@ -9,6 +9,8 @@ export type EmailEntry = {
   source: "lead_magnet" | "booking" | "registration";
   status?: string | null;
   eventTitle?: string | null;
+  phone?: string | null;
+  message?: string | null;
   createdAt: string;
 };
 
@@ -19,18 +21,19 @@ export async function GET() {
   }
 
   try {
-    const [leadMagnetSignups, bookingInquiries, registrations] = await Promise.all([
-      prisma.leadMagnetSignup.findMany({
-        orderBy: { createdAt: "desc" },
-      }),
-      prisma.bookingInquiry.findMany({
-        orderBy: { createdAt: "desc" },
-      }),
-      prisma.registration.findMany({
-        orderBy: { createdAt: "desc" },
-        include: { event: true },
-      }),
-    ]);
+    const [leadMagnetSignups, bookingInquiries, registrations] =
+      await Promise.all([
+        prisma.leadMagnetSignup.findMany({
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.bookingInquiry.findMany({
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.registration.findMany({
+          orderBy: { createdAt: "desc" },
+          include: { event: true },
+        }),
+      ]);
 
     const leadMagnetEntries: EmailEntry[] = leadMagnetSignups.map((s) => ({
       id: s.id,
@@ -49,6 +52,8 @@ export async function GET() {
       source: "booking",
       status: null,
       eventTitle: null,
+      phone: b.phone,
+      message: b.message,
       createdAt: b.createdAt.toISOString(),
     }));
 
@@ -66,14 +71,17 @@ export async function GET() {
       ...leadMagnetEntries,
       ...bookingEntries,
       ...registrationEntries,
-    ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    ].sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
 
     return NextResponse.json(allEmails);
   } catch (error) {
     console.error("GET /api/emails", error);
     return NextResponse.json(
       { error: "Failed to fetch emails" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

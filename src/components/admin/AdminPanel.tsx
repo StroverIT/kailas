@@ -63,6 +63,8 @@ type EmailEntry = {
   source: "lead_magnet" | "booking" | "registration";
   status?: string | null;
   eventTitle?: string | null;
+  phone?: string | null;
+  message?: string | null;
   createdAt: string;
 };
 
@@ -137,6 +139,7 @@ export function AdminPanel() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [scheduleDialogOpen, setScheduleDialogOpen] = useState(false);
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
+  const [showAllBookingInquiries, setShowAllBookingInquiries] = useState(false);
   const [activeTab, setActiveTab] = useState<"events" | "schedule">("events");
   const [loading, setLoading] = useState(true);
   const [confirmDialog, setConfirmDialog] = useState<{
@@ -422,6 +425,101 @@ export function AdminPanel() {
       <main className="container mx-auto px-4 py-8 max-w-5xl">
         {activeTab === "events" ? (
           <div className="space-y-8">
+            {/* Booking Inquiries Section */}
+            <section className="bg-background rounded-lg border-2 border-secondary overflow-hidden shadow-md">
+              <h2 className="font-heading font-semibold text-foreground px-4 py-3 border-b-2 border-secondary bg-secondary/10 flex items-center justify-between">
+                <span>🔔 Новите запитвания за резервация</span>
+                {emails.filter((e) => e.source === "booking").length > 1 && (
+                  <span className="text-xs bg-secondary text-white px-2 py-1 rounded-full font-bold">
+                    {emails.filter((e) => e.source === "booking").length}
+                  </span>
+                )}
+              </h2>
+              {emails.filter((e) => e.source === "booking").length === 0 ? (
+                <p className="text-sm text-muted-foreground px-4 py-6">
+                  Няма нови запитвания за резервация.
+                </p>
+              ) : (
+                <div className="space-y-4 p-4">
+                  {emails
+                    .filter((entry) => entry.source === "booking")
+                    .slice(0, showAllBookingInquiries ? undefined : 1)
+                    .map((entry) => (
+                      <div
+                        key={`${entry.source}-${entry.id}`}
+                        className="bg-muted/30 rounded-lg p-4 border-l-4 border-secondary hover:bg-muted/50 transition-colors"
+                      >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2">
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">
+                              Име
+                            </p>
+                            <p className="font-semibold text-foreground">
+                              {entry.name ?? "–"}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">
+                              Имейл
+                            </p>
+                            <a
+                              href={`mailto:${entry.email}`}
+                              className="text-secondary hover:underline font-medium"
+                            >
+                              {entry.email}
+                            </a>
+                          </div>
+                        </div>
+                        {entry.phone && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2">
+                            <div>
+                              <p className="text-xs font-semibold text-muted-foreground uppercase">
+                                Телефон
+                              </p>
+                              <p className="text-foreground">{entry.phone}</p>
+                            </div>
+                          </div>
+                        )}
+                        {entry.message && (
+                          <div className="mb-3">
+                            <p className="text-xs font-semibold text-muted-foreground uppercase mb-1">
+                              Съобщение
+                            </p>
+                            <p className="text-sm text-foreground bg-background rounded p-2 whitespace-pre-wrap break-words">
+                              {entry.message}
+                            </p>
+                          </div>
+                        )}
+                        <div className="text-xs text-muted-foreground pt-2 border-t border-muted">
+                          {new Date(entry.createdAt).toLocaleDateString(
+                            "bg-BG",
+                          )}{" "}
+                          {new Date(entry.createdAt).toLocaleTimeString(
+                            "bg-BG",
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            },
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  {emails.filter((e) => e.source === "booking").length > 1 && (
+                    <button
+                      onClick={() =>
+                        setShowAllBookingInquiries(!showAllBookingInquiries)
+                      }
+                      className="w-full mt-4 px-4 py-2 text-sm font-medium text-secondary hover:text-secondary/80 bg-secondary/10 hover:bg-secondary/20 rounded-lg transition-colors border border-secondary/30 hover:border-secondary/50"
+                    >
+                      {showAllBookingInquiries
+                        ? "🔼 Покажи само последната"
+                        : `🔽 Покажи всички ${emails.filter((e) => e.source === "booking").length} запитвания`}
+                    </button>
+                  )}
+                </div>
+              )}
+            </section>
+
             <section className="bg-background rounded-lg border border-border overflow-hidden">
               <h2 className="font-heading font-semibold text-foreground px-4 py-3 border-b border-border">
                 Всички имейли
