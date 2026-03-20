@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { BlogPostImageUpload } from "./BlogPostImageUpload";
 import { RichTextEditor } from "./RichTextEditor";
+import { CategoriesMultiSelect } from "./CategoriesMultiSelect";
 import { slugFromTitle } from "./utils";
 import type { BlogPostFormState } from "./types";
 
@@ -131,20 +132,15 @@ export function BlogPostFormDialog({
             </div>
           </div>
           <div className="space-y-2">
-            <Label>Категории (разделени със запетая)</Label>
-            <Input
+            <Label>Категории</Label>
+            <CategoriesMultiSelect
               value={
-                Array.isArray(editing.categories)
-                  ? editing.categories.join(", ")
-                  : editing.categories || ""
+                Array.isArray(editing.categories) ? editing.categories : []
               }
-              onChange={(e) =>
+              onChange={(categories) =>
                 onEditingChange({
                   ...editing,
-                  categories: e.target.value
-                    .split(",")
-                    .map((s) => s.trim())
-                    .filter(Boolean),
+                  categories,
                 })
               }
             />
