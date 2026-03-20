@@ -40,10 +40,17 @@ export function CategoriesMultiSelect({
   const [open, setOpen] = useState(false);
 
   const handleSelect = (category: string) => {
-    const updated = value.includes(category)
-      ? value.filter((c) => c !== category)
-      : [...value, category];
-    onChange(updated);
+    if (value.includes(category)) {
+      onChange(value.filter((c) => c !== category));
+    } else {
+      if (category === "Uncategorized") {
+        onChange(["Uncategorized"]);
+      } else if (value.includes("Uncategorized")) {
+        onChange([category]);
+      } else {
+        onChange([...value, category]);
+      }
+    }
   };
 
   const handleRemove = (category: string) => {

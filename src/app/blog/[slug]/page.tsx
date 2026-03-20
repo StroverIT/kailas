@@ -61,14 +61,16 @@ export default async function BlogPostPage({ params }: PageProps) {
               {post.date}
               {post.updatedDate && ` – ${post.updatedDate}`}
             </span>
-            {post.categories.map((cat) => (
-              <span
-                key={cat}
-                className="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary"
-              >
-                {cat}
-              </span>
-            ))}
+            {post.categories
+              .filter((cat) => cat !== "Uncategorized")
+              .map((cat) => (
+                <span
+                  key={cat}
+                  className="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary"
+                >
+                  {cat}
+                </span>
+              ))}
           </div>
 
           <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground">

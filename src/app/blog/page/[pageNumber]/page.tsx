@@ -1,10 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
-import {
-  getBlogPostsByPage,
-  getTotalPages,
-} from "@/lib/blog";
+import { getBlogPostsByPage, getTotalPages } from "@/lib/blog";
 import FooterSection from "@/components/FooterSection";
 import { Calendar } from "lucide-react";
 
@@ -59,7 +56,10 @@ export default async function BlogPagePage({ params }: PageProps) {
                 <div className="flex flex-col md:flex-row">
                   {post.image && (
                     <div className="relative w-full md:w-64 aspect-video md:aspect-[4/3] shrink-0">
-                      <AnimatedLink href={`/blog/${post.slug}`} className="block h-full">
+                      <AnimatedLink
+                        href={`/blog/${post.slug}`}
+                        className="block h-full"
+                      >
                         <Image
                           src={post.image}
                           alt={post.title}
@@ -70,38 +70,40 @@ export default async function BlogPagePage({ params }: PageProps) {
                       </AnimatedLink>
                     </div>
                   )}
-                <div className="flex flex-col gap-4 p-6 md:p-8 flex-1">
-                  <div className="flex flex-wrap gap-3 text-xs font-body text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {post.date}
-                      {post.updatedDate && ` – ${post.updatedDate}`}
-                    </span>
-                    {post.categories.map((cat) => (
-                      <span
-                        key={cat}
-                        className="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary"
-                      >
-                        {cat}
+                  <div className="flex flex-col gap-4 p-6 md:p-8 flex-1">
+                    <div className="flex flex-wrap gap-3 text-xs font-body text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {post.date}
+                        {post.updatedDate && ` – ${post.updatedDate}`}
                       </span>
-                    ))}
+                      {post.categories
+                        .filter((cat) => cat !== "Uncategorized")
+                        .map((cat) => (
+                          <span
+                            key={cat}
+                            className="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary"
+                          >
+                            {cat}
+                          </span>
+                        ))}
+                    </div>
+                    <AnimatedLink href={`/blog/${post.slug}`} className="block">
+                      <h2 className="font-heading text-xl md:text-2xl font-semibold text-foreground group-hover:text-secondary transition-colors mb-3">
+                        {post.title}
+                      </h2>
+                    </AnimatedLink>
+                    <p className="text-muted-foreground font-body leading-relaxed">
+                      {post.excerpt}
+                    </p>
+                    <AnimatedLink
+                      href={`/blog/${post.slug}`}
+                      className="text-sm font-medium text-secondary hover:underline inline-flex items-center gap-1 mt-2"
+                    >
+                      Прочети повече
+                      <span aria-hidden>→</span>
+                    </AnimatedLink>
                   </div>
-                  <AnimatedLink href={`/blog/${post.slug}`} className="block">
-                    <h2 className="font-heading text-xl md:text-2xl font-semibold text-foreground group-hover:text-secondary transition-colors mb-3">
-                      {post.title}
-                    </h2>
-                  </AnimatedLink>
-                  <p className="text-muted-foreground font-body leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                  <AnimatedLink
-                    href={`/blog/${post.slug}`}
-                    className="text-sm font-medium text-secondary hover:underline inline-flex items-center gap-1 mt-2"
-                  >
-                    Прочети повече
-                    <span aria-hidden>→</span>
-                  </AnimatedLink>
-                </div>
                 </div>
               </article>
             ))}
@@ -136,7 +138,7 @@ export default async function BlogPagePage({ params }: PageProps) {
                     >
                       {p}
                     </AnimatedLink>
-                  )
+                  ),
               )}
             </div>
           </nav>

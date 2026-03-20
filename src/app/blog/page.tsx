@@ -64,14 +64,16 @@ export default async function BlogPage() {
                         {post.date}
                         {post.updatedDate && ` – ${post.updatedDate}`}
                       </span>
-                      {post.categories.map((cat) => (
-                        <span
-                          key={cat}
-                          className="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary"
-                        >
-                          {cat}
-                        </span>
-                      ))}
+                      {post.categories
+                        .filter((cat) => cat !== "Uncategorized")
+                        .map((cat) => (
+                          <span
+                            key={cat}
+                            className="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary"
+                          >
+                            {cat}
+                          </span>
+                        ))}
                     </div>
                     <AnimatedLink href={`/blog/${post.slug}`} className="block">
                       <h2 className="font-heading text-xl md:text-2xl font-semibold text-foreground group-hover:text-secondary transition-colors mb-3">
