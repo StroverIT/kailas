@@ -24,11 +24,12 @@ export function BookingConfirmation({ name }: BookingConfirmationProps) {
             <Text style={text}>Здравей {name},</Text>
             <Text style={text}>
               Благодарим за интереса! Получихме запитването ти и ще се свържем с
-              теб в рамките на 24 часа, за да намерим най-подходящия ретрийт за теб.
+              теб възможно най-скоро, за да намерим най-подходящия ретрийт за
+              теб.
             </Text>
             <Text style={text}>
-              Ако имаш спешни въпроси, свържи се с нас на kailas.yogalife@gmail.com
-              или +359 877 844 235.
+              Ако имаш спешни въпроси, свържи се с нас на
+              kailas.yogalife@gmail.com или +359 877 844 235.
             </Text>
           </Section>
           <Hr style={hr} />
@@ -41,7 +42,8 @@ export function BookingConfirmation({ name }: BookingConfirmationProps) {
 
 const main = {
   backgroundColor: "#f6f9fc",
-  fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  fontFamily:
+    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
 };
 
 const container = {
