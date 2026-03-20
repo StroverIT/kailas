@@ -34,11 +34,6 @@ export default function YogaTypesGrid({
         {types.map((type) => {
           const CardContent = (
             <>
-              <div className="flex items-center justify-center mb-2">
-                <div className="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <span className="text-secondary font-bold">{type.id}</span>
-                </div>
-              </div>
               <p className="text-center font-heading font-semibold text-foreground text-sm md:text-base">
                 {type.name}
               </p>
