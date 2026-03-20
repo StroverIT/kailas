@@ -485,6 +485,29 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Foundation Section */}
+      <section className="py-12 md:py-16 lg:py-20 section-padding">
+        <div className="container mx-auto max-w-4xl">
+          <div className="flex items-center gap-2 md:gap-3 mb-6 md:mb-8 px-4">
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center flex-shrink-0">
+              <Heart className="w-4 h-4 md:w-5 md:h-5 text-secondary" />
+            </div>
+            <h3 className="font-heading text-xl md:text-2xl font-semibold text-foreground">
+              Фондация Пракрити за хармоничен живот
+            </h3>
+          </div>
+
+          <div className="space-y-4 md:space-y-6 p-6 md:p-8 rounded-2xl bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
+            <div className="prose prose-sm md:prose-lg max-w-none">
+              <p className="text-base md:text-lg text-muted-foreground font-body leading-relaxed">
+                Тази секция е в разработка. Скоро ще добавим подробна информация
+                за Фондация Пракрити за хармоничен живот и нейната мисия.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Values / CTA */}
       <section className="py-12 md:py-16 lg:py-20 section-padding bg-gradient-section">
         <div
