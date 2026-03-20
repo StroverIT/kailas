@@ -139,6 +139,18 @@ export function AdminPanel() {
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"events" | "schedule">("events");
   const [loading, setLoading] = useState(true);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+    onCancel?: () => void;
+  }>({
+    isOpen: false,
+    title: "",
+    message: "",
+    onConfirm: () => {},
+  });
   const { toast } = useToast();
 
   const fetchEvents = useCallback(async () => {
@@ -236,25 +248,45 @@ export function AdminPanel() {
   };
 
   const handleDelete = async (id: string) => {
-    try {
-      const res = await fetch(`/api/events/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error("Delete failed");
-      toast({ title: "Събитието е изтрито" });
-      await refreshData();
-    } catch {
-      toast({ title: "Грешка", variant: "destructive" });
-    }
+    setConfirmDialog({
+      isOpen: true,
+      title: "Потвърдете изтриването",
+      message:
+        "Сигурни ли сте, че искате да изтриете това събитие? Това действие не може да бъде отменено.",
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`/api/events/${id}`, { method: "DELETE" });
+          if (!res.ok) throw new Error("Delete failed");
+          toast({ title: "Събитието е изтрито" });
+          await refreshData();
+        } catch {
+          toast({ title: "Грешка", variant: "destructive" });
+        }
+        setConfirmDialog((prev) => ({ ...prev, isOpen: false }));
+      },
+    });
   };
 
   const handleDeleteRegistration = async (id: string) => {
-    try {
-      const res = await fetch(`/api/registrations/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error("Delete failed");
-      toast({ title: "Записването е изтрито" });
-      await refreshData();
-    } catch {
-      toast({ title: "Грешка", variant: "destructive" });
-    }
+    setConfirmDialog({
+      isOpen: true,
+      title: "Потвърдете изтриването",
+      message:
+        "Сигурни ли сте, че искате да изтриете това записване? Това действие не може да бъде отменено.",
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`/api/registrations/${id}`, {
+            method: "DELETE",
+          });
+          if (!res.ok) throw new Error("Delete failed");
+          toast({ title: "Записването е изтрито" });
+          await refreshData();
+        } catch {
+          toast({ title: "Грешка", variant: "destructive" });
+        }
+        setConfirmDialog((prev) => ({ ...prev, isOpen: false }));
+      },
+    });
   };
 
   const getEventRegistrations = (eventId: string) =>
@@ -311,16 +343,25 @@ export function AdminPanel() {
   };
 
   const handleDeleteSchedule = async (id: string) => {
-    try {
-      const res = await fetch(`/api/schedule/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Delete failed");
-      toast({ title: "Записът е изтрит" });
-      await fetchSchedule();
-    } catch {
-      toast({ title: "Грешка", variant: "destructive" });
-    }
+    setConfirmDialog({
+      isOpen: true,
+      title: "Потвърдете изтриването",
+      message:
+        "Сигурни ли сте, че искате да изтриете този клас? Това действие не може да бъде отменено.",
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`/api/schedule/${id}`, {
+            method: "DELETE",
+          });
+          if (!res.ok) throw new Error("Delete failed");
+          toast({ title: "Записът е изтрит" });
+          await fetchSchedule();
+        } catch {
+          toast({ title: "Грешка", variant: "destructive" });
+        }
+        setConfirmDialog((prev) => ({ ...prev, isOpen: false }));
+      },
+    });
   };
 
   if (loading) {
@@ -979,6 +1020,35 @@ export function AdminPanel() {
               </Button>
             </form>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={confirmDialog.isOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setConfirmDialog((prev) => ({ ...prev, isOpen: false }));
+          }
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{confirmDialog.title}</DialogTitle>
+            <DialogDescription>{confirmDialog.message}</DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end gap-3">
+            <Button
+              variant="outline"
+              onClick={() =>
+                setConfirmDialog((prev) => ({ ...prev, isOpen: false }))
+              }
+            >
+              Отмени
+            </Button>
+            <Button variant="destructive" onClick={confirmDialog.onConfirm}>
+              Изтрий
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
