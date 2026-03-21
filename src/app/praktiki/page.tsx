@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -13,7 +13,7 @@ import { Sparkles, Heart } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 
-export default function PraktikiPage() {
+function PraktikiPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const heroRef = useRef<HTMLElement>(null);
@@ -295,5 +295,19 @@ export default function PraktikiPage() {
 
       <FooterSection />
     </div>
+  );
+}
+
+export default function PraktikiPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gradient-section">
+          <p className="text-muted-foreground font-body">Зареждане...</p>
+        </div>
+      }
+    >
+      <PraktikiPageContent />
+    </Suspense>
   );
 }
