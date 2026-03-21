@@ -12,22 +12,24 @@ export default async function AdminPage() {
 
   return (
     <div className="min-h-screen bg-muted/30">
-      <main className="container mx-auto px-4 py-12 max-w-2xl">
-        <h1 className="font-heading text-2xl font-bold text-foreground mb-2">
+      <main className="container mx-auto px-4 py-10 max-w-5xl">
+        <h1 className="font-heading text-3xl font-bold text-foreground mb-2">
           Админ панел
         </h1>
-        <p className="text-muted-foreground font-body mb-8">
+        <p className="text-muted-foreground font-body mb-8 text-base">
           Изберете секция за управление.
         </p>
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatedLink href="/admin/blog">
             <Button
               variant="outline"
-              className="w-full h-auto flex flex-col items-start gap-2 p-6 text-left"
+              className="w-full h-full min-h-40 flex flex-col items-start gap-3 p-6 text-left whitespace-normal leading-relaxed"
             >
-              <FileText className="w-8 h-8 text-secondary" />
-              <span className="font-heading font-semibold">Управление на блог</span>
-              <span className="text-sm text-muted-foreground font-body">
+              <FileText className="w-6 h-6 text-secondary shrink-0" />
+              <span className="font-heading text-lg font-semibold">
+                Управление на блог
+              </span>
+              <span className="text-sm text-muted-foreground font-body break-words">
                 Създаване и редакция на публикации
               </span>
             </Button>
@@ -35,11 +37,13 @@ export default async function AdminPage() {
           <AnimatedLink href="/admin/events">
             <Button
               variant="outline"
-              className="w-full h-auto flex flex-col items-start gap-2 p-6 text-left"
+              className="w-full h-full min-h-40 flex flex-col items-start gap-3 p-6 text-left whitespace-normal leading-relaxed"
             >
-              <Calendar className="w-8 h-8 text-secondary" />
-              <span className="font-heading font-semibold">Събития и имейли</span>
-              <span className="text-sm text-muted-foreground font-body">
+              <Calendar className="w-6 h-6 text-secondary shrink-0" />
+              <span className="font-heading text-lg font-semibold">
+                Събития и имейли
+              </span>
+              <span className="text-sm text-muted-foreground font-body break-words">
                 Събития, записвания и събрани имейли
               </span>
             </Button>
@@ -47,11 +51,11 @@ export default async function AdminPage() {
           <AnimatedLink href="/admin/gallery">
             <Button
               variant="outline"
-              className="w-full h-auto flex flex-col items-start gap-2 p-6 text-left"
+              className="w-full h-full min-h-40 flex flex-col items-start gap-3 p-6 text-left whitespace-normal leading-relaxed"
             >
-              <Images className="w-8 h-8 text-secondary" />
-              <span className="font-heading font-semibold">Галерия</span>
-              <span className="text-sm text-muted-foreground font-body">
+              <Images className="w-6 h-6 text-secondary shrink-0" />
+              <span className="font-heading text-lg font-semibold">Галерия</span>
+              <span className="text-sm text-muted-foreground font-body break-words">
                 Качване и изтриване на снимки
               </span>
             </Button>
