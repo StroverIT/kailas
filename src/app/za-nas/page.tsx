@@ -229,8 +229,8 @@ export default function AboutPage() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="left-2 md:left-3 top-1/2 -translate-y-1/2 h-9 w-9 bg-background/90 backdrop-blur border-border/70 hover:bg-background" />
-              <CarouselNext className="right-2 md:right-3 top-1/2 -translate-y-1/2 h-9 w-9 bg-background/90 backdrop-blur border-border/70 hover:bg-background" />
+              <CarouselPrevious className="hidden md:flex left-2 md:left-3 top-1/2 -translate-y-1/2 h-10 w-10 border-white/30 bg-black/45 text-white backdrop-blur-md shadow-md transition-all duration-200 hover:bg-black/60 hover:scale-105 hover:shadow-lg active:bg-black/70 focus-visible:bg-black/60 focus-visible:ring-2 focus-visible:ring-white/60" />
+              <CarouselNext className="hidden md:flex right-2 md:right-3 top-1/2 -translate-y-1/2 h-10 w-10 border-white/30 bg-black/45 text-white backdrop-blur-md shadow-md transition-all duration-200 hover:bg-black/60 hover:scale-105 hover:shadow-lg active:bg-black/70 focus-visible:bg-black/60 focus-visible:ring-2 focus-visible:ring-white/60" />
             </Carousel>
             {slideCount > 1 && (
               <div className="mt-5 flex items-center justify-center gap-2">
