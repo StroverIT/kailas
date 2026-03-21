@@ -50,6 +50,10 @@ type Event = {
   duration?: string | null;
   month: string;
 };
+type EditableEvent = Omit<Event, "id" | "spots"> & {
+  id?: string;
+  spots: number | "";
+};
 
 type Registration = {
   id: string;
@@ -125,6 +129,62 @@ const getMonthLabel = (monthKey: string): string => {
   return month ? month.label : "";
 };
 
+const parseDurationToParts = (duration?: string | null) => {
+  if (!duration) return { hours: "", minutes: "" };
+
+  const text = duration.trim();
+  if (!text) return { hours: "", minutes: "" };
+
+  if (/^\d+$/.test(text)) {
+    const totalMinutes = Number(text);
+    return {
+      hours: totalMinutes >= 60 ? String(Math.floor(totalMinutes / 60)) : "",
+      minutes: String(
+        totalMinutes % 60 || (totalMinutes < 60 ? totalMinutes : 0),
+      ).replace(/^0$/, ""),
+    };
+  }
+
+  let totalMinutes = 0;
+  const dayMatch = text.match(/(\d+)\s*(ден|дни)/);
+  if (dayMatch) totalMinutes += Number(dayMatch[1]) * 24 * 60;
+
+  const hourMatch = text.match(/(\d+)\s*(час|часа|ч)/);
+  if (hourMatch) totalMinutes += Number(hourMatch[1]) * 60;
+
+  const minuteMatch = text.match(/(\d+)\s*(минута|минути|мин)/);
+  if (minuteMatch) totalMinutes += Number(minuteMatch[1]);
+
+  if (totalMinutes === 0) return { hours: "", minutes: "" };
+
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return {
+    hours: hours > 0 ? String(hours) : "",
+    minutes: minutes > 0 ? String(minutes) : "",
+  };
+};
+
+const buildDurationFromParts = (hoursRaw: string, minutesRaw: string) => {
+  const hours = Number(hoursRaw || "0");
+  const minutes = Number(minutesRaw || "0");
+  const normalizedHours = Number.isFinite(hours)
+    ? Math.max(0, Math.floor(hours))
+    : 0;
+  const normalizedMinutes = Number.isFinite(minutes)
+    ? Math.max(0, Math.floor(minutes))
+    : 0;
+
+  const extraHours = Math.floor(normalizedMinutes / 60);
+  const restMinutes = normalizedMinutes % 60;
+  const totalHours = normalizedHours + extraHours;
+  const parts: string[] = [];
+  if (totalHours > 0)
+    parts.push(`${totalHours} ${totalHours === 1 ? "час" : "часа"}`);
+  if (restMinutes > 0) parts.push(`${restMinutes} минути`);
+  return parts.join(" ");
+};
+
 const sourceLabels: Record<EmailEntry["source"], string> = {
   lead_magnet: "Ръководство",
   booking: "Резервация",
@@ -137,9 +197,7 @@ export function AdminPanel() {
   const [emails, setEmails] = useState<EmailEntry[]>([]);
   const [schedule, setSchedule] = useState<ScheduleEntry[]>([]);
   const [scheduleSignups, setScheduleSignups] = useState<ScheduleSignup[]>([]);
-  const [editingEvent, setEditingEvent] = useState<
-    (Omit<Event, "id"> & { id?: string }) | null
-  >(null);
+  const [editingEvent, setEditingEvent] = useState<EditableEvent | null>(null);
   const [editingSchedule, setEditingSchedule] =
     useState<EditableScheduleEntry | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -235,13 +293,17 @@ export function AdminPanel() {
   const handleSaveEvent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingEvent) return;
+    const payload = {
+      ...editingEvent,
+      spots: editingEvent.spots === "" ? 16 : editingEvent.spots,
+    };
 
     try {
       if (editingEvent.id) {
         const res = await fetch(`/api/events/${editingEvent.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(editingEvent),
+          body: JSON.stringify(payload),
         });
         if (!res.ok) throw new Error("Update failed");
         toast({ title: "Събитието е обновено" });
@@ -249,7 +311,7 @@ export function AdminPanel() {
         const res = await fetch("/api/events", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(editingEvent),
+          body: JSON.stringify(payload),
         });
         if (!res.ok) throw new Error("Create failed");
         toast({ title: "Събитието е добавено" });
@@ -660,15 +722,7 @@ export function AdminPanel() {
                         variant="ghost"
                         size="icon"
                         onClick={() => {
-                          let duration = event.duration?.match(
-                            /\s*(минути|часа|дни|ден)$/,
-                          )
-                            ? event.duration
-                            : event.duration?.match(/^\d+$/)
-                              ? `${event.duration} минути`
-                              : (event.duration ?? "");
-                          if (duration?.match(/^1\s+дни$/)) duration = "1 ден";
-                          setEditingEvent({ ...event, duration });
+                          setEditingEvent({ ...event });
                           setEventImageError(null);
                           setDialogOpen(true);
                         }}
@@ -1021,7 +1075,8 @@ export function AdminPanel() {
                     onChange={(e) =>
                       setEditingEvent({
                         ...editingEvent,
-                        spots: Number(e.target.value),
+                        spots:
+                          e.target.value === "" ? "" : Number(e.target.value),
                       })
                     }
                   />
@@ -1041,50 +1096,48 @@ export function AdminPanel() {
                 <div className="space-y-2">
                   <Label>Продължителност</Label>
                   <div className="flex gap-2">
-                    <Input
-                      type="number"
-                      min={1}
-                      placeholder="бр."
-                      value={editingEvent.duration?.match(/\d+/)?.[0] ?? ""}
-                      onChange={(e) => {
-                        const num = e.target.value;
-                        const rawUnit =
-                          editingEvent.duration?.match(
-                            /\s*(минути|часа|дни|ден)$/,
-                          )?.[1] ?? "минути";
-                        const unit = rawUnit === "ден" ? "дни" : rawUnit;
-                        const suffix =
-                          unit === "дни" && num === "1" ? "ден" : unit;
-                        setEditingEvent({
-                          ...editingEvent,
-                          duration: num ? `${num} ${suffix}` : "",
-                        });
-                      }}
-                      className="w-20"
-                    />
-                    <select
-                      className="flex h-10 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                      value={(
-                        editingEvent.duration?.match(
-                          /\s*(минути|часа|дни|ден)$/,
-                        )?.[1] ?? "минути"
-                      ).replace("ден", "дни")}
-                      onChange={(e) => {
-                        const unit = e.target.value;
-                        const num =
-                          editingEvent.duration?.match(/^\d+/)?.[0] ?? "";
-                        const suffix =
-                          unit === "дни" && num === "1" ? "ден" : unit;
-                        setEditingEvent({
-                          ...editingEvent,
-                          duration: num ? `${num} ${suffix}` : "",
-                        });
-                      }}
-                    >
-                      <option value="минути">минути</option>
-                      <option value="часа">часа</option>
-                      <option value="дни">дни</option>
-                    </select>
+                    {(() => {
+                      const durationParts = parseDurationToParts(
+                        editingEvent.duration,
+                      );
+                      return (
+                        <>
+                          <Input
+                            type="number"
+                            min={0}
+                            placeholder="ч."
+                            value={durationParts.hours}
+                            onChange={(e) =>
+                              setEditingEvent({
+                                ...editingEvent,
+                                duration: buildDurationFromParts(
+                                  e.target.value,
+                                  durationParts.minutes,
+                                ),
+                              })
+                            }
+                            className="w-24"
+                          />
+                          <Input
+                            type="number"
+                            min={0}
+                            max={59}
+                            placeholder="мин."
+                            value={durationParts.minutes}
+                            onChange={(e) =>
+                              setEditingEvent({
+                                ...editingEvent,
+                                duration: buildDurationFromParts(
+                                  durationParts.hours,
+                                  e.target.value,
+                                ),
+                              })
+                            }
+                            className="w-24"
+                          />
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>

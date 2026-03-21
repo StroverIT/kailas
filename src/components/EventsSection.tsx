@@ -27,12 +27,51 @@ const MONTH_KEYS: Record<string, number> = {
   dec: 11,
 };
 
+const MONTH_LABELS: Record<string, string> = {
+  mar: "март",
+  apr: "април",
+  may: "май",
+  jun: "юни",
+  jul: "юли",
+  aug: "август",
+  sep: "септември",
+  oct: "октомври",
+  nov: "ноември",
+  dec: "декември",
+};
+
+function getDateRangeDays(dateText: string): number | null {
+  const rangeMatch = dateText.match(/(\d{1,2})\s*[-–]\s*(\d{1,2})/);
+  if (!rangeMatch) return null;
+  const start = Number(rangeMatch[1]);
+  const end = Number(rangeMatch[2]);
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) return null;
+  return end - start + 1;
+}
+
+function getDurationLabel(event: { date: string; duration?: string | null }): string {
+  const duration = event.duration?.trim();
+  if (duration) return duration;
+
+  const rangeDays = getDateRangeDays(event.date);
+  if (!rangeDays) return "";
+  return `${rangeDays} ${rangeDays === 1 ? "ден" : "дни"}`;
+}
+
 function formatEventDate(event: {
   date: string;
   month: string;
   time?: string | null;
   duration?: string | null;
 }): string {
+  const rangeMatch = event.date.match(/^\s*(\d{1,2}\s*[-–]\s*\d{1,2})\s*$/);
+  const monthLabel = MONTH_LABELS[event.month];
+  if (rangeMatch && monthLabel) {
+    const compactRange = rangeMatch[1].replace(/\s+/g, "");
+    const timePart = event.time?.trim() ? event.time.trim() : null;
+    return [`${compactRange} ${monthLabel}`, timePart].filter(Boolean).join(" · ");
+  }
+
   const dayMatch = event.date.match(/\d+/);
   const day = dayMatch ? parseInt(dayMatch[0], 10) : 1;
   const monthIndex = MONTH_KEYS[event.month] ?? 0;
@@ -343,7 +382,7 @@ const EventsSection = () => {
                   </span>
                   <span className="flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5" />
-                    {e.duration}
+                    {getDurationLabel(e)}
                   </span>
                 </div>
 
