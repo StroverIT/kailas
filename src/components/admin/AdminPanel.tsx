@@ -124,9 +124,46 @@ const monthOptions = [
   { key: "dec", label: "Декември" },
 ];
 
+const monthKeyToNumber: Record<string, number> = {
+  mar: 3,
+  apr: 4,
+  may: 5,
+  jun: 6,
+  jul: 7,
+  aug: 8,
+  sep: 9,
+  oct: 10,
+  nov: 11,
+  dec: 12,
+};
+
+const monthNumberToKey: Record<number, string> = Object.fromEntries(
+  Object.entries(monthKeyToNumber).map(([key, number]) => [number, key]),
+) as Record<number, string>;
+
 const getMonthLabel = (monthKey: string): string => {
   const month = monthOptions.find((m) => m.key === monthKey);
   return month ? month.label : "";
+};
+
+const getEventDateInputValue = (dateText: string, monthKey: string): string => {
+  const month = monthKeyToNumber[monthKey];
+  const day = Number.parseInt(dateText.match(/\d+/)?.[0] ?? "", 10);
+  if (!month || !day || day < 1 || day > 31) return "";
+  const year = new Date().getFullYear();
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+};
+
+const getEventRangeEndInputValue = (dateText: string, monthKey: string): string => {
+  const month = monthKeyToNumber[monthKey];
+  if (!month) return "";
+  const rangeMatch = dateText.match(/(\d{1,2})\s*[-–]\s*(\d{1,2})/);
+  if (!rangeMatch) return "";
+  const dayText = rangeMatch[2];
+  const day = Number.parseInt(dayText, 10);
+  if (!day || day < 1 || day > 31) return "";
+  const year = new Date().getFullYear();
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 };
 
 const parseDurationToParts = (duration?: string | null) => {
@@ -1024,34 +1061,115 @@ export function AdminPanel() {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <Label>Дата *</Label>
+                  <Label>От *</Label>
                   <Input
                     required
-                    placeholder="напр. 14–16"
-                    value={editingEvent.date}
+                    type="date"
+                    min={`${new Date().getFullYear()}-03-01`}
+                    max={`${new Date().getFullYear()}-12-31`}
+                    value={getEventDateInputValue(editingEvent.date, editingEvent.month)}
                     onChange={(e) =>
-                      setEditingEvent({ ...editingEvent, date: e.target.value })
+                      (() => {
+                        if (!e.target.value) {
+                          setEditingEvent({
+                            ...editingEvent,
+                            date: "",
+                          });
+                          return;
+                        }
+                        const startDay = Number.parseInt(
+                          e.target.value.split("-")[2],
+                          10,
+                        );
+                        const startMonth = Number.parseInt(
+                          e.target.value.split("-")[1],
+                          10,
+                        );
+                        const currentEndDay = Number.parseInt(
+                          (
+                            editingEvent.date.match(/(\d{1,2})\s*[-–]\s*(\d{1,2})/)?.[2] ??
+                            editingEvent.date.match(/\d+/)?.[0] ??
+                            String(startDay)
+                          ),
+                          10,
+                        );
+                        const endDay = Number.isFinite(currentEndDay)
+                          ? Math.max(startDay, currentEndDay)
+                          : startDay;
+                        setEditingEvent({
+                          ...editingEvent,
+                          date:
+                            endDay > startDay
+                              ? `${startDay}\u2013${endDay}`
+                              : String(startDay),
+                          month:
+                            monthNumberToKey[startMonth] ?? editingEvent.month,
+                        });
+                      })()
                     }
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Месец</Label>
-                  <select
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                    value={editingEvent.month}
+                  <Label>До (по избор)</Label>
+                  <Input
+                    type="date"
+                    min={`${new Date().getFullYear()}-03-01`}
+                    max={`${new Date().getFullYear()}-12-31`}
+                    value={getEventRangeEndInputValue(
+                      editingEvent.date,
+                      editingEvent.month,
+                    )}
                     onChange={(e) =>
-                      setEditingEvent({
-                        ...editingEvent,
-                        month: e.target.value,
-                      })
+                      (() => {
+                        if (!e.target.value) {
+                          const startDay = Number.parseInt(
+                            editingEvent.date.match(/\d+/)?.[0] ?? "",
+                            10,
+                          );
+                          setEditingEvent({
+                            ...editingEvent,
+                            date: Number.isFinite(startDay) ? String(startDay) : "",
+                          });
+                          return;
+                        }
+                        const endDay = Number.parseInt(
+                          e.target.value.split("-")[2],
+                          10,
+                        );
+                        const endMonth = Number.parseInt(
+                          e.target.value.split("-")[1],
+                          10,
+                        );
+                        const startDay = Number.parseInt(
+                          editingEvent.date.match(/\d+/)?.[0] ?? "",
+                          10,
+                        );
+                        const normalizedStart = Number.isFinite(startDay)
+                          ? startDay
+                          : endDay;
+                        const normalizedEnd = Math.max(normalizedStart, endDay);
+                        setEditingEvent({
+                          ...editingEvent,
+                          date:
+                            normalizedEnd > normalizedStart
+                              ? `${normalizedStart}\u2013${normalizedEnd}`
+                              : String(normalizedStart),
+                          month:
+                            monthNumberToKey[endMonth] ??
+                            monthNumberToKey[
+                              Number.parseInt(
+                                getEventDateInputValue(
+                                  editingEvent.date,
+                                  editingEvent.month,
+                                ).split("-")[1] ?? "",
+                                10,
+                              )
+                            ] ??
+                            editingEvent.month,
+                        });
+                      })()
                     }
-                  >
-                    {monthOptions.map((m) => (
-                      <option key={m.key} value={m.key}>
-                        {m.label}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
