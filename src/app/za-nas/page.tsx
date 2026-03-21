@@ -8,6 +8,14 @@ import FooterSection from "@/components/FooterSection";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
 import YogaTypesGrid from "@/components/YogaTypesGrid";
 import {
+  type CarouselApi,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import {
   Heart,
   Users,
   BookOpen,
@@ -22,6 +30,11 @@ export default function AboutPage() {
   const [galleryImages, setGalleryImages] = useState<
     Array<{ id: string; url: string; alt: string | null }>
   >([]);
+  const [galleryCarouselApi, setGalleryCarouselApi] = useState<
+    CarouselApi | undefined
+  >(undefined);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [slideCount, setSlideCount] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
   const missionRef = useRef<HTMLDivElement>(null);
@@ -90,6 +103,24 @@ export default function AboutPage() {
 
     void fetchGallery();
   }, []);
+
+  useEffect(() => {
+    if (!galleryCarouselApi) return;
+
+    const syncState = () => {
+      setSlideCount(galleryCarouselApi.scrollSnapList().length);
+      setActiveSlide(galleryCarouselApi.selectedScrollSnap());
+    };
+
+    syncState();
+    galleryCarouselApi.on("select", syncState);
+    galleryCarouselApi.on("reInit", syncState);
+
+    return () => {
+      galleryCarouselApi.off("select", syncState);
+      galleryCarouselApi.off("reInit", syncState);
+    };
+  }, [galleryCarouselApi]);
 
   const staticGalleryFallback = [
     {
@@ -164,22 +195,60 @@ export default function AboutPage() {
           <h2 className="font-heading text-xl md:text-2xl font-semibold text-foreground mb-6 md:mb-8 text-center px-4">
             Галерия
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
-            {displayedGallery.map((image) => (
-              <div
-                key={image.id}
-                className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden"
-              >
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                  unoptimized={image.src.includes("supabase")}
-                />
+          <p className="text-center text-sm md:text-base text-muted-foreground font-body mb-5 md:mb-7 px-4">
+            Разгледайте атмосферата в нашия център и практиките ни.
+          </p>
+          <div className="px-4 md:px-8">
+            <Carousel
+              setApi={setGalleryCarouselApi}
+              opts={{ align: "start", loop: displayedGallery.length > 1 }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-3 md:-ml-4">
+                {displayedGallery.map((image) => (
+                  <CarouselItem
+                    key={image.id}
+                    className="pl-3 md:pl-4 basis-[92%] sm:basis-[58%] lg:basis-[38%]"
+                  >
+                    <div className="group relative aspect-[4/3] lg:aspect-[3/4] rounded-2xl overflow-hidden border border-border/60 shadow-sm hover:shadow-xl transition-all duration-500">
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        unoptimized={image.src.includes("supabase")}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-80" />
+                      <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                        <p className="text-white/95 text-xs md:text-sm font-body line-clamp-1">
+                          {image.alt}
+                        </p>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="left-2 md:left-3 top-1/2 -translate-y-1/2 h-9 w-9 bg-background/90 backdrop-blur border-border/70 hover:bg-background" />
+              <CarouselNext className="right-2 md:right-3 top-1/2 -translate-y-1/2 h-9 w-9 bg-background/90 backdrop-blur border-border/70 hover:bg-background" />
+            </Carousel>
+            {slideCount > 1 && (
+              <div className="mt-5 flex items-center justify-center gap-2">
+                {Array.from({ length: slideCount }).map((_, index) => (
+                  <button
+                    key={`gallery-dot-${index}`}
+                    type="button"
+                    onClick={() => galleryCarouselApi?.scrollTo(index)}
+                    aria-label={`Слайд ${index + 1}`}
+                    className={`h-2.5 rounded-full transition-all ${
+                      index === activeSlide
+                        ? "w-6 bg-secondary"
+                        : "w-2.5 bg-muted-foreground/40 hover:bg-muted-foreground/60"
+                    }`}
+                  />
+                ))}
               </div>
-            ))}
+            )}
           </div>
         </div>
       </section>
