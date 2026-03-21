@@ -4,7 +4,15 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, FileText, Calendar, ArrowLeft, LogOut, ChevronLeft } from "lucide-react";
+import {
+  LayoutDashboard,
+  FileText,
+  Calendar,
+  ArrowLeft,
+  LogOut,
+  ChevronLeft,
+  Images,
+} from "lucide-react";
 
 export function AdminNav() {
   const pathname = usePathname();
@@ -49,6 +57,15 @@ export function AdminNav() {
             >
               <Calendar className="w-4 h-4 mr-1" />
               Събития
+            </Button>
+          </AnimatedLink>
+          <AnimatedLink href="/admin/gallery">
+            <Button
+              variant={pathname.startsWith("/admin/gallery") ? "secondary" : "ghost"}
+              size="sm"
+            >
+              <Images className="w-4 h-4 mr-1" />
+              Галерия
             </Button>
           </AnimatedLink>
         </nav>

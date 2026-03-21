@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { AnimatedLink } from "@/components/transitions/PageTransition";
 import { Button } from "@/components/ui/button";
-import { FileText, Calendar } from "lucide-react";
+import { FileText, Calendar, Images } from "lucide-react";
 
 export default async function AdminPage() {
   const session = await auth();
@@ -19,7 +19,7 @@ export default async function AdminPage() {
         <p className="text-muted-foreground font-body mb-8">
           Изберете секция за управление.
         </p>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-3">
           <AnimatedLink href="/admin/blog">
             <Button
               variant="outline"
@@ -41,6 +41,18 @@ export default async function AdminPage() {
               <span className="font-heading font-semibold">Събития и имейли</span>
               <span className="text-sm text-muted-foreground font-body">
                 Събития, записвания и събрани имейли
+              </span>
+            </Button>
+          </AnimatedLink>
+          <AnimatedLink href="/admin/gallery">
+            <Button
+              variant="outline"
+              className="w-full h-auto flex flex-col items-start gap-2 p-6 text-left"
+            >
+              <Images className="w-8 h-8 text-secondary" />
+              <span className="font-heading font-semibold">Галерия</span>
+              <span className="text-sm text-muted-foreground font-body">
+                Качване и изтриване на снимки
               </span>
             </Button>
           </AnimatedLink>

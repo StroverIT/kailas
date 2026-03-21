@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -19,6 +19,9 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutPage() {
+  const [galleryImages, setGalleryImages] = useState<
+    Array<{ id: string; url: string; alt: string | null }>
+  >([]);
   const heroRef = useRef<HTMLElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
   const missionRef = useRef<HTMLDivElement>(null);
@@ -71,6 +74,50 @@ export default function AboutPage() {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const response = await fetch("/api/gallery");
+        if (!response.ok) return;
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setGalleryImages(data);
+        }
+      } catch {
+        // Keep static fallback when API is unavailable.
+      }
+    };
+
+    void fetchGallery();
+  }, []);
+
+  const staticGalleryFallback = [
+    {
+      id: "fallback-1",
+      src: "/images/gallery-20220605.jpg",
+      alt: "Йога център „Кайлас“ – практики",
+    },
+    {
+      id: "fallback-2",
+      src: "/images/gallery-DSC09196.jpeg",
+      alt: "Йога център „Кайлас“ – пространство",
+    },
+    {
+      id: "fallback-3",
+      src: "/images/gallery-20220129.jpg",
+      alt: "Йога център „Кайлас“ – природа",
+    },
+  ];
+
+  const displayedGallery =
+    galleryImages.length > 0
+      ? galleryImages.map((image) => ({
+          id: image.id,
+          src: image.url,
+          alt: image.alt || "Йога център „Кайлас“ – галерия",
+        }))
+      : staticGalleryFallback;
+
   return (
     <div className="min-h-screen">
       {/* Hero with image */}
@@ -118,33 +165,21 @@ export default function AboutPage() {
             Галерия
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
-            <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
-              <Image
-                src="/images/gallery-20220605.jpg"
-                alt="Йога център „Кайлас“ – практики"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-            </div>
-            <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
-              <Image
-                src="/images/gallery-DSC09196.jpeg"
-                alt="Йога център „Кайлас“ – пространство"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-            </div>
-            <div className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden">
-              <Image
-                src="/images/gallery-20220129.jpg"
-                alt="Йога център „Кайлас“ – природа"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-            </div>
+            {displayedGallery.map((image) => (
+              <div
+                key={image.id}
+                className="relative aspect-[4/3] lg:aspect-[3/4] rounded-xl overflow-hidden"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  unoptimized={image.src.includes("supabase")}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>

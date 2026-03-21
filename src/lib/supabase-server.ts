@@ -17,3 +17,4 @@ export const supabaseServer =
     : null;
 
 export const BLOG_BUCKET = "blog";
+export const GALLERY_BUCKET = "gallery";
