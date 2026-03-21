@@ -25,7 +25,7 @@ const spaces = [
       "Просторна тераса за практики на открито, релаксация или медитация.",
   },
   {
-    image: "/images/20220521_202838-2-768x958.jpg",
+    image: "/images/nastanqvane.jpg",
     icon: Sunrise,
     title: "Настаняване",
     description:
