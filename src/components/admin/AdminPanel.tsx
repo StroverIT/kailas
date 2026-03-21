@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,7 +29,11 @@ import {
   ChevronUp,
   Calendar,
   Clock,
+  Upload,
+  Loader2,
+  X,
 } from "lucide-react";
+import Image from "next/image";
 import { allDays, type ScheduleEntry } from "@/lib/scheduleUtils";
 import { useToast } from "@/hooks/use-toast";
 
@@ -41,6 +45,7 @@ type Event = {
   location: string;
   spots: number;
   description: string;
+  image?: string | null;
   time?: string | null;
   duration?: string | null;
   month: string;
@@ -88,6 +93,7 @@ const emptyEvent: Omit<Event, "id"> = {
   location: "Кайлас база",
   spots: 16,
   description: "",
+  image: null,
   time: "",
   duration: "",
   month: "mar",
@@ -145,6 +151,9 @@ export function AdminPanel() {
   const [showAllBookingInquiries, setShowAllBookingInquiries] = useState(false);
   const [activeTab, setActiveTab] = useState<"events" | "schedule">("events");
   const [loading, setLoading] = useState(true);
+  const [eventImageUploading, setEventImageUploading] = useState(false);
+  const [eventImageError, setEventImageError] = useState<string | null>(null);
+  const eventImageInputRef = useRef<HTMLInputElement>(null);
   const [confirmDialog, setConfirmDialog] = useState<{
     isOpen: boolean;
     title: string;
@@ -250,6 +259,43 @@ export function AdminPanel() {
       await refreshData();
     } catch {
       toast({ title: "Грешка", variant: "destructive" });
+    }
+  };
+
+  const handleEventImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setEventImageError("Изберете изображение (JPG, PNG, WebP и др.)");
+      return;
+    }
+
+    setEventImageError(null);
+    setEventImageUploading(true);
+    try {
+      const formData = new FormData();
+      formData.set("file", file);
+      const res = await fetch("/api/upload/events", {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Качването не успя");
+      }
+      const data = await res.json();
+      if (data.url && editingEvent) {
+        setEditingEvent({ ...editingEvent, image: data.url });
+      }
+    } catch (error) {
+      setEventImageError(
+        error instanceof Error ? error.message : "Качването не успя",
+      );
+    } finally {
+      setEventImageUploading(false);
     }
   };
 
@@ -388,6 +434,7 @@ export function AdminPanel() {
           onClick={() => {
             if (activeTab === "events") {
               setEditingEvent({ ...emptyEvent });
+              setEventImageError(null);
               setDialogOpen(true);
             } else {
               setEditingSchedule({ ...emptyScheduleEntry });
@@ -622,6 +669,7 @@ export function AdminPanel() {
                               : (event.duration ?? "");
                           if (duration?.match(/^1\s+дни$/)) duration = "1 ден";
                           setEditingEvent({ ...event, duration });
+                          setEventImageError(null);
                           setDialogOpen(true);
                         }}
                       >
@@ -894,6 +942,7 @@ export function AdminPanel() {
           if (!open) {
             setDialogOpen(false);
             setEditingEvent(null);
+            setEventImageError(null);
           }
         }}
       >
@@ -1050,6 +1099,76 @@ export function AdminPanel() {
                     })
                   }
                 />
+              </div>
+              <div className="space-y-2">
+                <Label>Изображение</Label>
+                <div className="flex flex-col gap-3">
+                  {editingEvent.image && (
+                    <div className="relative inline-flex max-w-xs">
+                      <div className="relative w-full aspect-video rounded-md border border-border overflow-hidden bg-muted">
+                        {editingEvent.image.startsWith("http") ? (
+                          <Image
+                            src={editingEvent.image}
+                            alt="Event image preview"
+                            fill
+                            className="object-cover"
+                            sizes="320px"
+                            unoptimized={
+                              editingEvent.image.includes("supabase") ||
+                              editingEvent.image.includes("127.0.0.1")
+                            }
+                          />
+                        ) : (
+                          <span className="text-muted-foreground text-sm p-2 break-all">
+                            {editingEvent.image}
+                          </span>
+                        )}
+                      </div>
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        className="absolute -top-2 -right-2 h-7 w-7 rounded-full"
+                        onClick={() =>
+                          setEditingEvent({ ...editingEvent, image: null })
+                        }
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  )}
+                  <input
+                    ref={eventImageInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleEventImageUpload}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={eventImageUploading}
+                    onClick={() => eventImageInputRef.current?.click()}
+                  >
+                    {eventImageUploading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Качване...
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-4 h-4 mr-2" />
+                        {editingEvent.image
+                          ? "Смени изображение"
+                          : "Качи изображение"}
+                      </>
+                    )}
+                  </Button>
+                </div>
+                {eventImageError && (
+                  <p className="text-sm text-destructive">{eventImageError}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label>Описание</Label>

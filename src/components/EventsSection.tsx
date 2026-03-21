@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Users, ArrowRight, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EventRegistrationModal from "./EventRegistrationModal";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,6 +66,7 @@ export type Event = {
   spots: number;
   registeredCount?: number;
   description: string;
+  image?: string | null;
   time?: string | null;
   duration?: string | null;
   month: string;
@@ -293,6 +295,20 @@ const EventsSection = () => {
                 }}
                 className="glass-card p-6 lg:p-7 hover-lift group flex flex-col"
               >
+                {e.image && (
+                  <div className="relative w-full h-44 mb-5 rounded-xl overflow-hidden">
+                    <Image
+                      src={e.image}
+                      alt={e.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(min-width: 1024px) 520px, (min-width: 640px) 45vw, 100vw"
+                      unoptimized={
+                        e.image.includes("supabase") || e.image.includes("127.0.0.1")
+                      }
+                    />
+                  </div>
+                )}
                 <div className="flex items-center gap-3 mb-4">
                   <span
                     className={`text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full font-body ${typeColors[e.type] || "bg-muted text-muted-foreground"}`}

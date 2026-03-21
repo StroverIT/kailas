@@ -19,6 +19,7 @@ model Event {
   location      String         @default("Кайлас база")
   spots         Int            @default(16)
   description   String
+  image         String?
   time          String?
   duration      String?
   month         String

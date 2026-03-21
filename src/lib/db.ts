@@ -16,7 +16,36 @@ function getPrisma(): PrismaClient {
     existing != null &&
     typeof (existing as { galleryImage?: unknown }).galleryImage !==
       "undefined";
-  if (hasScheduleEntry && hasScheduleSignup && hasGalleryImage) {
+  const hasEventImageField =
+    existing != null &&
+    Array.isArray(
+      (
+        existing as {
+          _runtimeDataModel?: {
+            models?: {
+              Event?: { fields?: Array<{ name?: string }> };
+            };
+          };
+        }
+      )._runtimeDataModel?.models?.Event?.fields,
+    ) &&
+    (
+      existing as {
+        _runtimeDataModel?: {
+          models?: {
+            Event?: { fields?: Array<{ name?: string }> };
+          };
+        };
+      }
+    )._runtimeDataModel?.models?.Event?.fields?.some(
+      (field) => field.name === "image",
+    ) === true;
+  if (
+    hasScheduleEntry &&
+    hasScheduleSignup &&
+    hasGalleryImage &&
+    hasEventImageField
+  ) {
     return existing;
   }
   const client = new PrismaClient();
