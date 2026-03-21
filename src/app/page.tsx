@@ -3,7 +3,6 @@ import YogaPracticesSection from "@/components/YogaPracticesSection";
 import WeeklyScheduleSection from "@/components/WeeklyScheduleSection";
 import ConceptSection from "@/components/ConceptSection";
 import SpaceSection from "@/components/SpaceSection";
-import FoodSection from "@/components/FoodSection";
 import EventsSection from "@/components/EventsSection";
 import LeadMagnetSection from "@/components/LeadMagnetSection";
 import BookingSection from "@/components/BookingSection";
@@ -29,8 +28,6 @@ export default function HomePage() {
       {/* <YogaTypesSection /> */}
       {/* WHO IT'S FOR */}
       {/* <AudienceSection /> */}
-      {/* FOOD */}
-      <FoodSection />
       {/* LEAD MAGNET */}
       <LeadMagnetSection />
       {/* FINAL CTA */}
